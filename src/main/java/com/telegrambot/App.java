@@ -34,7 +34,6 @@ public class App {
 
     public static void main(String[] args) {
         //ApiContextInitializer.init();
-        //Bot englishWordsBot = new Bot("Travel777Bot", "2068756472:AAGLcPz1w1DoZ8b7HyO3vGg73qbHQVkE_HE");
         Bot englishWordsBot = new Bot();
 
         MessageReciever messageReciever = new MessageReciever(englishWordsBot);
