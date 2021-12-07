@@ -42,7 +42,7 @@ public class Notify implements Runnable {
 
     private SendSticker getSecondSticker() {
         SendSticker sendSticker = new SendSticker();
-        sendSticker.setSticker("CAADBQADiQMAAukKyAPZH7wCI2BwFxYE");
+        //sendSticker.setSticker("CAADBQADiQMAAukKyAPZH7wCI2BwFxYE");
         sendSticker.setChatId(chatID);
         return sendSticker;
     }

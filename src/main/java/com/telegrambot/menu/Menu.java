@@ -108,24 +108,28 @@ public class Menu extends Bot {
     }
     public List getGlobalMenu(Update update, long chatId, List dictionary, Menu menu, SendMessage sendMessage) {
         switch (update.getMessage().getText()) {
+            case "/start":
             case "▶ Старт":
                 Map dataConfig = getDatabase().getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId), "select time from configuration where chatId=?", false);
 
                 if (dataConfig.size() == 0 || dataConfig.get("TIME") == null) {
                     try {
-                        execute(sendMessage.setText("Не выбрано время! Установите в настройках интервал появления слов"));
+                        sendMessage.setText("Не выбрано время! Установите в настройках интервал появления слов");
+                        execute(sendMessage);
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
                 } else if (threadClient.contains(chatId)) {
                     try {
-                        execute(sendMessage.setText("Процесс запоминания слов уже запущен!"));
+                        sendMessage.setText("Процесс запоминания слов уже запущен!");
+                        execute(sendMessage);
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
                 } else if (dictionary.size() == 0) {
                     try {
-                        execute(sendMessage.setText("Не выбран словарь! Зайдите в настройки и выберите словарь"));
+                        sendMessage.setText("Не выбран словарь! Зайдите в настройки и выберите словарь");
+                        execute(sendMessage);
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
@@ -134,11 +138,13 @@ public class Menu extends Bot {
                     runIterationWords(chatId, dictionary);
                 }
                 break;
+            case "/stop":
             case "◼ Стоп":
                 threadClient.remove(chatId);
                 if (dictionary.size() == 0) {
                     try {
-                        execute(sendMessage.setText("Не выбран словарь! Зайдите в настройки и выберите словарь"));
+                        sendMessage.setText("Не выбран словарь! Зайдите в настройки и выберите словарь");
+                        execute(sendMessage);
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
@@ -147,16 +153,16 @@ public class Menu extends Bot {
                 }
                 break;
             case "⚙️ Настройка":
-                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup))
-                        .setText("Выберите словарь и установите время появления слов");
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                sendMessage.setText("Выберите словарь и установите время появления слов");
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
                 if (update.getMessage().getText().equals("Главное меню")) {
-                    sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup))
-                            .setText("Главное меню");
+                    sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
+                    sendMessage.setText("Главное меню");
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {
@@ -166,8 +172,8 @@ public class Menu extends Bot {
 
                 break;
             case "Выбрать словарь":
-                sendMessage.setReplyMarkup(menu.getDictionaryMenu(App.replyKeyboardMarkup))
-                        .setText("Выберите словарь");
+                sendMessage.setReplyMarkup(menu.getDictionaryMenu(App.replyKeyboardMarkup));
+                sendMessage.setText("Выберите словарь");
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -176,8 +182,8 @@ public class Menu extends Bot {
 
                 break;
             case "Главное меню":
-                sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup))
-                        .setText("Главное меню");
+                sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
+                sendMessage.setText("Главное меню");
 
                 try {
                     execute(sendMessage);
@@ -194,8 +200,8 @@ public class Menu extends Bot {
                 getDatabase().setWordsToDB(getDictionary().setDictionary(TypeDictionary.Top500Words, null), chatId);
                 dictionary = getDictionary().getDictionaryFromDB(chatId);
                 //data.put("Dictionary",result);
-                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup))
-                        .setText("Словарь загружен");
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                sendMessage.setText("Словарь загружен");
 
                 try {
                     execute(sendMessage);
@@ -211,8 +217,8 @@ public class Menu extends Bot {
                 getDatabase().setWordsToDB(getDictionary().setDictionary(TypeDictionary.Top1000Words, null), chatId);
                 dictionary = getDictionary().getDictionaryFromDB(chatId);
                 //data.put("Dictionary",result);
-                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup))
-                        .setText("Словарь загружен");
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                sendMessage.setText("Словарь загружен");
 
                 try {
                     execute(sendMessage);
@@ -221,9 +227,9 @@ public class Menu extends Bot {
                 }
                 break;
             case "Загрузить свой список слов":
-                dictionary = new ArrayList<>();
-                sendMessage.setText("Отправьте список слов в формате: английское слово - русский перевод")
-                        .setReplyMarkup(menu.getDictionaryMenu(App.replyKeyboardMarkup));
+                //dictionary = new ArrayList<>();
+                sendMessage.setText("Отправьте список слов в формате: английское слово - русский перевод");
+                sendMessage.setReplyMarkup(menu.getDictionaryMenu(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -243,8 +249,8 @@ public class Menu extends Bot {
             }*/
                 dictionary = getDictionary().clearDictionaryToDB(chatId);
 
-                sendMessage.setText("Словарь очищен")
-                        .setReplyMarkup(menu.getDictionaryMenu(App.replyKeyboardMarkup));
+                sendMessage.setText("Словарь очищен");
+                sendMessage.setReplyMarkup(menu.getDictionaryMenu(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -253,8 +259,8 @@ public class Menu extends Bot {
 
                 break;
             case "Установить интервал между словами":
-                sendMessage.setText("Выберите интервал")
-                        .setReplyMarkup(menu.getTimeSetting(App.replyKeyboardMarkup));
+                sendMessage.setText("Выберите интервал");
+                sendMessage.setReplyMarkup(menu.getTimeSetting(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -263,8 +269,8 @@ public class Menu extends Bot {
                 break;
             case "2 минуты":
                 getDatabase().setTimeSettingToDB(2, chatId);
-                sendMessage.setText("Время установлено")
-                        .setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                sendMessage.setText("Время установлено");
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -273,8 +279,8 @@ public class Menu extends Bot {
                 break;
             case "5 минут":
                 getDatabase().setTimeSettingToDB(5, chatId);
-                sendMessage.setText("Время установлено")
-                        .setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                sendMessage.setText("Время установлено");
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -283,8 +289,8 @@ public class Menu extends Bot {
                 break;
             case "10 минут":
                 getDatabase().setTimeSettingToDB(10, chatId);
-                sendMessage.setText("Время установлено")
-                        .setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                sendMessage.setText("Время установлено");
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -293,8 +299,8 @@ public class Menu extends Bot {
                 break;
             case "15 минут":
                 getDatabase().setTimeSettingToDB(15, chatId);
-                sendMessage.setText("Время установлено")
-                        .setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                sendMessage.setText("Время установлено");
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -303,8 +309,8 @@ public class Menu extends Bot {
                 break;
             case "20 минут":
                 getDatabase().setTimeSettingToDB(20, chatId);
-                sendMessage.setText("Время установлено")
-                        .setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                sendMessage.setText("Время установлено");
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -313,8 +319,8 @@ public class Menu extends Bot {
                 break;
             case "1 минута":
                 getDatabase().setTimeSettingToDB(1, chatId);
-                sendMessage.setText("Время установлено")
-                        .setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                sendMessage.setText("Время установлено");
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {

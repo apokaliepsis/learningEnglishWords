@@ -60,7 +60,7 @@ public class MessageReciever implements Runnable {
 
         if (!"".equals(operationResult)) {
             SendMessage message = new SendMessage();
-            message.setChatId(chatId);
+            message.setChatId(String.valueOf(chatId));
             message.setText(operationResult);
             bot.sendQueue.add(message);
         }
