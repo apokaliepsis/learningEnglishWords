@@ -190,10 +190,7 @@ public class Bot extends TelegramLongPollingBot {
                         }
 
                         System.out.println("Next word: ");
-                        //List<String> result;
-                                /*try (Stream<String> lines = Files.lines(Paths.get(dictonaryDefault))) {
-                                    result = lines.collect(Collectors.toList());
-                                }*/
+
                         rand = new Random();
 
                         line = dictionaryList.get(rand.nextInt(dictionaryList.size()));

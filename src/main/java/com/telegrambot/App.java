@@ -37,12 +37,12 @@ public class App {
 
     public static void main(String[] args) {
         //ApiContextInitializer.init();
-        try {
+/*        try {
             System.out.println(new File(App.class.getProtectionDomain().getCodeSource().getLocation()
                     .toURI()).getParent());
         } catch (URISyntaxException e) {
             e.printStackTrace();
-        }
+        }*/
         Bot englishWordsBot = new Bot();
 
         MessageReciever messageReciever = new MessageReciever(englishWordsBot);
