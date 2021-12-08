@@ -15,8 +15,11 @@ import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import ru.kamatech.qaaf.properties.Properties;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class App {
     private static final Logger log = Logger.getLogger(App.class);
@@ -34,6 +37,12 @@ public class App {
 
     public static void main(String[] args) {
         //ApiContextInitializer.init();
+        try {
+            System.out.println(new File(App.class.getProtectionDomain().getCodeSource().getLocation()
+                    .toURI()).getParent());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
         Bot englishWordsBot = new Bot();
 
         MessageReciever messageReciever = new MessageReciever(englishWordsBot);
@@ -53,34 +62,9 @@ public class App {
         sender.setPriority(PRIORITY_FOR_SENDER);
         sender.start();
 
-
         sendStartReport(englishWordsBot);
 
-/*        JDBI jdbi = new JDBI();
-        jdbi.setDataBaseSettings("jdbc:h2:tcp://localhost/~/englishWordsH2","admin","123456");
-        jdbi.createUpdate(Arrays.asList("hello", 873327794),
-                "delete from words where word like concat('%',?,'%') and chatId=?",false);
 
-
-        String line = "I guess she prefers roses - Мне кажется, она предпочитает розы";
-        int indexDelimiter = 0;
-        String c;
-        for (int i = 0; i < line.length(); i++) {
-            c = String.valueOf(line.charAt(i));
-            if (c.equals("[") || c.equals("(") || c.equals("-")) {
-                indexDelimiter = i;
-                break;
-            }
-        }
-        line = line.substring(0, indexDelimiter).trim();
-        System.out.println(line.substring(0,Math.min(line.length(), 15)));*/
-
-/*        String answer = "{\"ok\":true,\"result\":{\"message_id\":270,\"from\":{\"id\":5064738249,\"is_bot\":true,\"first_name\":\"\\u0410\\u043d\\u0433\\u043b\\u0438\\u0439\\u0441\\u043a\\u0438\\u0435 \\u0441\\u043b\\u043e\\u0432\\u0430\",\"username\":\"LearningTopWords_bot\"},\"chat\":{\"id\":873327794,\"first_name\":\"\\u0410\\u043d\\u0442\\u043e\\u043d\",\"last_name\":\"\\u0410\\u043b\\u0435\\u043a\\u0441\\u0435\\u0435\\u0432\",\"username\":\"as_alekseev\",\"type\":\"private\"},\"date\":1638843787,\"text\":\"\\u0417\\u0430\\u043f\\u0443\\u0441\\u0442\\u0438\\u043b\\u0441\\u044f\"}}";
-        try {
-            System.out.println(deserializeResponse(answer));
-        } catch (TelegramApiRequestException e) {
-            e.printStackTrace();
-        }*/
 
     }
     public static Message deserializeResponse(String answer) throws TelegramApiRequestException {

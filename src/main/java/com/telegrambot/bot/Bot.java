@@ -25,6 +25,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileSystems;
 import java.util.*;
@@ -207,7 +208,7 @@ public class Bot extends TelegramLongPollingBot {
 
                         String urlAudio = getAudio().getUrlAudio(word);
                         String pathAudioFile = getAudio().getSoundWordFile(urlAudio, word);
-                        audio.setAudio(new InputFile(new File(Objects.requireNonNull(pathAudioFile))));
+                        audio.setAudio(new InputFile(new File(pathAudioFile)));
 
                         message.setReplyMarkup(markupInline);
 
@@ -227,7 +228,10 @@ public class Bot extends TelegramLongPollingBot {
                                         "select time from configuration where chatId=?",
                                         false).get("TIME"));
 
-                        Arrays.stream(Objects.requireNonNull(new File(FileSystems.getDefault().getPath("target/").normalize().toAbsolutePath().toString()).listFiles((f, p) -> p.endsWith(".ogg")))).forEach(File::delete);
+                        Arrays.stream(Objects.requireNonNull(new File(
+                                new File(Audio.class.getProtectionDomain().getCodeSource().getLocation()
+                                        .toURI()).getParent() + "/").listFiles((f, p) -> p.endsWith(".ogg")))
+                        ).forEach(File::delete);
 
                     } catch (InterruptedException | TelegramApiException e) {
                         e.printStackTrace();
@@ -242,6 +246,8 @@ public class Bot extends TelegramLongPollingBot {
                             }
                             break;
                         }
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
                     }
 
                 }
