@@ -106,16 +106,16 @@ public class Bot extends TelegramLongPollingBot {
 
                 sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
                 sendMessage.setReplyMarkup(getMenu().getSetting(App.replyKeyboardMarkup));
-                sendMessage.setText("Слова загружены");
+                sendMessage.setText("Слова загружены \n"+dictionary.size());
+                System.out.println("dictionary=" + dictionary.size());
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
             }
-            System.out.println("dictionary=" + dictionary.size());
-            sendMessage.setText(String.valueOf(dictionary.size()));
-            sendQueue.add(sendMessage);
+
+            //sendQueue.add(sendMessage);
         }
         else if (update.hasCallbackQuery()) {
             System.out.println("Нажата кнопка");

@@ -152,7 +152,7 @@ public class Menu extends Bot {
                 break;
             case "⚙️ Настройка":
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
-                sendMessage.setText("Выберите словарь и установите время появления слов");
+                sendMessage.setText("Выберите словарь и установите время появления слов \n"+"Количество слов в словаре: "+dictionary.size());
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
