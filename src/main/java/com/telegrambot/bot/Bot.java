@@ -115,7 +115,6 @@ public class Bot extends TelegramLongPollingBot {
                 }
             }
 
-            //sendQueue.add(sendMessage);
         }
         else if (update.hasCallbackQuery()) {
             System.out.println("Нажата кнопка");
