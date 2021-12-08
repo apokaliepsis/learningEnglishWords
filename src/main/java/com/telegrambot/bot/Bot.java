@@ -113,8 +113,6 @@ public class Bot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
-
-
             System.out.println("dictionary=" + dictionary.size());
             sendMessage.setText(String.valueOf(dictionary.size()));
             sendQueue.add(sendMessage);
@@ -133,10 +131,6 @@ public class Bot extends TelegramLongPollingBot {
         }
 
     }
-
-
-
-
     protected void runIterationWords(long chatId, List<String> dictionaryList) {
         Thread thread = new Thread(String.valueOf(chatId)) {
             public void run() {
@@ -155,8 +149,6 @@ public class Bot extends TelegramLongPollingBot {
                 InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
                 List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
                 List<InlineKeyboardButton> rowInline = new ArrayList<>();
-
-
 
 
                 while (getDatabase().getStateFromDB(chatId) == 1) {
@@ -290,7 +282,6 @@ public class Bot extends TelegramLongPollingBot {
     }
 
 
-
     /**
      * Метод получает абсолютный путь файла, который находится в каталоге resources
      *
@@ -335,7 +326,6 @@ public class Bot extends TelegramLongPollingBot {
         return String.valueOf(file.toPath());
 
     }
-
 
 
 }
