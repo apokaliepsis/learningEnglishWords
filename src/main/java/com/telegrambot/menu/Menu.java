@@ -63,12 +63,10 @@ public class Menu extends Bot {
         KeyboardRow keyboardRow4 = new KeyboardRow();
 
 
-
         keyboardRow1.add("Топ 500 слов");
         keyboardRow2.add("Топ 1000 слов");
         keyboardRow3.add("Загрузить свой список слов");
         keyboardRow4.add("⚙️ Настройка");
-
 
 
         keyboardRows.add(keyboardRow1);

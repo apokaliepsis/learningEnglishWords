@@ -281,7 +281,6 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-
     /**
      * Метод получает абсолютный путь файла, который находится в каталоге resources
      *

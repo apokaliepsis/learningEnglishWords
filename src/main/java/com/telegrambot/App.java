@@ -37,12 +37,7 @@ public class App {
 
     public static void main(String[] args) {
         //ApiContextInitializer.init();
-/*        try {
-            System.out.println(new File(App.class.getProtectionDomain().getCodeSource().getLocation()
-                    .toURI()).getParent());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }*/
+
         Bot englishWordsBot = new Bot();
 
         MessageReciever messageReciever = new MessageReciever(englishWordsBot);
@@ -65,21 +60,8 @@ public class App {
         sendStartReport(englishWordsBot);
 
 
+    }
 
-    }
-    public static Message deserializeResponse(String answer) throws TelegramApiRequestException {
-        try {
-            ApiResponse<Message> result = OBJECT_MAPPER.readValue(answer,
-                    new TypeReference<ApiResponse<Message>>(){});
-            if (result.getOk()) {
-                return result.getResult();
-            } else {
-                throw new TelegramApiRequestException("Error sending message", result);
-            }
-        } catch (IOException e) {
-            throw new TelegramApiRequestException("Unable to deserialize response", e);
-        }
-    }
     private static void sendStartReport(Bot bot) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(BOT_ADMIN);
