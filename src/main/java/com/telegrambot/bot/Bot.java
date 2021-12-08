@@ -8,6 +8,7 @@ import com.telegrambot.dictionary.TypeDictionary;
 import com.telegrambot.menu.Menu;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Files;
+import com.telegrambot.service.Settings;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
@@ -15,13 +16,16 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileSystems;
 import java.util.*;
@@ -30,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 @NoArgsConstructor
 public class Bot extends TelegramLongPollingBot {
+
     private static final Logger log = Logger.getLogger(Bot.class);
     public final Queue<Object> sendQueue = new ConcurrentLinkedQueue<>();
     public final Queue<Object> receiveQueue = new ConcurrentLinkedQueue<>();
@@ -69,27 +74,23 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-/*        new Thread(new Runnable() {
 
-            @Override
-            public void run() {
-                //Thread.currentThread().setName(String.valueOf(update.getMessage().getChat()));
-
-        }).start();*/
         if (update.hasMessage()) {
             log.debug("Receive new Update. updateID: " + update.getUpdateId());
             receiveQueue.add(update);
             long chatId = update.getMessage().getChatId();
             List dictionary = getDictionary().getDictionaryFromDB(chatId);
 
-            Menu menu = new Menu();
+            /*SendMessage sendMessage = new SendMessage()
+                    .setChatId(String.valueOf(chatId))
+                    .setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup))
+                    .disableNotification();*/
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setChatId(String.valueOf(chatId));
+            sendMessage.setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup));
+            sendMessage.disableNotification();
 
-            SendMessage sendMessage = new SendMessage()
-                    .setChatId(chatId)
-                    .setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup))
-                    .disableNotification();
-            //.setText("...");
-            dictionary = getMenu().getGlobalMenu(update, chatId, dictionary, menu, sendMessage);
+            dictionary = getMenu().getGlobalMenu(update, chatId, dictionary, getMenu(), sendMessage);
 
 
             //dictionary = getWordsFromMessages(update, dictionary);
@@ -103,19 +104,16 @@ public class Bot extends TelegramLongPollingBot {
 
                 System.out.println("Размер словаря после=" + dictionary.size());
 
-                sendMessage.setChatId(update.getMessage().getChatId())
-                        .setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup)).setText("Слова загружены");
+                sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
+                sendMessage.setReplyMarkup(getMenu().getSetting(App.replyKeyboardMarkup));
+                sendMessage.setText("Слова загружены");
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
             }
-
-            //sendQueue.add(sendMessage);
-
             System.out.println("dictionary=" + dictionary.size());
-            //SendMessage sendMessage1 = new SendMessage();
             sendMessage.setText(String.valueOf(dictionary.size()));
             sendQueue.add(sendMessage);
         }
@@ -133,20 +131,16 @@ public class Bot extends TelegramLongPollingBot {
         }
 
     }
-
-
-
-
     protected void runIterationWords(long chatId, List<String> dictionaryList) {
         Thread thread = new Thread(String.valueOf(chatId)) {
             public void run() {
                 String word;
 
-                SendAudio audio = new SendAudio()
-                        .setChatId(chatId)
-                        .disableNotification();
-                SendMessage message = new SendMessage()
-                        .setChatId(chatId);
+                SendAudio audio = new SendAudio();
+                audio.setChatId(String.valueOf(chatId));
+                        audio.disableNotification();
+                SendMessage message = new SendMessage();
+                message.setChatId(String.valueOf(chatId));
 
                 Random rand;
                 String line;
@@ -155,8 +149,6 @@ public class Bot extends TelegramLongPollingBot {
                 InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
                 List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
                 List<InlineKeyboardButton> rowInline = new ArrayList<>();
-
-
 
 
                 while (getDatabase().getStateFromDB(chatId) == 1) {
@@ -190,24 +182,22 @@ public class Bot extends TelegramLongPollingBot {
                         }
 
                         System.out.println("Next word: ");
-                        //List<String> result;
-                                /*try (Stream<String> lines = Files.lines(Paths.get(dictonaryDefault))) {
-                                    result = lines.collect(Collectors.toList());
-                                }*/
+
                         rand = new Random();
 
                         line = dictionaryList.get(rand.nextInt(dictionaryList.size()));
                         //word = line.substring(0, line.indexOf(' '));
                         word = getDictionary().getWordFromLine(line);
-
-                        rowInline.add(new InlineKeyboardButton().setText("Удалить из словаря")
-                                .setCallbackData(word.substring(0,Math.min(word.length(), 30))));
+                        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+                        inlineKeyboardButton.setText("Удалить из словаря");
+                        inlineKeyboardButton.setCallbackData(word.substring(0,Math.min(word.length(), 30)));
+                        rowInline.add(inlineKeyboardButton);
                         rowsInline.add(rowInline);
                         markupInline.setKeyboard(rowsInline);
 
                         String urlAudio = getAudio().getUrlAudio(word);
                         String pathAudioFile = getAudio().getSoundWordFile(urlAudio, word);
-                        audio.setAudio(new File(Objects.requireNonNull(pathAudioFile)));
+                        audio.setAudio(new InputFile(new File(pathAudioFile)));
 
                         message.setReplyMarkup(markupInline);
 
@@ -217,12 +207,20 @@ public class Bot extends TelegramLongPollingBot {
                         execute(audio);
                         execute(message);
 
+                        if(dictionaryList.size()==0){
+                            message.setText("Словарь пуст! Загрузите слова");
+                            execute(message);
+                            break;
+                        }
                         TimeUnit.MINUTES.sleep((int) getDatabase().getJdbi()
-                                .getFirstRowFromResponse(Arrays.asList(chatId),
+                                .getFirstRowFromResponse(Collections.singletonList(chatId),
                                         "select time from configuration where chatId=?",
                                         false).get("TIME"));
 
-                        Arrays.stream(Objects.requireNonNull(new File(FileSystems.getDefault().getPath("target/").normalize().toAbsolutePath().toString()).listFiles((f, p) -> p.endsWith(".ogg")))).forEach(File::delete);
+                        Arrays.stream(Objects.requireNonNull(new File(
+                                new File(Audio.class.getProtectionDomain().getCodeSource().getLocation()
+                                        .toURI()).getParent() + "/").listFiles((f, p) -> p.endsWith(".ogg")))
+                        ).forEach(File::delete);
 
                     } catch (InterruptedException | TelegramApiException e) {
                         e.printStackTrace();
@@ -237,6 +235,8 @@ public class Bot extends TelegramLongPollingBot {
                             }
                             break;
                         }
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
                     }
 
                 }
@@ -246,25 +246,23 @@ public class Bot extends TelegramLongPollingBot {
 
     }
 
-
-
-
-
-
     @Override
     public String getBotUsername() {
-        // TODO
-        return "Travel777Bot";
+        return Settings.environment.getProperty("bot.user.name");
     }
 
     @Override
     public String getBotToken() {
-        // TODO
-        return "";
+        return Settings.environment.getProperty("bot.user.token");
     }
 
     public void botConnect() {
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+        TelegramBotsApi telegramBotsApi = null;
+        try {
+            telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
         try {
             telegramBotsApi.registerBot(this);
             log.info("[STARTED] TelegramAPI. Bot Connected. Bot class: " + this);
@@ -278,9 +276,10 @@ public class Bot extends TelegramLongPollingBot {
                 return;
             }
             botConnect();
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
-
 
 
     /**
@@ -321,13 +320,12 @@ public class Bot extends TelegramLongPollingBot {
             file = new File(res.getFile());
         }
 
-        if (file != null && !file.exists()) {
+        if (!file.exists()) {
             throw new RuntimeException("Error: File " + file + " not found!");
         }
         return String.valueOf(file.toPath());
 
     }
-
 
 
 }

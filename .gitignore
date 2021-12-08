@@ -1,7 +1,14 @@
-# Compiled class file
+# exclude binary files
+# extensions that come with pre-compiled /WEB-INF/classes directory will have local overrides
 *.class
+target/
+classes/
+
+#Idea
+.idea/
 
 # Log file
+logs
 *.log
 
 # BlueJ files
@@ -21,3 +28,8 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+security.properties
+
+target
+allure-results

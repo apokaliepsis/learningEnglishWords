@@ -1,10 +1,19 @@
 package com.telegrambot.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import com.telegrambot.bot.Bot;
-import com.google.inject.spi.Message;
+
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
+//import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+
+import java.io.IOException;
+
 
 
 public class MessageSender implements Runnable {

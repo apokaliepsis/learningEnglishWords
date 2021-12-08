@@ -12,9 +12,9 @@ public class Notify implements Runnable {
     private static final Logger log = Logger.getLogger(Notify.class);
     private static final int MILLISEC_IN_SEC = 1000;
 
-    Bot bot;
-    long delayInMillisec;
-    String chatID;
+    private Bot bot;
+    private long delayInMillisec;
+    private String chatID;
 
     public Notify(Bot bot, String chatID, long delayInMillisec) {
         this.bot = bot;
@@ -42,7 +42,7 @@ public class Notify implements Runnable {
 
     private SendSticker getSecondSticker() {
         SendSticker sendSticker = new SendSticker();
-        sendSticker.setSticker("CAADBQADiQMAAukKyAPZH7wCI2BwFxYE");
+        //sendSticker.setSticker("CAADBQADiQMAAukKyAPZH7wCI2BwFxYE");
         sendSticker.setChatId(chatID);
         return sendSticker;
     }

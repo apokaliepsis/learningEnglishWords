@@ -38,14 +38,12 @@ public class SystemHandler extends AbstractHandler {
         sendMessage.setChatId(chatID);
         sendMessage.enableMarkdown(true);
 
-        StringBuilder text = new StringBuilder();
-        text.append("*This is help message*").append(END_LINE).append(END_LINE);
-        text.append("[/start](/start) - show start message").append(END_LINE);
-        text.append("[/help](/help) - show help message").append(END_LINE);
-        text.append("[/id](/id) - know your ID in telegram ").append(END_LINE);
-        text.append("/*notify* _time-in-sec_  - receive notification from me after the specified time").append(END_LINE);
-
-        sendMessage.setText(text.toString());
+        String text = "*This is help message*" + END_LINE + END_LINE +
+                "[/start](/start) - show start message" + END_LINE +
+                "[/help](/help) - show help message" + END_LINE +
+                "[/id](/id) - know your ID in telegram " + END_LINE +
+                "/*notify* _time-in-sec_  - receive notification from me after the specified time" + END_LINE;
+        sendMessage.setText(text);
         return sendMessage;
     }
 
@@ -53,13 +51,12 @@ public class SystemHandler extends AbstractHandler {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatID);
         sendMessage.enableMarkdown(true);
-        StringBuilder text = new StringBuilder();
-        text.append("Привет!. Я  *").append(bot.getBotUsername()).append("*").append(END_LINE);
-        text.append("Я помогу тебе выучить самые популярные английские слова, которые чаще всего встречаются в разговорной речи .\n");
-        text.append("Процесс запоминания происходит незаметно - просто иногда поглядывай на уведомления, в которых будет появляться перевод слова и аудио с произношением.\n");
-        text.append("Для запуска нужно просто выбрать словарь в настройках, указать время выполнения и нажать кнопку \"Старт\".");
         //text.append("All that I can do - you can see calling the command [/help](/help)");
-        sendMessage.setText(text.toString());
+        String text = "Привет!. Я  *" + bot.getBotUsername() + "*" + END_LINE +
+                "Я помогу тебе выучить самые популярные английские слова, которые чаще всего встречаются в разговорной речи .\n" +
+                "Процесс запоминания происходит незаметно - просто иногда поглядывай на уведомления, в которых будет появляться перевод слова и аудио с произношением.\n" +
+                "Для запуска нужно просто выбрать словарь в настройках, указать время выполнения и нажать кнопку \"Старт\".";
+        sendMessage.setText(text);
         return sendMessage;
     }
 }

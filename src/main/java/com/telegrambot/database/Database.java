@@ -4,6 +4,7 @@ import com.telegrambot.bot.Bot;
 import ru.kamatech.qaaf.database.JDBI;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Database extends Bot {
@@ -22,7 +23,7 @@ public class Database extends Bot {
         return jdbi;
     }
     public int getStateFromDB(long chatId) {
-        return (int) getJdbi().getFirstRowFromResponse(Arrays.asList(chatId), "select state from configuration where chatId=?", false).get("STATE");
+        return (int) getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId), "select state from configuration where chatId=?", false).get("STATE");
     }
     public void setWordsToDB(List<String> dictionary, long chatId) {
         List<String> data = getDictionary().getDictionaryFromDB(chatId);
@@ -36,7 +37,7 @@ public class Database extends Bot {
     }
 
     public void setStateToDB(int state, long chatId) {
-        if (getJdbi().getFirstRowFromResponse(Arrays.asList(chatId), "select* from configuration where chatId =?", false).size() == 0) {
+        if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId), "select* from configuration where chatId =?", false).size() == 0) {
             getJdbi().createUpdate(Arrays.asList(state, chatId), "insert into configuration (state, chatId) values (?,?)", false);
         } else {
             System.out.println("Запись найдена. Меняем state");
@@ -45,7 +46,7 @@ public class Database extends Bot {
     }
 
     public void setTimeSettingToDB(int minutes, long chatId) {
-        if (getJdbi().getFirstRowFromResponse(Arrays.asList(chatId), "select* from configuration where chatId =?", false).size() == 0) {
+        if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId), "select* from configuration where chatId =?", false).size() == 0) {
             getJdbi().createUpdate(Arrays.asList(chatId, 0, minutes),
                     "insert into configuration (chatId, state, time) values (?,?,?)", false);
         } else {

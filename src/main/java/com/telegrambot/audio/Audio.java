@@ -1,8 +1,11 @@
 package com.telegrambot.audio;
 
+import ru.kamatech.qaaf.properties.Properties;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.nio.file.FileSystems;
 
 public class Audio {
@@ -14,7 +17,15 @@ public class Audio {
     public String getSoundWordFile(String urlPath, String word) {
         String s;
         Process p;
-        String pathSoundWordFile = FileSystems.getDefault().getPath("target").normalize().toAbsolutePath().toString() + "/" + word.replaceAll(" ", "_") + ".ogg";
+        //String pathSoundWordFile = FileSystems.getDefault().getPath("target").normalize().toAbsolutePath().toString() + "/" + word.replaceAll(" ", "_") + ".ogg";
+        String pathSoundWordFile = null;
+        try {
+            pathSoundWordFile = new File(Audio.class.getProtectionDomain().getCodeSource().getLocation()
+                    .toURI()).getParent() + "/" + word.replaceAll(" ", "_") + ".ogg";
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        //String pathSoundWordFile = Properties.getPathFromResources("temp") + "/" + word.replaceAll(" ", "_") + ".ogg";
         try {
             p = Runtime.getRuntime().exec("ffmpeg -i " + urlPath + " -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 " + pathSoundWordFile);
             BufferedReader br = new BufferedReader(

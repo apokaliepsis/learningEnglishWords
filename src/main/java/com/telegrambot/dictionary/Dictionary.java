@@ -15,7 +15,7 @@ public class Dictionary extends Bot {
         List dictionary;
         getDatabase().setStateToDB(0, chatId);
         dictionary = new ArrayList<>();
-        getDatabase().getJdbi().createUpdate(Arrays.asList(chatId), "delete from words where chatId=?", false);
+        getDatabase().getJdbi().createUpdate(Collections.singletonList(chatId), "delete from words where chatId=?", false);
         return dictionary;
     }
     public List<String> getDictionaryFromDB(long chatId) {
@@ -29,7 +29,7 @@ public class Dictionary extends Bot {
     }
     public List<String> setDictionary(TypeDictionary typeDictionary, Update update) {
         List<String> result = null;
-        String dictonaryDefault = null;
+        String dictonaryDefault;
 
         switch (typeDictionary) {
             case Top500Words:
