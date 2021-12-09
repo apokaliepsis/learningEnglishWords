@@ -27,7 +27,6 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.FileSystems;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
@@ -35,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 @NoArgsConstructor
 public class Bot extends TelegramLongPollingBot {
 
-    private static final Logger log = Logger.getLogger(Bot.class);
+    private static final Logger logger = Logger.getLogger(Bot.class);
     public final Queue<Object> sendQueue = new ConcurrentLinkedQueue<>();
     public final Queue<Object> receiveQueue = new ConcurrentLinkedQueue<>();
     protected final Queue<Object> threadClient = new ConcurrentLinkedQueue<>();
@@ -48,6 +47,7 @@ public class Bot extends TelegramLongPollingBot {
 
 
     protected Database getDatabase() {
+
         if (database == null) {
             database = new Database();
         }
@@ -76,7 +76,7 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
 
         if (update.hasMessage()) {
-            log.debug("Receive new Update. updateID: " + update.getUpdateId());
+            logger.debug("Receive new Update. updateID: " + update.getUpdateId());
             receiveQueue.add(update);
             long chatId = update.getMessage().getChatId();
             List dictionary = getDictionary().getDictionaryFromDB(chatId);
@@ -264,10 +264,10 @@ public class Bot extends TelegramLongPollingBot {
         }
         try {
             telegramBotsApi.registerBot(this);
-            log.info("[STARTED] TelegramAPI. Bot Connected. Bot class: " + this);
+            logger.info("[STARTED] TelegramAPI. Bot Connected. Bot class: " + this);
         } catch (TelegramApiRequestException e) {
             int RECONNECT_PAUSE = 10000;
-            log.error("Cant Connect. Pause " + RECONNECT_PAUSE / 1000 + "sec and try again. Error: " + e.getMessage());
+            logger.error("Cant Connect. Pause " + RECONNECT_PAUSE / 1000 + "sec and try again. Error: " + e.getMessage());
             try {
                 Thread.sleep(RECONNECT_PAUSE);
             } catch (InterruptedException e1) {

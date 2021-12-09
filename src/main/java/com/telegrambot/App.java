@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.telegrambot.bot.Bot;
+import com.telegrambot.database.Database;
 import com.telegrambot.service.MessageReciever;
 import com.telegrambot.service.MessageSender;
 import org.apache.log4j.Logger;
@@ -15,21 +16,22 @@ import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import ru.kamatech.qaaf.database.JDBI;
 import ru.kamatech.qaaf.properties.Properties;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Collections;
 
 public class App {
-    private static final Logger log = Logger.getLogger(App.class);
+    private static final Logger logger = Logger.getLogger(App.class);
     private static final int PRIORITY_FOR_SENDER = 1;
     private static final int PRIORITY_FOR_RECEIVER = 3;
     private static final String BOT_ADMIN = "873327794";
-    @JsonIgnore
-    protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     public static ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-    {
+    static {
         replyKeyboardMarkup.setResizeKeyboard(true);
         //replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
@@ -37,9 +39,8 @@ public class App {
 
     public static void main(String[] args) {
         //ApiContextInitializer.init();
-
         Bot englishWordsBot = new Bot();
-
+        Database.checkConnection();
         MessageReciever messageReciever = new MessageReciever(englishWordsBot);
         MessageSender messageSender = new MessageSender(englishWordsBot);
 
@@ -58,6 +59,10 @@ public class App {
         sender.start();
 
         sendStartReport(englishWordsBot);
+        JDBI jdbi = new JDBI();
+        jdbi.setDataBaseSettings("jdbc:h2:http://127.0.1.1:9092/~/englishWordsH2", "admin", "123456");
+        System.out.println(jdbi.getAllRowsFromResponse(Collections.emptyList(),"show tables", false));
+
 
 
     }
