@@ -33,7 +33,7 @@ public class App {
     public static ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
     static {
         replyKeyboardMarkup.setResizeKeyboard(true);
-        //replyKeyboardMarkup.setSelective(true);
+        //replyKeyboardMarkup.setSelective(false);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
     }
 

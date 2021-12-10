@@ -4,6 +4,7 @@ package com.telegrambot.menu;
 import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
 import com.telegrambot.dictionary.TypeDictionary;
+import com.telegrambot.handler.SystemHandler;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -138,7 +139,8 @@ public class Menu extends Bot {
                 break;
             case "/stop":
             case "◼ Стоп":
-                threadClient.remove(chatId);
+                //threadClient.remove(chatId);
+                deleteThreadChatId(chatId);
                 if (dictionary.size() == 0) {
                     try {
                         sendMessage.setText("Не выбран словарь! Зайдите в настройки и выберите словарь");
@@ -169,6 +171,7 @@ public class Menu extends Bot {
                 }
 
                 break;
+            case "/setwords":
             case "Выбрать словарь":
                 sendMessage.setReplyMarkup(menu.getDictionaryMenu(App.replyKeyboardMarkup));
                 sendMessage.setText("Выберите словарь");
@@ -256,6 +259,7 @@ public class Menu extends Bot {
                 }
 
                 break;
+            case "/settime":
             case "Установить интервал между словами":
                 sendMessage.setText("Выберите интервал");
                 sendMessage.setReplyMarkup(menu.getTimeSetting(App.replyKeyboardMarkup));
@@ -319,6 +323,34 @@ public class Menu extends Bot {
                 getDatabase().setTimeSettingToDB(1, chatId);
                 sendMessage.setText("Время установлено");
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                try {
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "/menu":
+                sendMessage.setText("Главное меню");
+                sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
+                try {
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "/help":
+                String textHelp = "Справка\n\n" +
+                        "Для запуска процесса необходимо:\n\n"+
+                        "1) выбрать словарь или загрузить свой список - /setwords \n"+
+                        "2) установить временной интервал - /settime \n"+
+                        "3) нажать кнопку \"Старт\" - /start\n\n"+
+/*                        "/start - запуск запоминания слов\n" +
+                        "/setwords - загрузка словаря\n" +
+                        "/settime - установка времени\n" +
+                        "/stop - остановка запоминания слов\n" +*/
+                        "/menu - переход в главное меню";
+                sendMessage.setText(textHelp);
+                sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {

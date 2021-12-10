@@ -225,13 +225,7 @@ public class Bot extends TelegramLongPollingBot {
                         e.printStackTrace();
                         if (e instanceof TelegramApiRequestException) {
                             System.out.println("Пользователь покинул чат");
-                            threadClient.remove(chatId);
-                            for (Thread t : Thread.getAllStackTraces().keySet()) {
-                                if (t.getName().equals(chatId)) {
-                                    t.interrupt();
-                                    break;
-                                }
-                            }
+                            deleteThreadChatId(chatId);
                             break;
                         }
                     } catch (URISyntaxException e) {
@@ -245,14 +239,35 @@ public class Bot extends TelegramLongPollingBot {
 
     }
 
+    protected void deleteThreadChatId(long chatId) {
+        threadClient.remove(chatId);
+        for (Thread t : Thread.getAllStackTraces().keySet()) {
+            if (t.getName().equals(chatId)) {
+                t.interrupt();
+                break;
+            }
+        }
+    }
+
     @Override
     public String getBotUsername() {
-        return Settings.environment.getProperty("bot.user.name");
+        //return Settings.environment.getProperty("bot.user.name");
+        return "LearningTopWords_bot";
     }
 
     @Override
     public String getBotToken() {
-        return Settings.environment.getProperty("bot.user.token");
+        String parameter = "token";
+        String token = null;
+        String command = System.getProperty("sun.java.command");
+        if(command.contains(parameter)){
+            token = command.substring(command.indexOf(parameter) + parameter.length()).trim().split(" ")[0];
+        }
+        //return Settings.environment.getProperty("bot.user.token");
+        if(token==null||token.isEmpty()){
+            token = Settings.environment.getProperty("bot.user.token");
+        }
+        return token;
     }
 
     public void botConnect() {

@@ -74,14 +74,6 @@ public class MessageReciever implements Runnable {
         switch (command) {
             case START:
             case HELP:
-            case ID:
-                SystemHandler systemHandler = new SystemHandler(bot);
-                log.info("Handler for command[" + command.toString() + "] is: " + systemHandler);
-                return systemHandler;
-            case NOTIFY:
-                NotifyHandler notifyHandler = new NotifyHandler(bot);
-                log.info("Handler for command[" + command.toString() + "] is: " + notifyHandler);
-                return notifyHandler;
             default:
                 log.info("Handler for command[" + command.toString() + "] not Set. Return DefaultHandler");
                 return new DefaultHandler(bot);

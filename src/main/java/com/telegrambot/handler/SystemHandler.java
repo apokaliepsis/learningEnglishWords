@@ -24,28 +24,28 @@ public class SystemHandler extends AbstractHandler {
             case START:
                 bot.sendQueue.add(getMessageStart(chatId));
                 break;
-            case HELP:
+/*            case HELP:
                 bot.sendQueue.add(getMessageHelp(chatId));
                 break;
             case ID:
-                return "Your telegramID: " + update.getMessage().getFrom().getId();
+                return "Your telegramID: " + update.getMessage().getFrom().getId();*/
         }
         return "";
     }
 
-    private Object getMessageHelp(String chatID) {
+/*    private Object getMessageHelp(String chatID) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatID);
         sendMessage.enableMarkdown(true);
 
-        String text = "*This is help message*" + END_LINE + END_LINE +
-                "[/start](/start) - show start message" + END_LINE +
-                "[/help](/help) - show help message" + END_LINE +
-                "[/id](/id) - know your ID in telegram " + END_LINE +
-                "/*notify* _time-in-sec_  - receive notification from me after the specified time" + END_LINE;
+        String text = "*Справка*" + END_LINE + END_LINE +
+                "[/start](/start) - запуск запоминания слов" + END_LINE +
+                "[/stop](/stop) - остановка запоминания слов" + END_LINE +
+                "[/menu](/stop) - главное меню" + END_LINE +
+                "[/help](/help) - справка бота" + END_LINE;
         sendMessage.setText(text);
         return sendMessage;
-    }
+    }*/
 
     private Object getMessageStart(String chatID) {
         SendMessage sendMessage = new SendMessage();
