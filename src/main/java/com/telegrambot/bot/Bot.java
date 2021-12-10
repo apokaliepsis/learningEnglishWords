@@ -119,7 +119,7 @@ public class Bot extends TelegramLongPollingBot {
         else if (update.hasCallbackQuery()) {
             System.out.println("Нажата кнопка");
             String line = update.getCallbackQuery().getData();
-            Long id = Long.valueOf(update.getCallbackQuery().getFrom().getId());
+            Long id = update.getCallbackQuery().getFrom().getId();
             clearWordClientList.add(ImmutableMap.of(id, line));
 //            Map<Long,String> map = new HashMap<>();
 //            map.put(update.getMessage().getChatId(),line);
@@ -165,7 +165,7 @@ public class Bot extends TelegramLongPollingBot {
                                     System.out.println("Найдена мэпа. Удаляем слово");
                                     System.out.println(entry);
                                     String wordForRemove = entry.getValue();
-                                    getDatabase().getJdbi().createUpdate(Arrays.asList(wordForRemove, chatId),
+                                    Database.getJdbi().createUpdate(Arrays.asList(wordForRemove, chatId),
                                             "delete from words where word like concat('%',?,'%') and chatId=?", false);
                                     for(String str : dictionaryList)
                                     {
@@ -193,25 +193,25 @@ public class Bot extends TelegramLongPollingBot {
                         rowInline.add(inlineKeyboardButton);
                         rowsInline.add(rowInline);
                         markupInline.setKeyboard(rowsInline);
-
                         String urlAudio = getAudio().getUrlAudio(word);
                         String pathAudioFile = getAudio().getSoundWordFile(urlAudio, word);
                         audio.setAudio(new InputFile(new File(pathAudioFile)));
 
-                        message.setReplyMarkup(markupInline);
+                        //message.setReplyMarkup(markupInline);
+                        audio.setReplyMarkup(markupInline);
 
-
-                        message.setText(line);
+                        //message.setText(line);
+                        audio.setCaption(line);
                         System.out.println(word);
                         execute(audio);
-                        execute(message);
+                        //execute(message);
 
                         if(dictionaryList.size()==0){
                             message.setText("Словарь пуст! Загрузите слова");
                             execute(message);
                             break;
                         }
-                        TimeUnit.MINUTES.sleep((int) getDatabase().getJdbi()
+                        TimeUnit.MINUTES.sleep((int) Database.getJdbi()
                                 .getFirstRowFromResponse(Collections.singletonList(chatId),
                                         "select time from configuration where chatId=?",
                                         false).get("TIME"));
