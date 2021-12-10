@@ -59,11 +59,6 @@ public class App {
         sender.start();
 
         sendStartReport(englishWordsBot);
-        JDBI jdbi = new JDBI();
-        jdbi.setDataBaseSettings("jdbc:h2:http://127.0.1.1:9092/~/englishWordsH2", "admin", "123456");
-        System.out.println(jdbi.getAllRowsFromResponse(Collections.emptyList(),"show tables", false));
-
-
 
     }
 

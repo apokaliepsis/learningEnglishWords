@@ -31,7 +31,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
-@NoArgsConstructor
+
 public class Bot extends TelegramLongPollingBot {
 
     private static final Logger logger = Logger.getLogger(Bot.class);
