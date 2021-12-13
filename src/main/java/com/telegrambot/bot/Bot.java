@@ -9,13 +9,14 @@ import com.telegrambot.menu.Menu;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Files;
 import com.telegrambot.service.Settings;
-import lombok.NoArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -27,6 +28,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
@@ -59,7 +61,7 @@ public class Bot extends TelegramLongPollingBot {
         }
         return dictionary;
     }
-    private Menu getMenu() {
+    protected Menu getMenu() {
         if (menu == null) {
             menu = new Menu();
         }
@@ -74,11 +76,15 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-
+        if(update.hasMessage() && update.getMessage().hasDocument()){
+            downloadFile(update);
+        }
         if (update.hasMessage()) {
+
             logger.debug("Receive new Update. updateID: " + update.getUpdateId());
             receiveQueue.add(update);
             long chatId = update.getMessage().getChatId();
+
             List dictionary = getDictionary().getDictionaryFromDB(chatId);
 
             /*SendMessage sendMessage = new SendMessage()
@@ -129,7 +135,69 @@ public class Bot extends TelegramLongPollingBot {
 
         }
 
+
     }
+
+    private void downloadFile(Update update) {
+        System.out.println("Received file");
+        if (update.getMessage().getDocument().getFileSize()<1000000){
+            getDatabase().setWordsToDB(getDataFileFromMessage(update),update.getMessage().getChatId());
+        }
+        else{
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
+            sendMessage.setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup));
+            sendMessage.disableNotification();
+            sendMessage.setText("Превышен размер файла. Попробуйте загрузить другой файл");
+            try {
+                execute(sendMessage);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            String fileName = update.getMessage().getDocument().getFileName();
+            logger.info("Delete file \""+fileName+"\"");
+            Arrays.stream(Objects.requireNonNull(new File(
+                    new File(Audio.class.getProtectionDomain().getCodeSource().getLocation()
+                            .toURI()).getParent() + "/").listFiles((f, p) ->
+                    p.contains(fileName)))
+            ).forEach(File::delete);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private List<String> getDataFileFromMessage(Update update) {
+        System.out.println("Download words");
+        List<String> dataFile = new ArrayList<>();
+
+        String doc_id = update.getMessage().getDocument().getFileId();
+        String doc_name = update.getMessage().getDocument().getFileName();
+        String doc_mine = update.getMessage().getDocument().getMimeType();
+        int doc_size = update.getMessage().getDocument().getFileSize();
+        String getID = String.valueOf(update.getMessage().getFrom().getId());
+
+        Document document = new Document();
+        document.setMimeType(doc_mine);
+        document.setFileName(doc_name);
+        document.setFileSize(doc_size);
+        document.setFileId(doc_id);
+
+        GetFile getFile = new GetFile();
+        getFile.setFileId(document.getFileId());
+        try {
+            org.telegram.telegrambots.meta.api.objects.File file = execute(getFile);
+            File docFile = downloadFile(file, new File(new File(Bot.class.getProtectionDomain().getCodeSource().getLocation()
+                    .toURI()).getParent() + "/" + getID + "_" + doc_name));
+            dataFile = java.nio.file.Files.readAllLines(docFile.toPath(), Charset.defaultCharset());
+        } catch (TelegramApiException | IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return dataFile;
+    }
+
     protected void runIterationWords(long chatId, List<String> dictionaryList) {
         Thread thread = new Thread(String.valueOf(chatId)) {
             public void run() {

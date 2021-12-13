@@ -229,7 +229,9 @@ public class Menu extends Bot {
                 break;
             case "Загрузить свой список слов":
                 //dictionary = new ArrayList<>();
-                sendMessage.setText("Отправьте список слов в формате: английское слово - русский перевод");
+                sendMessage.setText("Отправьте список слов в формате:\n" +
+                        "английское слово - русский перевод\n\n"+
+                        "Либо загрузите и отправьте документ с необходимым списоком слов, используя указанный формат");
                 sendMessage.setReplyMarkup(menu.getDictionaryMenu(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);

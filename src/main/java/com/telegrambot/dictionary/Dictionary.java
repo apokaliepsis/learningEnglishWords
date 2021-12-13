@@ -47,8 +47,6 @@ public class Dictionary extends Bot {
                 dictonaryDefault = getPathFromResources("dictionary");
 
         }
-
-
         try (Stream<String> lines = java.nio.file.Files.lines(Paths.get(dictonaryDefault))) {
             result = lines.collect(Collectors.toList());
         } catch (IOException e) {

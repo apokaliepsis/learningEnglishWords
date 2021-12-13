@@ -1,8 +1,11 @@
 package com.telegrambot.database;
 
+import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
 import org.apache.log4j.Logger;
 import org.assertj.core.api.Assertions;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kamatech.qaaf.database.JDBI;
 
 import java.util.Arrays;
@@ -50,11 +53,23 @@ public class Database extends Bot {
     }
     public void setWordsToDB(List<String> dictionary, long chatId) {
         List<String> data = getDictionary().getDictionaryFromDB(chatId);
+        int count = 0;
         for (String s : dictionary) {
             if (!data.contains(s)) {
+                count++;
                 getJdbi().createUpdate(Arrays.asList(chatId, s), "insert into words (chatId, word) values (?,?)", false);
 
             }
+        }
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(String.valueOf(chatId));
+        sendMessage.setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup));
+        sendMessage.disableNotification();
+        sendMessage.setText("Загружено слов: "+count);
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
 
     }
