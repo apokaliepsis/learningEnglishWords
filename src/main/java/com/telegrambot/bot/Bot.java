@@ -79,7 +79,7 @@ public class Bot extends TelegramLongPollingBot {
         if(update.hasMessage() && update.getMessage().hasDocument()){
             downloadFile(update);
         }
-        if (update.hasMessage()) {
+        else if (update.hasMessage()) {
 
             logger.debug("Receive new Update. updateID: " + update.getUpdateId());
             receiveQueue.add(update);
@@ -98,8 +98,6 @@ public class Bot extends TelegramLongPollingBot {
 
             dictionary = getMenu().getGlobalMenu(update, chatId, dictionary, getMenu(), sendMessage);
 
-
-            //dictionary = getWordsFromMessages(update, dictionary);
             if (update.getMessage().getText().contains("\n") && update.getMessage().getText().contains(" - ")) {
                 System.out.println("Определена загрузка слов");
 
@@ -140,6 +138,7 @@ public class Bot extends TelegramLongPollingBot {
 
     private void downloadFile(Update update) {
         System.out.println("Received file");
+        String fileName = update.getMessage().getDocument().getFileName();
         if (update.getMessage().getDocument().getFileSize()<1000000){
             getDatabase().setWordsToDB(getDataFileFromMessage(update),update.getMessage().getChatId());
         }
@@ -156,10 +155,9 @@ public class Bot extends TelegramLongPollingBot {
             }
         }
         try {
-            String fileName = update.getMessage().getDocument().getFileName();
             logger.info("Delete file \""+fileName+"\"");
             Arrays.stream(Objects.requireNonNull(new File(
-                    new File(Audio.class.getProtectionDomain().getCodeSource().getLocation()
+                    new File(Bot.class.getProtectionDomain().getCodeSource().getLocation()
                             .toURI()).getParent() + "/").listFiles((f, p) ->
                     p.contains(fileName)))
             ).forEach(File::delete);
