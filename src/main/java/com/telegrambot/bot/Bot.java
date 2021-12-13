@@ -188,7 +188,7 @@ public class Bot extends TelegramLongPollingBot {
             org.telegram.telegrambots.meta.api.objects.File file = execute(getFile);
             File docFile = downloadFile(file, new File(new File(Bot.class.getProtectionDomain().getCodeSource().getLocation()
                     .toURI()).getParent() + "/" + getID + "_" + doc_name));
-            dataFile = java.nio.file.Files.readAllLines(docFile.toPath(), Charset.defaultCharset());
+            dataFile = java.nio.file.Files.readAllLines(docFile.toPath());
         } catch (TelegramApiException | IOException | URISyntaxException e) {
             e.printStackTrace();
         }
