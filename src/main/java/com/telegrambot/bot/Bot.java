@@ -15,6 +15,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -28,7 +29,6 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
@@ -189,7 +189,8 @@ public class Bot extends TelegramLongPollingBot {
             File docFile = downloadFile(file, new File(new File(Bot.class.getProtectionDomain().getCodeSource().getLocation()
                     .toURI()).getParent() + "/" + getID + "_" + doc_name));
             dataFile = java.nio.file.Files.readAllLines(docFile.toPath());
-        } catch (TelegramApiException | IOException | URISyntaxException e) {
+        }
+        catch (TelegramApiException | IOException | URISyntaxException e) {
             e.printStackTrace();
         }
 
@@ -289,9 +290,12 @@ public class Bot extends TelegramLongPollingBot {
 
                     } catch (InterruptedException | TelegramApiException e) {
                         e.printStackTrace();
-                        if (e instanceof TelegramApiRequestException) {
+                        if(e instanceof InterruptedException){
+                            break;
+                        }
+                        else if (e instanceof TelegramApiRequestException) {
                             System.out.println("Пользователь покинул чат");
-                            deleteThreadChatId(chatId);
+                            stopThreadChatId(chatId);
                             break;
                         }
                     } catch (URISyntaxException e) {
@@ -305,7 +309,7 @@ public class Bot extends TelegramLongPollingBot {
 
     }
 
-    protected void deleteThreadChatId(long chatId) {
+    protected void stopThreadChatId(long chatId) {
         threadClient.remove(chatId);
         for (Thread t : Thread.getAllStackTraces().keySet()) {
             if (t.getName().equals(chatId)) {
@@ -405,6 +409,17 @@ public class Bot extends TelegramLongPollingBot {
         return String.valueOf(file.toPath());
 
     }
+    private void sendDocUploadingAFile(Long chatId, java.io.File save) {
 
+        SendDocument sendDocumentRequest = new SendDocument();
+        sendDocumentRequest.setChatId(String.valueOf(chatId));
+        //sendDocumentRequest.setDocument(save);
+        //sendDocumentRequest.setCaption(caption);
+        try {
+            execute(sendDocumentRequest);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

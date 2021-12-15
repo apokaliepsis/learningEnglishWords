@@ -4,6 +4,7 @@ package com.telegrambot.dictionary;
 import com.telegrambot.bot.Bot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
@@ -66,5 +67,27 @@ public class Dictionary extends Bot {
         }
         line = line.substring(0, indexDelimiter).trim();
         return line;
+    }
+    public void getFileDictionaryFomDb(long chatId){
+        List dictionary = getDictionaryFromDB(chatId);
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter("output.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for(Object str: dictionary) {
+            try {
+                writer.write(str + System.lineSeparator());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

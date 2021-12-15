@@ -4,7 +4,6 @@ package com.telegrambot.menu;
 import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
 import com.telegrambot.dictionary.TypeDictionary;
-import com.telegrambot.handler.SystemHandler;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -118,14 +117,16 @@ public class Menu extends Bot {
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
-                } else if (threadClient.contains(chatId)) {
+                }
+                else if (threadClient.contains(chatId)) {
                     try {
                         sendMessage.setText("Процесс запоминания слов уже запущен!");
                         execute(sendMessage);
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
-                } else if (dictionary.size() == 0) {
+                }
+                else if (dictionary.size() == 0) {
                     try {
                         sendMessage.setText("Не выбран словарь! Зайдите в настройки и выберите словарь");
                         execute(sendMessage);
@@ -140,7 +141,7 @@ public class Menu extends Bot {
             case "/stop":
             case "◼ Стоп":
                 //threadClient.remove(chatId);
-                deleteThreadChatId(chatId);
+                stopThreadChatId(chatId);
                 if (dictionary.size() == 0) {
                     try {
                         sendMessage.setText("Не выбран словарь! Зайдите в настройки и выберите словарь");
