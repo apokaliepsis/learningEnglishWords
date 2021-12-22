@@ -310,9 +310,11 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     protected void stopThreadChatId(long chatId) {
+        logger.info("Stop thread");
         threadClient.remove(chatId);
         for (Thread t : Thread.getAllStackTraces().keySet()) {
-            if (t.getName().equals(chatId)) {
+            if (t.getName().contains(Long.toString(chatId))) {
+
                 t.interrupt();
                 break;
             }
