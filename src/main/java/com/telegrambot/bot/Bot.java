@@ -215,8 +215,9 @@ public class Bot extends TelegramLongPollingBot {
                 InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
                 List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
                 List<InlineKeyboardButton> rowInline = new ArrayList<>();
-
-
+                Date d1 = Calendar.getInstance().getTime();
+                Date d2 = Calendar.getInstance().getTime();
+                long minutesForWait = 480;
                 while (getDatabase().getStateFromDB(chatId) == 1) {
 
                     rowInline.clear();
@@ -288,6 +289,13 @@ public class Bot extends TelegramLongPollingBot {
                                         .toURI()).getParent() + "/").listFiles((f, p) -> p.endsWith(".ogg")))
                         ).forEach(File::delete);
 
+
+                        if(((d2.getTime() - d1.getTime()) / (60 * 1000) % 60)<minutesForWait){
+                            message.setText("/stop");
+                            execute(message);
+                            stopThreadChatId(chatId);
+                            getDatabase().setStateToDB(0, chatId);
+                        }
                     } catch (InterruptedException | TelegramApiException e) {
                         e.printStackTrace();
                         if(e instanceof InterruptedException){
@@ -305,6 +313,7 @@ public class Bot extends TelegramLongPollingBot {
                 }
             }
         };
+
         thread.start();
 
     }
