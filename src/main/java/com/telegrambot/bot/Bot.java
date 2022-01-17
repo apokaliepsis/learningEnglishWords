@@ -289,7 +289,6 @@ public class Bot extends TelegramLongPollingBot {
                                         .toURI()).getParent() + "/").listFiles((f, p) -> p.endsWith(".ogg")))
                         ).forEach(File::delete);
 
-
                         if(((d2.getTime() - d1.getTime()) / (60 * 1000) % 60)<minutesForWait){
                             message.setText("/stop");
                             execute(message);

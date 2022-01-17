@@ -2704,3 +2704,23 @@ Successfully
 2022-01-02 13:19:47,525[INFO ][MsgSender       ][elegrambot.service.MessageSender] - [STARTED] MsgSender.  Bot class: com.telegrambot.bot.Bot@4879dfad
 2022-01-02 13:20:21,540[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
 2022-01-02 13:21:23,048[INFO ][873327794       ][         com.telegrambot.bot.Bot] - Stop thread
+2022-01-12 15:35:11,171[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-01-12 15:35:11,176[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-01-12 15:36:27,177[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-01-12 15:36:27,180[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-01-12 15:36:27,862[INFO ][main            ][om.telegrambot.database.Database] - Successfully
+2022-01-12 15:36:28,907[INFO ][main            ][         com.telegrambot.bot.Bot] - [STARTED] TelegramAPI. Bot Connected. Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-12 15:36:28,907[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - [STARTED] MsgReciever.  Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-12 15:36:28,907[INFO ][MsgSender       ][elegrambot.service.MessageSender] - [STARTED] MsgSender.  Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-12 15:36:35,918[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-12 15:36:37,920[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-12 15:36:56,111[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread
+2022-01-12 15:36:56,925[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-17 11:49:27,543[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-01-17 11:49:27,546[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-01-17 11:49:28,392[INFO ][main            ][om.telegrambot.database.Database] - Successfully
+2022-01-17 11:49:29,286[INFO ][main            ][         com.telegrambot.bot.Bot] - [STARTED] TelegramAPI. Bot Connected. Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-17 11:49:29,286[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - [STARTED] MsgReciever.  Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-17 11:49:29,286[INFO ][MsgSender       ][elegrambot.service.MessageSender] - [STARTED] MsgSender.  Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-17 11:49:30,295[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-01-17 11:49:31,297[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[HELP] not Set. Return DefaultHandler

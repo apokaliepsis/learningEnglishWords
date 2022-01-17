@@ -1,12 +1,19 @@
-# TelegramBotBase
+# Телеграм-бот "Учим английские слова"
 
-Base for working Telegram Bot
+Бот помогает увеличить словарный запас с помощью появления уведомлений с текстом слов, переводов и аудио-файлов с произношением
 
 ## App.java
-Starts the bot on the specified parameters "bot name" and "token"
+Старт бота с указанием параметров "bot name" and "token"
 
-## Class Bot.java
-- Override basic methods of TelegramLongPollingBot.
-- implement command botConnect. Register selected bot in TelegramAPI
-- When receiving update only logged the event is not taking any action.
+## Bot.java
+- Переопределение базовых методов TelegramLongPollingBot.
+- Реализация понятного интерфейса для пользователей
+- Использование базы данных H2
+
+# Что умеет бот?
+- Индивидуальное хранение списка слов для каждого конкретного пользователя
+- Возможность загрузки топ 500 и топ 1000 популярных английских слов в личный словарь
+- Выбор временного интервала между словами
+- Индивидуальное хранение словаря для каждого пользователя
+- Функционал изучения произношения.
 
