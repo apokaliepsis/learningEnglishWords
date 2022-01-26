@@ -2844,3 +2844,97 @@ Successfully
 2022-01-21 12:24:52,290[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
 2022-01-21 12:24:54,291[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
 2022-01-21 12:24:55,291[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 12:28:09,176[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread
+2022-01-21 12:28:09,333[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 12:32:38,393[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 12:32:41,394[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 13:10:31,832[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:46:21,532[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-01-21 15:46:39,538[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:46:49,541[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:46:57,543[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:47:05,545[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:47:14,547[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:47:18,549[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:47:23,550[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:47:28,552[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:47:31,553[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:48:01,559[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:48:12,562[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:48:26,565[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:50:00,582[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:50:06,584[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 15:50:14,586[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 16:08:23,749[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 16:10:29,766[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 16:10:30,766[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 16:10:32,767[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 16:10:35,768[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 16:51:35,835[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread
+2022-01-21 16:51:36,085[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:47:46,361[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-01-21 23:47:50,365[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:47:55,366[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:48:00,367[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:48:17,370[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:48:19,370[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:48:22,371[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:48:27,372[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:48:37,373[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:48:48,375[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:48:51,376[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:48:53,376[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:48:55,377[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:50:23,388[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-01-21 23:50:27,389[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-21 23:50:54,393[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-22 10:54:44,470[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread
+2022-01-22 10:54:44,515[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-01-22 10:54:44,515[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-22 10:54:44,515[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-22 10:54:44,516[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-01-22 10:54:45,516[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[HELP] not Set. Return DefaultHandler
+2022-01-22 10:54:45,517[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-22 10:54:45,518[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-01-22 11:40:43,546[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-22 16:40:51,233[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-22 16:40:54,235[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-24 12:47:52,456[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-01-24 12:47:52,464[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-01-24 12:48:18,346[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-01-24 12:48:18,349[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-01-24 12:48:19,019[INFO ][main            ][om.telegrambot.database.Database] - Successfully
+2022-01-24 12:48:19,795[INFO ][main            ][         com.telegrambot.bot.Bot] - [STARTED] TelegramAPI. Bot Connected. Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-24 12:48:19,795[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - [STARTED] MsgReciever.  Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-24 12:48:19,795[INFO ][MsgSender       ][elegrambot.service.MessageSender] - [STARTED] MsgSender.  Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-24 12:48:20,799[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-24 12:48:20,799[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-24 12:48:57,807[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-24 12:48:58,808[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-24 12:59:12,236[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread
+2022-01-24 12:59:12,923[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-25 10:02:31,314[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-01-25 10:02:31,320[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-01-25 10:02:58,303[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-01-25 10:02:58,308[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-01-25 10:02:58,980[INFO ][main            ][om.telegrambot.database.Database] - Successfully
+2022-01-25 10:02:59,800[INFO ][main            ][         com.telegrambot.bot.Bot] - [STARTED] TelegramAPI. Bot Connected. Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-25 10:02:59,800[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - [STARTED] MsgReciever.  Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-25 10:02:59,800[INFO ][MsgSender       ][elegrambot.service.MessageSender] - [STARTED] MsgSender.  Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-25 10:03:12,811[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-26 10:30:56,632[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-26 22:37:38,887[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-26 22:37:40,888[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-26 22:37:42,889[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-26 23:02:12,994[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-01-26 23:02:12,998[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-01-26 23:02:13,639[INFO ][main            ][om.telegrambot.database.Database] - Successfully
+2022-01-26 23:02:14,429[INFO ][main            ][         com.telegrambot.bot.Bot] - [STARTED] TelegramAPI. Bot Connected. Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-26 23:02:14,429[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - [STARTED] MsgReciever.  Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-26 23:02:14,429[INFO ][MsgSender       ][elegrambot.service.MessageSender] - [STARTED] MsgSender.  Bot class: com.telegrambot.bot.Bot@4879dfad
+2022-01-26 23:02:38,440[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-26 23:02:47,442[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-26 23:04:34,464[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-26 23:04:36,466[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-26 23:10:30,532[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-01-26 23:10:30,567[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread

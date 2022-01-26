@@ -8,9 +8,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kamatech.qaaf.database.JDBI;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Database extends Bot {
     private static final Logger logger = Logger.getLogger(Database.class);
@@ -73,13 +73,17 @@ public class Database extends Bot {
         }
 
     }
-
+    public static String getDateTime() {
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        return dateFormat.format(date);
+    }
     public void setStateToDB(int state, long chatId) {
         if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId), "select* from configuration where chatId =?", false).size() == 0) {
             getJdbi().createUpdate(Arrays.asList(state, chatId), "insert into configuration (state, chatId) values (?,?)", false);
         } else {
             System.out.println("Запись найдена. Меняем state");
-            getJdbi().createUpdate(Arrays.asList(state, chatId), "UPDATE configuration SET state = ? WHERE chatId = ?", false);
+            getJdbi().createUpdate(Arrays.asList(state, getDateTime(), chatId), "UPDATE configuration SET state = ?, date = ? WHERE chatId = ?", false);
         }
     }
 
