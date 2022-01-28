@@ -4,7 +4,9 @@ package com.telegrambot.menu;
 import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
 import com.telegrambot.dictionary.TypeDictionary;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -12,6 +14,10 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class Menu extends Bot {
@@ -23,17 +29,20 @@ public class Menu extends Bot {
         KeyboardRow keyboardRow12 = new KeyboardRow();
         KeyboardRow keyboardRow13 = new KeyboardRow();
         KeyboardRow keyboardRow14 = new KeyboardRow();
+        KeyboardRow keyboardRow15 = new KeyboardRow();
 
         keyboardRow11.add("Выбрать словарь");
-        keyboardRow12.add("Очистить словарь");
-        keyboardRow13.add("Установить интервал между словами");
-        keyboardRow14.add("Главное меню");
+        keyboardRow12.add("Скачать текущий словарь");
+        keyboardRow13.add("Очистить словарь");
+        keyboardRow14.add("Установить интервал между словами");
+        keyboardRow15.add("Главное меню");
 
 
         keyboardRows.add(keyboardRow11);
         keyboardRows.add(keyboardRow12);
         keyboardRows.add(keyboardRow13);
         keyboardRows.add(keyboardRow14);
+        keyboardRows.add(keyboardRow15);
         replyKeyboardMarkup.setKeyboard(keyboardRows);
         return replyKeyboardMarkup;
     }
@@ -181,6 +190,41 @@ public class Menu extends Bot {
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
+
+                break;
+            case "/downloaddictionary":
+            case "Скачать текущий словарь":
+                if(getDictionary().getDictionaryFromDB(chatId).size()>0){
+                    SendDocument sendDocument = new SendDocument();
+                    sendDocument.setChatId(String.valueOf(chatId));
+                    File file = new File(getDictionary().downloadCurrentDictionary(chatId));
+
+                    sendDocument.setDocument(new InputFile(file));
+                    try {
+                        execute(sendDocument);
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+
+                        Arrays.stream(Objects.requireNonNull(new File(
+                                new File(Menu.class.getProtectionDomain().getCodeSource().getLocation()
+                                        .toURI()).getParent() + "/").listFiles((f, p) -> p.endsWith(chatId+".txt")))
+                        ).forEach(File::delete);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    sendMessage.setText("Словарь сейчас пуст. Добавьте слова");
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
 
                 break;
             case "Главное меню":

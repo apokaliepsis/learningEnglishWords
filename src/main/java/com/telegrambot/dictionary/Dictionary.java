@@ -1,11 +1,14 @@
 package com.telegrambot.dictionary;
 
 
+import com.telegrambot.ApTest;
 import com.telegrambot.bot.Bot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -89,5 +92,35 @@ public class Dictionary extends Bot {
             e.printStackTrace();
         }
 
+    }
+    public String downloadCurrentDictionary(long chatId){
+        List<String> list = new Dictionary().getDictionaryFromDB(chatId);
+        System.out.println(list);
+        String pathSoundWordFile = null;
+        try {
+            pathSoundWordFile = new File(ApTest.class.getProtectionDomain().getCodeSource().getLocation()
+                    .toURI()).getParent() + "/dictionary"+chatId+".txt";
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(pathSoundWordFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for(String str: list) {
+            try {
+                writer.write(str + System.lineSeparator());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return pathSoundWordFile;
     }
 }
