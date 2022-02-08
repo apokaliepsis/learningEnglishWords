@@ -79,7 +79,7 @@ public class Database extends Bot {
         }
 
     }
-    public static String getDateTime() {
+    private static String getDateTime() {
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
         return dateFormat.format(date);

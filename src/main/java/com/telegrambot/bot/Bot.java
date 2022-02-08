@@ -45,6 +45,8 @@ public class Bot extends TelegramLongPollingBot {
     private Menu menu;
     private Dictionary dictionary;
     private Audio audio;
+    private static Queue<Map<Long, List>> tempWords = new ConcurrentLinkedQueue<>();
+
 
 
 
@@ -125,9 +127,9 @@ public class Bot extends TelegramLongPollingBot {
             String line = update.getCallbackQuery().getData();
             Long id = update.getCallbackQuery().getFrom().getId();
             clearWordClientList.add(ImmutableMap.of(id, line));
-//            Map<Long,String> map = new HashMap<>();
-//            map.put(update.getMessage().getChatId(),line);
-//            clearWordClientList.add(map);
+
+
+
             System.out.println("Добавлено слово для удаления");
             System.out.println("clearWordClientList="+clearWordClientList);
 
@@ -312,10 +314,10 @@ public class Bot extends TelegramLongPollingBot {
                 }
             }
         };
-
         thread.start();
-
     }
+
+
 
     protected void stopThreadChatId(long chatId) {
         logger.info("Stop thread");
@@ -327,6 +329,103 @@ public class Bot extends TelegramLongPollingBot {
                 break;
             }
         }
+    }
+    protected void sendPackWords(long chatId){
+        List dictionaryList = getListTempWords(chatId);
+        String word;
+
+        SendAudio audio = new SendAudio();
+        audio.setChatId(String.valueOf(chatId));
+        audio.disableNotification();
+        SendMessage message = new SendMessage();
+        message.setChatId(String.valueOf(chatId));
+        if(dictionaryList.size()==0){
+            message.setText("Словарь пуст! Загрузите слова");
+            try {
+                execute(message);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+        Random rand;
+        String line;
+
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline = new ArrayList<>();
+
+
+        int count = 5;
+        if(dictionaryList.size()<count){
+            count = dictionaryList.size();
+        }
+
+        while(count>0){
+            rowInline.clear();
+            rowsInline.clear();
+            try {
+                System.out.println("Next word: ");
+
+                rand = new Random();
+                line = (String) dictionaryList.get(rand.nextInt(dictionaryList.size()));
+                //word = line.substring(0, line.indexOf(' '));
+                word = getDictionary().getWordFromLine(line);
+                InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+                inlineKeyboardButton.setText("Удалить из словаря");
+
+                inlineKeyboardButton.setCallbackData(word.substring(0,Math.min(word.length(), 30)));
+                rowInline.add(inlineKeyboardButton);
+
+                rowsInline.add(rowInline);
+                markupInline.setKeyboard(rowsInline);
+                String urlAudio = getAudio().getUrlAudio(word);
+                String pathAudioFile = getAudio().getSoundWordFile(urlAudio, word);
+                audio.setAudio(new InputFile(new File(pathAudioFile)));
+
+                //message.setReplyMarkup(markupInline);
+
+                audio.setReplyMarkup(markupInline);
+
+                //message.setText(line);
+                audio.setCaption(line);
+                System.out.println(word);
+                execute(audio);
+
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+
+            }
+            count--;
+        }
+
+        try {
+            Arrays.stream(Objects.requireNonNull(new File(
+                    new File(Audio.class.getProtectionDomain().getCodeSource().getLocation()
+                            .toURI()).getParent() + "/").listFiles((f, p) -> p.endsWith(".ogg")))
+            ).forEach(File::delete);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private List getListTempWords(long chatId) {
+        List dictionaryList = new ArrayList<>();
+        if(tempWords.contains(chatId)){
+            for(Map<Long, List> mapTempWord = tempWords.peek(); mapTempWord != null; mapTempWord = tempWords.peek()){
+                if(mapTempWord.containsKey(chatId)){
+                    dictionaryList = mapTempWord.get(chatId);
+                }
+
+            }
+        }
+        else{
+            dictionaryList = getDictionary().getDictionaryFromDB(chatId);
+        }
+
+        return dictionaryList;
     }
 
     @Override

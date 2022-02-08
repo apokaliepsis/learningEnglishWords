@@ -192,6 +192,17 @@ public class Menu extends Bot {
                 }
 
                 break;
+            case "/sendpackwords":
+            case "Отправить пакет слов":
+/*                sendMessage.setText("Выберите словарь");
+                try {
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }*/
+                sendPackWords(chatId);
+
+                break;
             case "/downloaddictionary":
             case "Скачать текущий словарь":
                 if(getDictionary().getDictionaryFromDB(chatId).size()>0){
