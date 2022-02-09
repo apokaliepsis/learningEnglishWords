@@ -124,14 +124,22 @@ public class Bot extends TelegramLongPollingBot {
         }
         else if (update.hasCallbackQuery()) {
             System.out.println("Нажата кнопка");
-            String line = update.getCallbackQuery().getData();
-            Long id = update.getCallbackQuery().getFrom().getId();
-            clearWordClientList.add(ImmutableMap.of(id, line));
+            String data = update.getCallbackQuery().getData();
+            long chatId = update.getCallbackQuery().getMessage().getChatId();
+            if(data.equals("/sendpackwords")){
+                sendPackWords(chatId);
+            }
+            else{
+                clearWordClientList.add(ImmutableMap.of(chatId, data));
 
+                String word = update.getCallbackQuery().getData();
 
+                Database.getJdbi().createUpdate(Arrays.asList(word, chatId),
+                        "delete from words where word like concat('%',?,'%') and chatId=?", false);
 
-            System.out.println("Добавлено слово для удаления");
-            System.out.println("clearWordClientList="+clearWordClientList);
+                System.out.println("Добавлено слово для удаления");
+                System.out.println("clearWordClientList="+clearWordClientList);
+            }
 
         }
 
@@ -235,8 +243,8 @@ public class Bot extends TelegramLongPollingBot {
                                     System.out.println("Найдена мэпа. Удаляем слово");
                                     System.out.println(entry);
                                     String wordForRemove = entry.getValue();
-                                    Database.getJdbi().createUpdate(Arrays.asList(wordForRemove, chatId),
-                                            "delete from words where word like concat('%',?,'%') and chatId=?", false);
+//                                    Database.getJdbi().createUpdate(Arrays.asList(wordForRemove, chatId),
+//                                            "delete from words where word like concat('%',?,'%') and chatId=?", false);
                                     for(String str : dictionaryList)
                                     {
                                         if (str.contains(wordForRemove)){
@@ -331,7 +339,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
     protected void sendPackWords(long chatId){
-        List dictionaryList = getListTempWords(chatId);
+        List dictionaryList = getDictionary().getDictionaryFromDB(chatId);
         String word;
 
         SendAudio audio = new SendAudio();
@@ -354,6 +362,7 @@ public class Bot extends TelegramLongPollingBot {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         List<InlineKeyboardButton> rowInline = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline2 = new ArrayList<>();
 
 
         int count = 5;
@@ -378,13 +387,22 @@ public class Bot extends TelegramLongPollingBot {
                 rowInline.add(inlineKeyboardButton);
 
                 rowsInline.add(rowInline);
-                markupInline.setKeyboard(rowsInline);
+
                 String urlAudio = getAudio().getUrlAudio(word);
                 String pathAudioFile = getAudio().getSoundWordFile(urlAudio, word);
                 audio.setAudio(new InputFile(new File(pathAudioFile)));
 
                 //message.setReplyMarkup(markupInline);
 
+                if(count==1){
+                    InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
+                    inlineKeyboardButton2.setText("Ещё слова");
+                    inlineKeyboardButton2.setCallbackData("/sendpackwords");
+                    rowInline2.add(inlineKeyboardButton2);
+                    rowsInline.add(rowInline2);
+
+                }
+                markupInline.setKeyboard(rowsInline);
                 audio.setReplyMarkup(markupInline);
 
                 //message.setText(line);
@@ -411,22 +429,6 @@ public class Bot extends TelegramLongPollingBot {
 
     }
 
-    private List getListTempWords(long chatId) {
-        List dictionaryList = new ArrayList<>();
-        if(tempWords.contains(chatId)){
-            for(Map<Long, List> mapTempWord = tempWords.peek(); mapTempWord != null; mapTempWord = tempWords.peek()){
-                if(mapTempWord.containsKey(chatId)){
-                    dictionaryList = mapTempWord.get(chatId);
-                }
-
-            }
-        }
-        else{
-            dictionaryList = getDictionary().getDictionaryFromDB(chatId);
-        }
-
-        return dictionaryList;
-    }
 
     @Override
     public String getBotUsername() {
