@@ -109,6 +109,9 @@ public class Database extends Bot {
                 false)).size().as("No database connection!").isNotZero();
         logger.info("Successfully");
     }
+    public static void setDefaultClientStatus(){
+        getJdbi().createUpdate(Collections.singletonList(0), "UPDATE configuration SET state = ?", false);
+    }
 
 
 }

@@ -41,6 +41,7 @@ public class App {
         //ApiContextInitializer.init();
         Bot englishWordsBot = new Bot();
         Database.checkConnection();
+        Database.setDefaultClientStatus();
         MessageReciever messageReciever = new MessageReciever(englishWordsBot);
         MessageSender messageSender = new MessageSender(englishWordsBot);
 

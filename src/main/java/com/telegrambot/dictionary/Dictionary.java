@@ -36,6 +36,9 @@ public class Dictionary extends Bot {
         String dictonaryDefault;
 
         switch (typeDictionary) {
+            case Top100Words:
+                dictonaryDefault = getPathFromResources("100words");
+                break;
             case Top500Words:
                 dictonaryDefault = getPathFromResources("500words");
                 break;
