@@ -136,7 +136,6 @@ public class Bot extends TelegramLongPollingBot {
 
                 Database.getJdbi().createUpdate(Arrays.asList(word, chatId),
                         "delete from words where word like concat('%',?,'%') and chatId=?", false);
-
                 System.out.println("Добавлено слово для удаления");
                 System.out.println("clearWordClientList="+clearWordClientList);
             }

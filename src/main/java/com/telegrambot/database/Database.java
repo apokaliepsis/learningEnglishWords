@@ -1,19 +1,13 @@
 package com.telegrambot.database;
 
-import com.telegrambot.ApTest;
 import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
-import com.telegrambot.dictionary.Dictionary;
 import org.apache.log4j.Logger;
 import org.assertj.core.api.Assertions;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kamatech.qaaf.database.JDBI;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -55,7 +49,8 @@ public class Database extends Bot {
 
 
     public int getStateFromDB(long chatId) {
-        return (int) getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId), "select state from configuration where chatId=?", false).get("STATE");
+        return (int) getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
+                "select state from configuration where chatId=?", false).get("STATE");
     }
     public void setWordsToDB(List<String> dictionary, long chatId) {
         List<String> data = getDictionary().getDictionaryFromDB(chatId);
@@ -63,7 +58,8 @@ public class Database extends Bot {
         for (String s : dictionary) {
             if (!data.contains(s)) {
                 count++;
-                getJdbi().createUpdate(Arrays.asList(chatId, s), "insert into words (chatId, word) values (?,?)", false);
+                getJdbi().createUpdate(Arrays.asList(chatId, s),
+                        "insert into words (chatId, word) values (?,?)", false);
 
             }
         }
@@ -85,21 +81,26 @@ public class Database extends Bot {
         return dateFormat.format(date);
     }
     public void setStateToDB(int state, long chatId) {
-        if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId), "select* from configuration where chatId =?", false).size() == 0) {
-            getJdbi().createUpdate(Arrays.asList(state, chatId), "insert into configuration (state, chatId) values (?,?)", false);
+        if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
+                "select* from configuration where chatId =?", false).size() == 0) {
+            getJdbi().createUpdate(Arrays.asList(state, chatId),
+                    "insert into configuration (state, chatId) values (?,?)", false);
         } else {
             System.out.println("Запись найдена. Меняем state");
-            getJdbi().createUpdate(Arrays.asList(state, getDateTime(), chatId), "UPDATE configuration SET state = ?, date = ? WHERE chatId = ?", false);
+            getJdbi().createUpdate(Arrays.asList(state, getDateTime(), chatId),
+                    "UPDATE configuration SET state = ?, date = ? WHERE chatId = ?", false);
         }
     }
 
     public void setTimeSettingToDB(int minutes, long chatId) {
-        if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId), "select* from configuration where chatId =?", false).size() == 0) {
+        if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
+                "select* from configuration where chatId =?", false).size() == 0) {
             getJdbi().createUpdate(Arrays.asList(chatId, 0, minutes),
                     "insert into configuration (chatId, state, time) values (?,?,?)", false);
         } else {
             System.out.println("Запись найдена. Меняем time");
-            getJdbi().createUpdate(Arrays.asList(minutes, chatId), "UPDATE configuration SET time = ? WHERE chatId = ?", false);
+            getJdbi().createUpdate(Arrays.asList(minutes, chatId),
+                    "UPDATE configuration SET time = ? WHERE chatId = ?", false);
         }
 
     }
@@ -110,7 +111,8 @@ public class Database extends Bot {
         logger.info("Successfully");
     }
     public static void setDefaultClientStatus(){
-        getJdbi().createUpdate(Collections.singletonList(0), "UPDATE configuration SET state = ?", false);
+        getJdbi().createUpdate(Collections.singletonList(0), "UPDATE configuration SET state = ?",
+                false);
     }
 
 

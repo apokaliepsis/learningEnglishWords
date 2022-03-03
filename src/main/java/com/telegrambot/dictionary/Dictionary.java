@@ -1,7 +1,7 @@
 package com.telegrambot.dictionary;
 
 
-import com.telegrambot.ApTest;
+import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -101,7 +101,7 @@ public class Dictionary extends Bot {
         System.out.println(list);
         String pathSoundWordFile = null;
         try {
-            pathSoundWordFile = new File(ApTest.class.getProtectionDomain().getCodeSource().getLocation()
+            pathSoundWordFile = new File(App.class.getProtectionDomain().getCodeSource().getLocation()
                     .toURI()).getParent() + "/dictionary"+chatId+".txt";
         } catch (URISyntaxException e) {
             e.printStackTrace();
