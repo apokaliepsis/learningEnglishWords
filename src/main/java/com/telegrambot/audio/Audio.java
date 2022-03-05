@@ -1,5 +1,6 @@
 package com.telegrambot.audio;
 
+import org.apache.log4j.Logger;
 import ru.kamatech.qaaf.properties.Properties;
 
 import java.io.BufferedReader;
@@ -9,6 +10,7 @@ import java.net.URISyntaxException;
 import java.nio.file.FileSystems;
 
 public class Audio {
+    private static final Logger logger = Logger.getLogger(Audio.class);
     public String getUrlAudio(String text) {
         text = text.replaceAll(" ", "%20");
         return "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=" + text + "&tl=en&client=tw-ob";
@@ -25,9 +27,10 @@ public class Audio {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        //String pathSoundWordFile = Properties.getPathFromResources("temp") + "/" + word.replaceAll(" ", "_") + ".ogg";
         try {
-            p = Runtime.getRuntime().exec("ffmpeg -i " + urlPath + " -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 " + pathSoundWordFile);
+            String command = "ffmpeg -i " + urlPath + " -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 " + pathSoundWordFile;
+            logger.info(command);
+            p = Runtime.getRuntime().exec(command);
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(p.getInputStream()));
             while ((s = br.readLine()) != null)
