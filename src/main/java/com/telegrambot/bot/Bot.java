@@ -279,7 +279,7 @@ public class Bot extends TelegramLongPollingBot {
 
                         //message.setText(line);
                         audio.setCaption(line);
-                        System.out.println(word);
+                        logger.info(word);
                         execute(audio);
                         //execute(message);
 
@@ -309,8 +309,14 @@ public class Bot extends TelegramLongPollingBot {
                         if(e instanceof InterruptedException){
                             break;
                         }
-                        else if (e instanceof TelegramApiRequestException) {
+                        /*else if (e instanceof TelegramApiRequestException) {
                             System.out.println("Пользователь покинул чат");
+                            stopThreadChatId(chatId);
+                            break;
+                        }*/
+                        else if(e.getMessage().contains("bot was blocked")||e instanceof TelegramApiRequestException){
+                            logger.info("User left the chat");
+                            getDatabase().setStateToDB(0, chatId);
                             stopThreadChatId(chatId);
                             break;
                         }
