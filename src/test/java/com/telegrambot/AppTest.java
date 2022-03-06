@@ -1,6 +1,7 @@
 package com.telegrambot;
 
 import com.offbytwo.jenkins.model.TestCase;
+import com.telegrambot.audio.Audio;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -17,10 +18,9 @@ public class AppTest  {
     public void testApp()
     {
 
-        try {
-            Runtime.getRuntime().exec("ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=grace&tl=en&client=tw-ob /home/anton/Загрузки/bumer2.ogg");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+/*        String urlAudio = new Audio().getUrlAudio("hot");
+        String pathAudioFile = new Audio().getSoundWordFile(urlAudio, "hot");
+        System.out.println(pathAudioFile);*/
+
     }
 }

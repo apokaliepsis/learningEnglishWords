@@ -28,7 +28,8 @@ public class Audio {
             e.printStackTrace();
         }
         try {
-            String command = "ffmpeg -i " + urlPath + " -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 " + pathSoundWordFile;
+            //ffmpeg -i "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob" -ac 1 -map 0:a -codec:a libopus  -b:a 128k -vbr off -ar 24000 "hot.ogg"
+            String command = "ffmpeg -i " +urlPath + " -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 " +pathSoundWordFile;
             logger.info(command);
             p = Runtime.getRuntime().exec(command);
             BufferedReader br = new BufferedReader(

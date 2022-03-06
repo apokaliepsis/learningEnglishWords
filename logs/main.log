@@ -4257,3 +4257,207 @@ Error sending message: [403] Forbidden: bot was blocked by the user
 2022-03-05 12:50:02,660[INFO ][873327794       ][         com.telegrambot.bot.Bot] - stiff
 2022-03-05 12:51:02,902[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=mystery&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/mystery.ogg
 2022-03-05 12:51:03,558[INFO ][873327794       ][         com.telegrambot.bot.Bot] - mystery
+2022-03-05 14:09:08,055[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-03-05 14:09:08,058[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-03-05 14:09:08,631[INFO ][main            ][om.telegrambot.database.Database] - Successfully
+2022-03-05 14:09:09,422[INFO ][main            ][         com.telegrambot.bot.Bot] - [STARTED] TelegramAPI. Bot Connected. Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-05 14:09:09,423[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - [STARTED] MsgReciever.  Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-05 14:09:09,423[INFO ][MsgSender       ][elegrambot.service.MessageSender] - [STARTED] MsgSender.  Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-05 14:09:10,431[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:09:17,804[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=grace&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/grace.ogg
+2022-03-05 14:09:18,308[INFO ][873327794       ][         com.telegrambot.bot.Bot] - grace
+2022-03-05 14:09:18,433[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:09:31,438[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:09:33,439[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:09:35,440[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:10:18,611[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=bureaucracy&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/bureaucracy.ogg
+2022-03-05 14:10:19,120[INFO ][873327794       ][         com.telegrambot.bot.Bot] - bureaucracy
+2022-03-05 14:10:21,449[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:10:24,451[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:10:26,452[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:10:28,453[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:10:29,975[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=then&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/then.ogg
+2022-03-05 14:10:30,454[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:10:30,515[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - then
+2022-03-05 14:11:19,505[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=deprive&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/deprive.ogg
+2022-03-05 14:11:20,012[INFO ][873327794       ][         com.telegrambot.bot.Bot] - deprive
+2022-03-05 14:11:31,177[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=we&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/we.ogg
+2022-03-05 14:11:31,703[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - we
+2022-03-05 14:12:20,261[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=break%20down&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/break_down.ogg
+2022-03-05 14:12:20,895[INFO ][873327794       ][         com.telegrambot.bot.Bot] - break down
+2022-03-05 14:12:32,420[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=then&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/then.ogg
+2022-03-05 14:12:32,906[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - then
+2022-03-05 14:13:21,576[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=negotiate&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/negotiate.ogg
+2022-03-05 14:13:22,110[INFO ][873327794       ][         com.telegrambot.bot.Bot] - negotiate
+2022-03-05 14:13:33,167[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=day&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/day.ogg
+2022-03-05 14:13:33,645[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - day
+2022-03-05 14:14:22,656[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=spare&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/spare.ogg
+2022-03-05 14:14:23,690[INFO ][873327794       ][         com.telegrambot.bot.Bot] - spare
+2022-03-05 14:14:33,878[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=we&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/we.ogg
+2022-03-05 14:14:34,366[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - we
+2022-03-05 14:15:24,161[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=jail&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/jail.ogg
+2022-03-05 14:15:24,638[INFO ][873327794       ][         com.telegrambot.bot.Bot] - jail
+2022-03-05 14:15:35,241[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=a&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/a.ogg
+2022-03-05 14:15:35,741[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - a
+2022-03-05 14:16:24,875[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=nephew&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/nephew.ogg
+2022-03-05 14:16:25,364[INFO ][873327794       ][         com.telegrambot.bot.Bot] - nephew
+2022-03-05 14:16:35,894[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=some&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/some.ogg
+2022-03-05 14:16:36,377[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - some
+2022-03-05 14:17:25,917[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=nibble&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/nibble.ogg
+2022-03-05 14:17:26,523[INFO ][873327794       ][         com.telegrambot.bot.Bot] - nibble
+2022-03-05 14:17:36,609[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=by&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/by.ogg
+2022-03-05 14:17:37,047[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - by
+2022-03-05 14:18:26,877[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=mirth&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/mirth.ogg
+2022-03-05 14:18:27,425[INFO ][873327794       ][         com.telegrambot.bot.Bot] - mirth
+2022-03-05 14:18:34,538[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread
+2022-03-05 14:18:34,557[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:18:37,550[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=each&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/each.ogg
+2022-03-05 14:18:38,057[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - each
+2022-03-05 14:19:38,305[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=will&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/will.ogg
+2022-03-05 14:19:38,876[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - will
+2022-03-05 14:20:39,566[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=other&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/other.ogg
+2022-03-05 14:20:40,010[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - other
+2022-03-05 14:21:40,341[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=not&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/not.ogg
+2022-03-05 14:21:40,858[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - not
+2022-03-05 14:22:41,480[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=than&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/than.ogg
+2022-03-05 14:22:41,969[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - than
+2022-03-05 14:23:42,378[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=oil&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/oil.ogg
+2022-03-05 14:23:42,890[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - oil
+2022-03-05 14:24:43,555[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=your&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/your.ogg
+2022-03-05 14:24:44,109[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - your
+2022-03-05 14:25:44,352[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=my&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/my.ogg
+2022-03-05 14:25:44,814[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - my
+2022-03-05 14:26:46,311[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=my&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/my.ogg
+2022-03-05 14:26:46,783[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - my
+2022-03-05 14:27:47,328[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=so&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/so.ogg
+2022-03-05 14:27:47,798[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - so
+2022-03-05 14:28:48,385[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=not&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/not.ogg
+2022-03-05 14:28:48,899[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - not
+2022-03-05 14:29:49,182[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=use&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/use.ogg
+2022-03-05 14:29:49,713[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - use
+2022-03-05 14:30:50,573[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=more&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/more.ogg
+2022-03-05 14:30:51,067[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - more
+2022-03-05 14:31:51,338[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=other&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/other.ogg
+2022-03-05 14:31:51,831[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - other
+2022-03-05 14:32:53,453[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=to&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/to.ogg
+2022-03-05 14:32:54,025[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - to
+2022-03-05 14:33:54,496[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=its&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/its.ogg
+2022-03-05 14:33:55,100[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - its
+2022-03-05 14:34:55,695[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=with&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/with.ogg
+2022-03-05 14:34:57,249[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - with
+2022-03-05 14:35:57,485[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=have&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/have.ogg
+2022-03-05 14:35:57,972[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - have
+2022-03-05 14:36:58,647[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=from&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/from.ogg
+2022-03-05 14:36:59,111[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - from
+2022-03-05 14:37:44,806[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:37:59,400[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=this&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/this.ogg
+2022-03-05 14:37:59,918[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - this
+2022-03-05 14:39:00,170[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=been&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/been.ogg
+2022-03-05 14:39:00,866[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - been
+2022-03-05 14:40:01,767[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=is&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/is.ogg
+2022-03-05 14:40:02,352[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - is
+2022-03-05 14:41:02,851[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=they&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/they.ogg
+2022-03-05 14:41:03,730[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - they
+2022-03-05 14:42:04,827[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=day&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/day.ogg
+2022-03-05 14:42:05,322[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - day
+2022-03-05 14:43:05,575[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=can&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/can.ogg
+2022-03-05 14:43:06,061[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - can
+2022-03-05 14:44:06,696[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=long&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/long.ogg
+2022-03-05 14:44:07,175[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - long
+2022-03-05 14:45:07,451[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=is&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/is.ogg
+2022-03-05 14:45:08,156[INFO ][5151839891      ][         com.telegrambot.bot.Bot] - is
+2022-03-05 14:46:08,806[INFO ][5151839891      ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/.ogg
+2022-03-05 14:57:47,972[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread
+2022-03-05 14:57:48,093[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:58:15,913[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=belly&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/belly.ogg
+2022-03-05 14:58:16,098[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 14:58:17,253[INFO ][873327794       ][         com.telegrambot.bot.Bot] - belly
+2022-03-05 14:59:17,875[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=axe&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/axe.ogg
+2022-03-05 14:59:18,392[INFO ][873327794       ][         com.telegrambot.bot.Bot] - axe
+2022-03-05 14:59:22,610[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread
+2022-03-05 14:59:23,112[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 15:34:21,612[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 15:34:34,027[INFO ][elegram Executor][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=accurate&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/accurate.ogg
+2022-03-05 15:34:34,617[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 15:34:36,060[INFO ][elegram Executor][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hug&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hug.ogg
+2022-03-05 15:34:36,823[INFO ][elegram Executor][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=restriction&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/restriction.ogg
+2022-03-05 15:34:37,564[INFO ][elegram Executor][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=acquaintance&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/acquaintance.ogg
+2022-03-05 15:34:38,407[INFO ][elegram Executor][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=receipt&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/receipt.ogg
+2022-03-05 16:09:53,743[INFO ][858208675       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=day&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/day.ogg
+2022-03-05 16:09:54,023[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 16:09:54,703[INFO ][858208675       ][         com.telegrambot.bot.Bot] - day
+2022-03-05 16:10:03,621[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread
+2022-03-05 16:10:04,025[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 16:11:36,049[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 16:11:48,053[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 19:08:09,557[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 19:08:13,559[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 19:08:14,560[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 19:46:12,117[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 19:46:21,119[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 19:46:24,120[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 19:46:27,122[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 19:46:42,126[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 19:53:56,229[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 19:54:03,231[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 19:54:06,232[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 19:54:20,234[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 20:00:06,313[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 20:01:53,341[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[HELP] not Set. Return DefaultHandler
+2022-03-05 20:03:48,371[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 20:37:58,892[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-05 23:30:21,285[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=speed&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/speed.ogg
+2022-03-06 10:26:11,005[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=speed&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/speed.ogg
+2022-03-06 10:26:21,417[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-03-06 10:26:21,421[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-03-06 10:26:22,043[INFO ][main            ][om.telegrambot.database.Database] - Successfully
+2022-03-06 10:26:22,887[INFO ][main            ][         com.telegrambot.bot.Bot] - [STARTED] TelegramAPI. Bot Connected. Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-06 10:26:22,887[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - [STARTED] MsgReciever.  Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-06 10:26:22,887[INFO ][MsgSender       ][elegrambot.service.MessageSender] - [STARTED] MsgSender.  Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-06 10:26:23,523[INFO ][858990353       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=few&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/few.ogg
+2022-03-06 10:26:23,896[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-03-06 10:26:23,897[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[HELP] not Set. Return DefaultHandler
+2022-03-06 10:26:23,972[INFO ][858990353       ][         com.telegrambot.bot.Bot] - few
+2022-03-06 10:26:24,898[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-03-06 10:26:24,898[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-03-06 10:26:24,898[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-03-06 10:26:24,898[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-03-06 10:26:24,898[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-03-06 10:26:24,898[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-03-06 10:26:25,152[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread
+2022-03-06 10:26:25,899[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-03-06 10:26:25,899[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-03-06 10:26:25,899[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-06 10:26:25,899[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-03-06 10:26:25,899[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-06 10:26:30,073[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=engross&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/engross.ogg
+2022-03-06 10:26:30,644[INFO ][873327794       ][         com.telegrambot.bot.Bot] - engross
+2022-03-06 10:26:30,901[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-06 10:26:34,397[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread
+2022-03-06 10:26:34,902[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-06 10:45:13,484[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
+2022-03-06 10:47:34,806[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-03-06 10:47:34,809[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-03-06 10:47:35,381[INFO ][main            ][om.telegrambot.database.Database] - Successfully
+2022-03-06 10:47:36,160[INFO ][main            ][         com.telegrambot.bot.Bot] - [STARTED] TelegramAPI. Bot Connected. Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-06 10:47:36,161[INFO ][MsgSender       ][elegrambot.service.MessageSender] - [STARTED] MsgSender.  Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-06 10:47:36,161[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - [STARTED] MsgReciever.  Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-06 10:47:42,055[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=imagine&tl=en&client=tw-ob" -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/imagine.ogg
+2022-03-06 10:47:42,168[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-06 10:50:06,185[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-03-06 10:50:06,189[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-03-06 10:50:06,780[INFO ][main            ][om.telegrambot.database.Database] - Successfully
+2022-03-06 10:50:08,413[INFO ][main            ][         com.telegrambot.bot.Bot] - [STARTED] TelegramAPI. Bot Connected. Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-06 10:50:08,414[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - [STARTED] MsgReciever.  Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-06 10:50:08,414[INFO ][MsgSender       ][elegrambot.service.MessageSender] - [STARTED] MsgSender.  Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-06 10:50:13,311[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=payment&tl=en&client=tw-ob" -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 "/home/anton/IdeaProjects/LearningEnglishWords/target/payment.ogg"
+2022-03-06 10:50:13,417[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-06 10:51:04,724[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob" -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
+2022-03-06 10:51:19,647[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob" -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
+2022-03-06 10:51:32,343[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob" -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
+2022-03-06 10:52:06,683[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i 'https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob' -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
+2022-03-06 10:52:39,168[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a opus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
+2022-03-06 10:53:21,147[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
+2022-03-06 11:46:34,400[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
+2022-03-06 11:46:57,551[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
+2022-03-06 11:52:57,797[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i 'https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob' -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
