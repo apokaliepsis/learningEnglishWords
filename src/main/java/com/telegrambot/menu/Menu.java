@@ -118,6 +118,19 @@ public class Menu extends Bot {
     public List getGlobalMenu(Update update, long chatId, List dictionary, Menu menu, SendMessage sendMessage) {
         switch (update.getMessage().getText()) {
             case "/start":
+                try {
+                    sendMessage.setText("Добро пожаловать в бот по изучению английских слов!\n\n" +
+                            "Для запуска процесса необходимо:\n"+
+                            "1) выбрать словарь или загрузить свой список - /setwords \n"+
+                            "2) установить временной интервал - /settime \n"+
+                            "3) нажать кнопку \"Старт\" - /run\n\n" +
+                            "Перейти в справку - /help");
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "/run":
             case "▶ Старт":
                 Map dataConfig = getDatabase().getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId), "select time from configuration where chatId=?", false);
 
@@ -390,16 +403,16 @@ public class Menu extends Bot {
                 "- добавление слов в словарь, посредством вставки списка слов, отправки файла со словами;\n"+
                 "- скачивание текущего словаря.\n\n"+
 
-                "*Для связи по любым вопросам: @as_alekseev\n\n"+
                         "Для запуска процесса необходимо:\n\n"+
                         "1) выбрать словарь или загрузить свой список - /setwords \n"+
                         "2) установить временной интервал - /settime \n"+
-                        "3) нажать кнопку \"Старт\" - /start\n\n"+
+                        "3) нажать кнопку \"Старт\" - /run\n\n"+
 /*                        "/start - запуск запоминания слов\n" +
                         "/setwords - загрузка словаря\n" +
                         "/settime - установка времени\n" +
                         "/stop - остановка запоминания слов\n" +*/
-                        "/menu - переход в главное меню";
+                        "/menu - переход в главное меню\n\n"+
+                        "*Для связи по любым вопросам: @as_alekseev";
                 sendMessage.setText(textHelp);
                 sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
                 try {

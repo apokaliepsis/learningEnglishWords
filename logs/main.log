@@ -4461,3 +4461,26 @@ Error sending message: [403] Forbidden: bot was blocked by the user
 2022-03-06 11:46:34,400[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
 2022-03-06 11:46:57,551[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
 2022-03-06 11:52:57,797[INFO ][main            ][     com.telegrambot.audio.Audio] - ffmpeg -i 'https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob' -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/hot.ogg
+2022-03-07 13:53:42,572[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-03-07 13:53:42,575[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-03-07 13:53:43,203[INFO ][main            ][om.telegrambot.database.Database] - Successfully
+2022-03-07 13:53:44,603[INFO ][main            ][         com.telegrambot.bot.Bot] - [STARTED] TelegramAPI. Bot Connected. Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-07 13:53:44,604[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - [STARTED] MsgReciever.  Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-07 13:53:44,604[INFO ][MsgSender       ][elegrambot.service.MessageSender] - [STARTED] MsgSender.  Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-07 13:54:00,620[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
+2022-03-07 13:54:18,624[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-07 13:54:23,626[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-07 13:54:32,395[INFO ][873327794       ][     com.telegrambot.audio.Audio] - ffmpeg -i https://translate.google.com.vn/translate_tts?ie=UTF-8&q=surrender&tl=en&client=tw-ob -ac 1 -map 0:a -codec:a libopus -b:a 128k -vbr off -ar 24000 /home/anton/IdeaProjects/LearningEnglishWords/target/surrender.ogg
+2022-03-07 13:54:32,628[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-07 13:54:33,049[INFO ][873327794       ][         com.telegrambot.bot.Bot] - surrender
+2022-03-07 13:54:38,630[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-07 13:54:39,630[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-07 13:54:40,606[INFO ][elegram Executor][         com.telegrambot.bot.Bot] - Stop thread
+2022-03-07 13:54:40,631[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[NONE] not Set. Return DefaultHandler
+2022-03-07 13:57:16,894[INFO ][main            ][om.telegrambot.database.Database] - Checking connection to base...
+2022-03-07 13:57:16,898[INFO ][main            ][om.telegrambot.database.Database] - URL connection = jdbc:h2:tcp://localhost/~/englishWordsH2
+2022-03-07 13:57:17,555[INFO ][main            ][om.telegrambot.database.Database] - Successfully
+2022-03-07 13:57:18,399[INFO ][main            ][         com.telegrambot.bot.Bot] - [STARTED] TelegramAPI. Bot Connected. Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-07 13:57:18,400[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - [STARTED] MsgReciever.  Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-07 13:57:18,400[INFO ][MsgSender       ][elegrambot.service.MessageSender] - [STARTED] MsgSender.  Bot class: com.telegrambot.bot.Bot@4b6690c0
+2022-03-07 13:57:31,413[INFO ][MsgReciever     ][egrambot.service.MessageReciever] - Handler for command[START] not Set. Return DefaultHandler
