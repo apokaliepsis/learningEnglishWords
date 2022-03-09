@@ -225,8 +225,8 @@ public class Bot extends TelegramLongPollingBot {
                 List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
                 List<InlineKeyboardButton> rowInline = new ArrayList<>();
                 Date d1 = Calendar.getInstance().getTime();
-                Date d2 = Calendar.getInstance().getTime();
-                long minutesForWait = 480;
+                Date d2;
+                long minutesForWait = 360;
                 while (getDatabase().getStateFromDB(chatId) == 1) {
 
                     rowInline.clear();
@@ -297,9 +297,9 @@ public class Bot extends TelegramLongPollingBot {
                                 new File(Audio.class.getProtectionDomain().getCodeSource().getLocation()
                                         .toURI()).getParent() + "/").listFiles((f, p) -> p.endsWith(".ogg")))
                         ).forEach(File::delete);
-
+                        d2 = Calendar.getInstance().getTime();
                         if(((d2.getTime() - d1.getTime()) / (60 * 1000) % 60)>minutesForWait){
-                            message.setText("/stop");
+                            message.setText("◼ Стоп");
                             execute(message);
                             stopThreadChatId(chatId);
                             getDatabase().setStateToDB(0, chatId);
@@ -438,7 +438,13 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public String getBotUsername() {
         //return Settings.environment.getProperty("bot.user.name");
-        return "LearningTopWords_bot";
+        if(App.IS_TEST){
+            return "TestAASBot";
+        }
+        else{
+            return "LearningTopWords_bot";
+        }
+
     }
 
     @Override
@@ -451,7 +457,12 @@ public class Bot extends TelegramLongPollingBot {
         }
         //return Settings.environment.getProperty("bot.user.token");
         if(token==null||token.isEmpty()){
-            token = Settings.environment.getProperty("bot.user.token");
+            if(App.IS_TEST){
+                token = Settings.environment.getProperty("bot.user.token.test");
+            }
+            else{
+                token = Settings.environment.getProperty("bot.user.token");
+            }
         }
         return token;
     }
