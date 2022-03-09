@@ -226,7 +226,7 @@ public class Bot extends TelegramLongPollingBot {
                 List<InlineKeyboardButton> rowInline = new ArrayList<>();
                 Date d1 = Calendar.getInstance().getTime();
                 Date d2;
-                long minutesForWait = 360;
+                long maxTimeWaitMinutes = 240;
                 while (getDatabase().getStateFromDB(chatId) == 1) {
 
                     rowInline.clear();
@@ -288,22 +288,27 @@ public class Bot extends TelegramLongPollingBot {
                             execute(message);
                             break;
                         }
-                        TimeUnit.MINUTES.sleep((int) Database.getJdbi()
-                                .getFirstRowFromResponse(Collections.singletonList(chatId),
-                                        "select time from configuration where chatId=?",
-                                        false).get("TIME"));
-
                         Arrays.stream(Objects.requireNonNull(new File(
                                 new File(Audio.class.getProtectionDomain().getCodeSource().getLocation()
                                         .toURI()).getParent() + "/").listFiles((f, p) -> p.endsWith(".ogg")))
                         ).forEach(File::delete);
                         d2 = Calendar.getInstance().getTime();
-                        if(((d2.getTime() - d1.getTime()) / (60 * 1000) % 60)>minutesForWait){
+                        long currentTimeMinutes = TimeUnit.MILLISECONDS.toMinutes(d2.getTime() - d1.getTime());
+                        logger.info("Work duration: "+currentTimeMinutes+" minutes");
+                        if(currentTimeMinutes>=maxTimeWaitMinutes){
+                            logger.info("Run time exceeded. Stopping...");
                             message.setText("◼ Стоп");
                             execute(message);
-                            stopThreadChatId(chatId);
                             getDatabase().setStateToDB(0, chatId);
+                            stopThreadChatId(chatId);
+                            break;
                         }
+                        TimeUnit.MINUTES.sleep((int) Database.getJdbi()
+                                .getFirstRowFromResponse(Collections.singletonList(chatId),
+                                        "select time from configuration where chatId=?",
+                                        false).get("TIME"));
+
+
                     } catch (InterruptedException | TelegramApiException e) {
                         e.printStackTrace();
                         if(e instanceof InterruptedException){
