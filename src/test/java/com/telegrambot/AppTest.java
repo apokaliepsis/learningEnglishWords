@@ -22,22 +22,6 @@ public class AppTest  {
     public void testApp()
     {
 
-        Date d1 = Calendar.getInstance().getTime();
-        Date d2;
-
-        long minutesForWait = 2;
-        d2 = Calendar.getInstance().getTime();
-        while (((d2.getTime() - d1.getTime()) / (60 * 1000) % 60)<minutesForWait){
-
-            System.out.println("Выполняется...");
-            try {
-                TimeUnit.SECONDS.sleep(2);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            d2 = Calendar.getInstance().getTime();
-            System.out.println(TimeUnit.MILLISECONDS.toMinutes(d2.getTime() - d1.getTime()));
-        }
 
     }
 }
