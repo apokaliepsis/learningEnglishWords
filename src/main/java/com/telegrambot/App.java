@@ -29,7 +29,7 @@ public class App {
     private static final int PRIORITY_FOR_SENDER = 1;
     private static final int PRIORITY_FOR_RECEIVER = 3;
     private static final String BOT_ADMIN = "873327794";
-    public static final boolean IS_TEST = false;
+    public static final boolean IS_TEST = true;
 
     public static ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
     static {

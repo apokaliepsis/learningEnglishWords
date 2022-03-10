@@ -33,6 +33,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
+import static com.telegrambot.database.Database.getJdbi;
+
 
 public class Bot extends TelegramLongPollingBot {
 
@@ -82,7 +84,7 @@ public class Bot extends TelegramLongPollingBot {
             downloadFile(update);
         }
         else if (update.hasMessage()) {
-
+            System.out.println("chatId="+update.getMessage().getFrom().getIsBot());
             logger.debug("Receive new Update. updateID: " + update.getUpdateId());
             receiveQueue.add(update);
             long chatId = update.getMessage().getChatId();
@@ -94,18 +96,18 @@ public class Bot extends TelegramLongPollingBot {
                     .setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup))
                     .disableNotification();*/
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(String.valueOf(chatId));
+            sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
             sendMessage.setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup));
             sendMessage.disableNotification();
 
-            dictionary = getMenu().getGlobalMenu(update, chatId, dictionary, getMenu(), sendMessage);
+            dictionary = getMenu().getGlobalMenu(update, dictionary, getMenu(), sendMessage);
 
             if (update.getMessage().getText().contains("\n") && update.getMessage().getText().contains(" - ")) {
                 System.out.println("Определена загрузка слов");
 
                 System.out.println("Размер словаря до=" + dictionary.size());
                 List<String> rows = getDictionary().setDictionary(TypeDictionary.CompilationWords, update);
-                getDatabase().setWordsToDB(rows, chatId);
+                getDatabase().setWordsToDB(rows, update);
                 dictionary = getDictionary().getDictionaryFromDB(chatId);
 
                 System.out.println("Размер словаря после=" + dictionary.size());
@@ -127,14 +129,14 @@ public class Bot extends TelegramLongPollingBot {
             String data = update.getCallbackQuery().getData();
             long chatId = update.getCallbackQuery().getMessage().getChatId();
             if(data.equals("/sendpackwords")){
-                sendPackWords(chatId);
+                sendPackWords(update);
             }
             else{
                 clearWordClientList.add(ImmutableMap.of(chatId, data));
 
                 String word = update.getCallbackQuery().getData();
 
-                Database.getJdbi().createUpdate(Arrays.asList(word, chatId),
+                getJdbi().createUpdate(Arrays.asList(word, chatId),
                         "delete from words where word like concat('%',?,'%') and chatId=?", false);
                 System.out.println("Добавлено слово для удаления");
                 System.out.println("clearWordClientList="+clearWordClientList);
@@ -149,7 +151,7 @@ public class Bot extends TelegramLongPollingBot {
         System.out.println("Received file");
         String fileName = update.getMessage().getDocument().getFileName();
         if (update.getMessage().getDocument().getFileSize()<1000000){
-            getDatabase().setWordsToDB(getDataFileFromMessage(update),update.getMessage().getChatId());
+            getDatabase().setWordsToDB(getDataFileFromMessage(update),update);
         }
         else{
             SendMessage sendMessage = new SendMessage();
@@ -206,9 +208,11 @@ public class Bot extends TelegramLongPollingBot {
         return dataFile;
     }
 
-    protected void runIterationWords(long chatId, List<String> dictionaryList) {
+    protected void runIterationWords(Update update, List<String> dictionaryList) {
+        long chatId = update.getMessage().getChatId();
         Thread thread = new Thread(String.valueOf(chatId)) {
             public void run() {
+                setUserInfoCompletionDB(update);
                 String word;
 
                 SendAudio audio = new SendAudio();
@@ -299,11 +303,11 @@ public class Bot extends TelegramLongPollingBot {
                             logger.info("Run time exceeded. Stopping...");
                             message.setText("◼ Стоп");
                             execute(message);
-                            getDatabase().setStateToDB(0, chatId);
+                            getDatabase().setStateToDB(0, update);
                             stopThreadChatId(chatId);
                             break;
                         }
-                        TimeUnit.MINUTES.sleep((int) Database.getJdbi()
+                        TimeUnit.MINUTES.sleep((int) getJdbi()
                                 .getFirstRowFromResponse(Collections.singletonList(chatId),
                                         "select time from configuration where chatId=?",
                                         false).get("TIME"));
@@ -321,7 +325,7 @@ public class Bot extends TelegramLongPollingBot {
                         }*/
                         else if(e.getMessage().contains("bot was blocked")||e instanceof TelegramApiRequestException){
                             logger.info("User left the chat");
-                            getDatabase().setStateToDB(0, chatId);
+                            getDatabase().setStateToDB(0, update);
                             stopThreadChatId(chatId);
                             break;
                         }
@@ -348,7 +352,16 @@ public class Bot extends TelegramLongPollingBot {
             }
         }
     }
-    protected void sendPackWords(long chatId){
+    protected void sendPackWords(Update update){
+        logger.info("Send pack of words");
+        setUserInfoCompletionDB(update);
+        long chatId = 0;
+
+        try{
+            chatId = update.getMessage().getChatId();
+        } catch (Exception e) {
+            chatId = update.getCallbackQuery().getMessage().getChatId();
+        }
         List dictionaryList = getDictionary().getDictionaryFromDB(chatId);
         String word;
 
@@ -545,13 +558,32 @@ public class Bot extends TelegramLongPollingBot {
 
         SendDocument sendDocumentRequest = new SendDocument();
         sendDocumentRequest.setChatId(String.valueOf(chatId));
-        //sendDocumentRequest.setDocument(save);
-        //sendDocumentRequest.setCaption(caption);
+
         try {
             execute(sendDocumentRequest);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
-
+    private void setUserInfoCompletionDB(Update update){
+        long chatId;
+        String username;
+        String languageCode;
+        String fio;
+        String dateTime;
+        try{
+            chatId = update.getMessage().getChatId();
+            username = update.getMessage().getFrom().getUserName();
+            languageCode  = update.getMessage().getFrom().getLanguageCode();
+            fio = update.getMessage().getFrom().getFirstName()+" "+update.getMessage().getFrom().getLastName();
+        } catch (Exception e) {
+            chatId = update.getCallbackQuery().getMessage().getChatId();
+            username = update.getCallbackQuery().getFrom().getUserName();
+            languageCode  = update.getCallbackQuery().getFrom().getLanguageCode();
+            fio = update.getCallbackQuery().getFrom().getFirstName()+" "+update.getCallbackQuery().getFrom().getLastName();
+        }
+        dateTime  = Database.getDateTime();
+        getJdbi().createUpdate(Arrays.asList(username, fio, languageCode, dateTime, chatId),
+                "UPDATE configuration SET username = ?, fio = ?, language_code = ?, date = ? WHERE chatId = ?", false);
+    }
 }

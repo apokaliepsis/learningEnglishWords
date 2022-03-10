@@ -3,6 +3,7 @@ package com.telegrambot.dictionary;
 
 import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
+import com.telegrambot.database.Database;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.File;
@@ -15,15 +16,18 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Dictionary extends Bot {
-    public List clearDictionaryToDB(long chatId) {
+    public List clearDictionaryToDB(Update update) {
         List dictionary;
-        getDatabase().setStateToDB(0, chatId);
+        getDatabase().setStateToDB(0, update);
         dictionary = new ArrayList<>();
-        getDatabase().getJdbi().createUpdate(Collections.singletonList(chatId), "delete from words where chatId=?", false);
+        getDatabase().getJdbi().createUpdate(Collections.singletonList(update.getMessage().getChatId()),
+                "delete from words where chatId=?", false);
         return dictionary;
     }
     public List<String> getDictionaryFromDB(long chatId) {
-        List<Map<String, Object>> list = getDatabase().getJdbi().getAllRowsFromResponse(Collections.singletonList(chatId), "select word from words where chatid=?", false);
+        getDatabase();
+        List<Map<String, Object>> list = Database.getJdbi().getAllRowsFromResponse(Collections.singletonList(chatId),
+                "select word from words where chatid=?", false);
         List<String> rows = new ArrayList<>();
         for (Map map : list) {
             rows.add(String.valueOf(map.get("WORD")));
@@ -74,8 +78,8 @@ public class Dictionary extends Bot {
         line = line.substring(0, indexDelimiter).trim();
         return line;
     }
-    public void getFileDictionaryFomDb(long chatId){
-        List dictionary = getDictionaryFromDB(chatId);
+    public void getFileDictionaryFomDb(Update update){
+        List dictionary = getDictionaryFromDB(update.getMessage().getChatId());
         FileWriter writer = null;
         try {
             writer = new FileWriter("output.txt");
@@ -96,13 +100,13 @@ public class Dictionary extends Bot {
         }
 
     }
-    public String downloadCurrentDictionary(long chatId){
-        List<String> list = new Dictionary().getDictionaryFromDB(chatId);
+    public String downloadCurrentDictionary(Update update){
+        List<String> list = new Dictionary().getDictionaryFromDB(update.getMessage().getChatId());
         System.out.println(list);
         String pathSoundWordFile = null;
         try {
             pathSoundWordFile = new File(App.class.getProtectionDomain().getCodeSource().getLocation()
-                    .toURI()).getParent() + "/dictionary"+chatId+".txt";
+                    .toURI()).getParent() + "/dictionary"+update.getMessage().getChatId()+".txt";
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }

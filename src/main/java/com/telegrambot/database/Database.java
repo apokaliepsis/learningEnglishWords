@@ -5,6 +5,7 @@ import com.telegrambot.bot.Bot;
 import org.apache.log4j.Logger;
 import org.assertj.core.api.Assertions;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kamatech.qaaf.database.JDBI;
 
@@ -52,7 +53,12 @@ public class Database extends Bot {
         return (int) getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
                 "select state from configuration where chatId=?", false).get("STATE");
     }
-    public void setWordsToDB(List<String> dictionary, long chatId) {
+//    public int getIdFromDB(long chatId) {
+//        return (int) getJdbi().getAllRowsFromResponse(Collections.singletonList(chatId),
+//                "select state from configuration where chatId=?", false).get("STATE");
+//    }
+    public void setWordsToDB(List<String> dictionary, Update update) {
+        long chatId = update.getMessage().getChatId();
         List<String> data = getDictionary().getDictionaryFromDB(chatId);
         int count = 0;
         for (String s : dictionary) {
@@ -75,16 +81,18 @@ public class Database extends Bot {
         }
 
     }
-    private static String getDateTime() {
+    public static String getDateTime() {
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
         return dateFormat.format(date);
     }
-    public void setStateToDB(int state, long chatId) {
+    public void setStateToDB(int state, Update update) {
+        long chatId = update.getMessage().getChatId();
+        String username = update.getMessage().getFrom().getUserName();
         if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
                 "select* from configuration where chatId =?", false).size() == 0) {
-            getJdbi().createUpdate(Arrays.asList(state, chatId),
-                    "insert into configuration (state, chatId) values (?,?)", false);
+            getJdbi().createUpdate(Arrays.asList(username, state, chatId),
+                    "insert into configuration (username, state, chatId) values (?,?,?)", false);
         } else {
             System.out.println("Запись найдена. Меняем state");
             getJdbi().createUpdate(Arrays.asList(state, getDateTime(), chatId),
@@ -92,11 +100,13 @@ public class Database extends Bot {
         }
     }
 
-    public void setTimeSettingToDB(int minutes, long chatId) {
+    public void setTimeSettingToDB(int minutes, Update update) {
+        long chatId = update.getMessage().getChatId();
+        String username = update.getMessage().getFrom().getUserName();
         if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
                 "select* from configuration where chatId =?", false).size() == 0) {
-            getJdbi().createUpdate(Arrays.asList(chatId, 0, minutes),
-                    "insert into configuration (chatId, state, time) values (?,?,?)", false);
+            getJdbi().createUpdate(Arrays.asList(username, chatId, 0, minutes),
+                    "insert into configuration (username, chatId, state, time) values (?,?,?,?)", false);
         } else {
             System.out.println("Запись найдена. Меняем time");
             getJdbi().createUpdate(Arrays.asList(minutes, chatId),

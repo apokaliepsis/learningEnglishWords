@@ -100,8 +100,9 @@ public class Menu extends Bot {
         keyboardRow1.add("2 минуты");
         keyboardRow1.add("5 минут");
         keyboardRow1.add("10 минут");
-        keyboardRow2.add("15 минут");
+        keyboardRow1.add("15 минут");
         keyboardRow2.add("20 минут");
+        keyboardRow2.add("30 минут");
         keyboardRow2.add("1 минута");
         keyboardRow3.add("⚙️ Настройка");
 
@@ -115,7 +116,8 @@ public class Menu extends Bot {
         replyKeyboardMarkup.setKeyboard(keyboardRows);
         return replyKeyboardMarkup;
     }
-    public List getGlobalMenu(Update update, long chatId, List dictionary, Menu menu, SendMessage sendMessage) {
+    public List getGlobalMenu(Update update, List dictionary, Menu menu, SendMessage sendMessage) {
+        long chatId = update.getMessage().getChatId();
         switch (update.getMessage().getText()) {
             case "/start":
                 try {
@@ -132,7 +134,8 @@ public class Menu extends Bot {
                 break;
             case "/run":
             case "▶ Старт":
-                Map dataConfig = getDatabase().getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId), "select time from configuration where chatId=?", false);
+                Map dataConfig = getDatabase().getJdbi().getFirstRowFromResponse(Collections.singletonList(update.getMessage().getChatId()),
+                        "select time from configuration where chatId=?", false);
 
                 if (dataConfig.size() == 0 || dataConfig.get("TIME") == null) {
                     try {
@@ -142,7 +145,7 @@ public class Menu extends Bot {
                         e.printStackTrace();
                     }
                 }
-                else if (threadClient.contains(chatId)) {
+                else if (threadClient.contains(update.getMessage().getChatId())) {
                     try {
                         sendMessage.setText("Процесс запоминания слов уже запущен!");
                         execute(sendMessage);
@@ -158,8 +161,8 @@ public class Menu extends Bot {
                         e.printStackTrace();
                     }
                 } else {
-                    getDatabase().setStateToDB(1, chatId);
-                    runIterationWords(chatId, dictionary);
+                    getDatabase().setStateToDB(1, update);
+                    runIterationWords(update, dictionary);
                 }
                 break;
             case "/stop":
@@ -174,7 +177,7 @@ public class Menu extends Bot {
                         e.printStackTrace();
                     }
                 } else {
-                    getDatabase().setStateToDB(0, chatId);
+                    getDatabase().setStateToDB(0, update);
                 }
                 break;
             case "⚙️ Настройка":
@@ -215,7 +218,7 @@ public class Menu extends Bot {
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }*/
-                sendPackWords(chatId);
+                sendPackWords(update);
 
                 break;
             case "/downloaddictionary":
@@ -223,7 +226,7 @@ public class Menu extends Bot {
                 if(getDictionary().getDictionaryFromDB(chatId).size()>0){
                     SendDocument sendDocument = new SendDocument();
                     sendDocument.setChatId(String.valueOf(chatId));
-                    File file = new File(getDictionary().downloadCurrentDictionary(chatId));
+                    File file = new File(getDictionary().downloadCurrentDictionary(update));
 
                     sendDocument.setDocument(new InputFile(file));
                     try {
@@ -266,16 +269,16 @@ public class Menu extends Bot {
                 break;
             case "Топ 100 слов":
                 System.out.println("Выбрано топ 500 слов");
-                dictionary = selectDictionary(chatId, dictionary, menu, sendMessage, TypeDictionary.Top100Words);
+                dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top100Words);
                 break;
             case "Топ 500 слов":
                 System.out.println("Выбрано топ 500 слов");
-                dictionary = selectDictionary(chatId, dictionary, menu, sendMessage, TypeDictionary.Top500Words);
+                dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top500Words);
                 break;
             case "Топ 1000 слов":
                 System.out.println("Выбрано топ 1000 слов");
                 //dictionary = setDictionary(TypeDictionary.Top1000Words,null);
-                dictionary = selectDictionary(chatId, dictionary, menu, sendMessage, TypeDictionary.Top1000Words);
+                dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top1000Words);
                 break;
             case "\uD83D\uDCD2 Загрузить свой список слов":
                 //dictionary = new ArrayList<>();
@@ -300,7 +303,7 @@ public class Menu extends Bot {
                     e.printStackTrace();
                 }
             }*/
-                dictionary = getDictionary().clearDictionaryToDB(chatId);
+                dictionary = getDictionary().clearDictionaryToDB(update);
 
                 sendMessage.setText("Словарь очищен");
                 sendMessage.setReplyMarkup(menu.getDictionaryMenu(App.replyKeyboardMarkup));
@@ -322,7 +325,7 @@ public class Menu extends Bot {
                 }
                 break;
             case "2 минуты":
-                getDatabase().setTimeSettingToDB(2, chatId);
+                getDatabase().setTimeSettingToDB(2, update);
                 sendMessage.setText("Время установлено");
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
@@ -332,7 +335,7 @@ public class Menu extends Bot {
                 }
                 break;
             case "5 минут":
-                getDatabase().setTimeSettingToDB(5, chatId);
+                getDatabase().setTimeSettingToDB(5, update);
                 sendMessage.setText("Время установлено");
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
@@ -342,7 +345,7 @@ public class Menu extends Bot {
                 }
                 break;
             case "10 минут":
-                getDatabase().setTimeSettingToDB(10, chatId);
+                getDatabase().setTimeSettingToDB(10, update);
                 sendMessage.setText("Время установлено");
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
@@ -352,7 +355,7 @@ public class Menu extends Bot {
                 }
                 break;
             case "15 минут":
-                getDatabase().setTimeSettingToDB(15, chatId);
+                getDatabase().setTimeSettingToDB(15, update);
                 sendMessage.setText("Время установлено");
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
@@ -362,7 +365,17 @@ public class Menu extends Bot {
                 }
                 break;
             case "20 минут":
-                getDatabase().setTimeSettingToDB(20, chatId);
+                getDatabase().setTimeSettingToDB(20, update);
+                sendMessage.setText("Время установлено");
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                try {
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "30 минут":
+                getDatabase().setTimeSettingToDB(30, update);
                 sendMessage.setText("Время установлено");
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
@@ -372,7 +385,7 @@ public class Menu extends Bot {
                 }
                 break;
             case "1 минута":
-                getDatabase().setTimeSettingToDB(1, chatId);
+                getDatabase().setTimeSettingToDB(1, update);
                 sendMessage.setText("Время установлено");
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
@@ -391,17 +404,17 @@ public class Menu extends Bot {
                 }
                 break;
             case "/help":
-                String textHelp = "Справка\n\n" +
+                String textHelp = "\uD83D\uDCDD Справка\n\n" +
                         "Данный бот помогает выучить самые популярные английские слова, путём появления сообщений с текстом слова и перевода, и прикрепления звукового файла с произношением. Для каждого пользователя ведётся индивидуальный словарь.\n\n"+
 
-                    "Возможности:\n"+
-                "- автоматическое появление слов;\n"+
-                "- ручной перебор слов;\n"+
-                "- установка временного интервала появления слов;\n"+
-                "- прикрепление звукового файла с произношением;\n"+
-                "- возможность удаления слова из словаря;\n"+
-                "- добавление слов в словарь, посредством вставки списка слов, отправки файла со словами;\n"+
-                "- скачивание текущего словаря.\n\n"+
+                    "Возможности \uD83D\uDCAA:\n"+
+                "- \uD83E\uDD16 автоматическое появление слов;\n"+
+                "- \uD83D\uDC49 ручной перебор слов;\n"+
+                "- \uD83D\uDD57 установка временного интервала появления слов;\n"+
+                "- \uD83D\uDD6A прикрепление звукового файла с произношением;\n"+
+                "- \uD83D\uDDD1 возможность удаления слова из словаря;\n"+
+                "- \uD83D\uDCDD добавление слов в словарь, посредством вставки списка слов, отправки файла со словами;\n"+
+                "- \uD83D\uDCBE скачивание текущего словаря.\n\n"+
 
                         "Для запуска процесса необходимо:\n\n"+
                         "1) выбрать словарь или загрузить свой список - /setwords \n"+
@@ -426,12 +439,12 @@ public class Menu extends Bot {
         return dictionary;
     }
 
-    private List selectDictionary(long chatId, List dictionary, Menu menu, SendMessage sendMessage, TypeDictionary typeDictionary) {
+    private List selectDictionary(Update update, List dictionary, Menu menu, SendMessage sendMessage, TypeDictionary typeDictionary) {
         //dictionary = setDictionary(TypeDictionary.Top500Words,null);
         dictionary.clear();
-        getDictionary().clearDictionaryToDB(chatId);
-        getDatabase().setWordsToDB(getDictionary().setDictionary(typeDictionary, null), chatId);
-        dictionary = getDictionary().getDictionaryFromDB(chatId);
+        getDictionary().clearDictionaryToDB(update);
+        getDatabase().setWordsToDB(getDictionary().setDictionary(typeDictionary, update), update);
+        dictionary = getDictionary().getDictionaryFromDB(update.getMessage().getChatId());
         //data.put("Dictionary",result);
         sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
         sendMessage.setText("Словарь загружен");
