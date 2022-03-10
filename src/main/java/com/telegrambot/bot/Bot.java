@@ -583,6 +583,9 @@ public class Bot extends TelegramLongPollingBot {
             fio = update.getCallbackQuery().getFrom().getFirstName()+" "+update.getCallbackQuery().getFrom().getLastName();
         }
         dateTime  = Database.getDateTime();
+        if(fio.contains("null")){
+            fio = fio.replaceAll("null","").trim();
+        }
         getJdbi().createUpdate(Arrays.asList(username, fio, languageCode, dateTime, chatId),
                 "UPDATE configuration SET username = ?, fio = ?, language_code = ?, date = ? WHERE chatId = ?", false);
     }
