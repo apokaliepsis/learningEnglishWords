@@ -178,6 +178,12 @@ public class Menu extends Bot {
                     }
                 } else {
                     getDatabase().setStateToDB(0, update);
+                    try {
+                        sendMessage.setText("Остановлено");
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case "⚙️ Настройка":
