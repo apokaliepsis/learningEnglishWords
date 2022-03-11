@@ -49,9 +49,6 @@ public class Bot extends TelegramLongPollingBot {
     private Audio audio;
     private static Queue<Map<Long, List>> tempWords = new ConcurrentLinkedQueue<>();
 
-
-
-
     protected Database getDatabase() {
 
         if (database == null) {
@@ -91,10 +88,6 @@ public class Bot extends TelegramLongPollingBot {
 
             List dictionary = getDictionary().getDictionaryFromDB(chatId);
 
-            /*SendMessage sendMessage = new SendMessage()
-                    .setChatId(String.valueOf(chatId))
-                    .setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup))
-                    .disableNotification();*/
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
             sendMessage.setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup));
@@ -143,7 +136,6 @@ public class Bot extends TelegramLongPollingBot {
             }
 
         }
-
 
     }
 
@@ -339,8 +331,6 @@ public class Bot extends TelegramLongPollingBot {
         thread.start();
     }
 
-
-
     protected void stopThreadChatId(long chatId) {
         logger.info("Stop thread");
         threadClient.remove(chatId);
@@ -452,7 +442,6 @@ public class Bot extends TelegramLongPollingBot {
 
     }
 
-
     @Override
     public String getBotUsername() {
         //return Settings.environment.getProperty("bot.user.name");
@@ -473,7 +462,6 @@ public class Bot extends TelegramLongPollingBot {
         if(command.contains(parameter)){
             token = command.substring(command.indexOf(parameter) + parameter.length()).trim().split(" ")[0];
         }
-        //return Settings.environment.getProperty("bot.user.token");
         if(token==null||token.isEmpty()){
             if(App.IS_TEST){
                 token = Settings.environment.getProperty("bot.user.token.test");
