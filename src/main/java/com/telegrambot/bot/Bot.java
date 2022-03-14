@@ -38,8 +38,9 @@ import static com.telegrambot.database.Database.getJdbi;
 
 public class Bot extends TelegramLongPollingBot {
 
+    private static final String BOT_ADMIN = "873327794";
     private static final Logger logger = Logger.getLogger(Bot.class);
-    public final Queue<Object> sendQueue = new ConcurrentLinkedQueue<>();
+    //public final Queue<Object> sendQueue = new ConcurrentLinkedQueue<>();
     public final Queue<Object> receiveQueue = new ConcurrentLinkedQueue<>();
     protected final Queue<Object> threadClient = new ConcurrentLinkedQueue<>();
     private static Queue<Map<Long, String>> clearWordClientList = new ConcurrentLinkedQueue<>();
@@ -138,7 +139,17 @@ public class Bot extends TelegramLongPollingBot {
         }
 
     }
+    public void sendStartReport() {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(BOT_ADMIN);
+        sendMessage.setText("Запустился");
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
 
+    }
     private void downloadFile(Update update) {
         System.out.println("Received file");
         String fileName = update.getMessage().getDocument().getFileName();

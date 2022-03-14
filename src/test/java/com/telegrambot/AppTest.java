@@ -7,9 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.sql.Time;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.telegrambot.database.Database.getJdbi;
@@ -24,6 +22,8 @@ public class AppTest  {
     @Test
     public void testApp()
     {
+        Database.checkConnection();
+        new Database().sendMessageUserLongTimeNoVisit();
 
 
     }

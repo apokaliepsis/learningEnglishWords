@@ -21,10 +21,7 @@ public class Settings {
             }
 
         }
-/*    public HashMap<String,String> getEnvironmentProps(){
-        String environment = "environment.properties";
-        return getPropertiesFile(environment);
-    }*/
+
 
         private static void initFromFile(Properties props, String filepath) {
             try{

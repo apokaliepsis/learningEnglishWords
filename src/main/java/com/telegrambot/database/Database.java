@@ -12,6 +12,7 @@ import ru.kamatech.qaaf.database.JDBI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Database extends Bot {
     private static final Logger logger = Logger.getLogger(Database.class);
@@ -124,6 +125,50 @@ public class Database extends Bot {
         getJdbi().createUpdate(Collections.singletonList(0), "UPDATE configuration SET state = ?",
                 false);
     }
+    private String getNewsLetterDate(){
+        return String.valueOf(getJdbi().getFirstRowFromResponse(Collections.emptyList(),
+                "select DATE_NEWSLETTER from SETTINGS",false).get("DATE_NEWSLETTER"));
+    }
+    public void sendMessageUserLongTimeNoVisit(){
+        List<Map<String, Object>> chatIdList;
+        String dateNewsLetter = getNewsLetterDate();
+        while (true){
+            if(dateNewsLetter.isEmpty()|| dateNewsLetter.equals("null")){
+                chatIdList = getJdbi().getAllRowsFromResponse(Collections.emptyList(),
+                        "SELECT CHATID FROM CONFIGURATION WHERE DATE<=now() - 3",false);
+            }
+            else{
+                chatIdList = getJdbi().getAllRowsFromResponse(Collections.emptyList(),
+                        "SELECT CHATID FROM CONFIGURATION WHERE DATE<=now() - 3 and date <= (select DATE_NEWSLETTER  from SETTINGS)-3",
+                        false);
+            }
+
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setText("Пора приступить к изучению слов! Не забывайте, что ежедневные занятия - ключ к успеху.");
+            for(Map map:chatIdList){
+                sendMessage.setChatId(String.valueOf(map.get("CHATID")));
+                try {
+                    execute(sendMessage);
+                    logger.info("Sent reminder");
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if(getJdbi().getFirstRowFromResponse(Collections.emptyList(),"select* from settings",false).size()==0){
+                getJdbi().createUpdate(Collections.emptyList(),"insert into settings (DATE_NEWSLETTER) values (now())",false);
+
+            }
+            else {
+                getJdbi().createUpdate(Collections.emptyList(),"update settings set DATE_NEWSLETTER = now()",false);
+            }
+            try {
+                TimeUnit.MINUTES.sleep(60);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        }
 
 
 }
