@@ -163,7 +163,7 @@ public class Database extends Bot {
                 getJdbi().createUpdate(Collections.emptyList(),"update settings set DATE_NEWSLETTER = now()",false);
             }
             try {
-                TimeUnit.MINUTES.sleep(60);
+                TimeUnit.HOURS.sleep(24);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
