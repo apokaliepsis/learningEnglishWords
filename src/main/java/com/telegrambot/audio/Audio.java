@@ -25,7 +25,7 @@ public class Audio {
             pathSoundWordFile = new File(Audio.class.getProtectionDomain().getCodeSource().getLocation()
                     .toURI()).getParent() + "/" + word.replaceAll(" ", "_") + ".ogg";
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         try {
             //ffmpeg -i "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=hot&tl=en&client=tw-ob" -ac 1 -map 0:a -codec:a libopus  -b:a 128k -vbr off -ar 24000 "hot.ogg"
@@ -40,7 +40,7 @@ public class Audio {
             System.out.println("exit: " + p.exitValue());
             p.destroy();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         File f = new File(pathSoundWordFile);
         if (f.exists() && !f.isDirectory()) {

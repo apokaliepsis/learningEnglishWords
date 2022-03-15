@@ -28,10 +28,9 @@ public class App {
         Database.setDefaultClientStatus();
         englishWordsBot.botConnect();
         englishWordsBot.sendStartReport();
-        new Thread(() -> {
-           Database database = new Database();
-               database.sendMessageUserLongTimeNoVisit();
-        }).start();
+//        new Thread(() -> { Database database = new Database();
+//        database.sendMessageUserLongTimeNoVisit();
+//        }).start();
 
     }
 

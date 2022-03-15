@@ -40,8 +40,6 @@ public class Bot extends TelegramLongPollingBot {
 
     private static final String BOT_ADMIN = "873327794";
     private static final Logger logger = Logger.getLogger(Bot.class);
-    //public final Queue<Object> sendQueue = new ConcurrentLinkedQueue<>();
-    public final Queue<Object> receiveQueue = new ConcurrentLinkedQueue<>();
     protected final Queue<Object> threadClient = new ConcurrentLinkedQueue<>();
     private static Queue<Map<Long, String>> clearWordClientList = new ConcurrentLinkedQueue<>();
     private Database database;
@@ -78,13 +76,12 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
         if(update.hasMessage() && update.getMessage().hasDocument()){
             downloadFile(update);
         }
         else if (update.hasMessage()) {
-            System.out.println("chatId="+update.getMessage().getFrom().getIsBot());
             logger.debug("Receive new Update. updateID: " + update.getUpdateId());
-            receiveQueue.add(update);
             long chatId = update.getMessage().getChatId();
 
             List dictionary = getDictionary().getDictionaryFromDB(chatId);
@@ -98,7 +95,7 @@ public class Bot extends TelegramLongPollingBot {
 
             if (update.getMessage().getText().contains("\n") && update.getMessage().getText().contains(" - ")) {
                 System.out.println("Определена загрузка слов");
-
+                logger.info("Start downloading words");
                 System.out.println("Размер словаря до=" + dictionary.size());
                 List<String> rows = getDictionary().setDictionary(TypeDictionary.CompilationWords, update);
                 getDatabase().setWordsToDB(rows, update);
@@ -113,13 +110,14 @@ public class Bot extends TelegramLongPollingBot {
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
-                    e.printStackTrace();
+                    logger.error(e.getMessage());
                 }
+                logger.info("Words loaded");
             }
 
         }
         else if (update.hasCallbackQuery()) {
-            System.out.println("Нажата кнопка");
+            logger.info("Button is pressed");
             String data = update.getCallbackQuery().getData();
             long chatId = update.getCallbackQuery().getMessage().getChatId();
             if(data.equals("/sendpackwords")){
@@ -132,8 +130,8 @@ public class Bot extends TelegramLongPollingBot {
 
                 getJdbi().createUpdate(Arrays.asList(word, chatId),
                         "delete from words where word like concat('%',?,'%') and chatId=?", false);
-                System.out.println("Добавлено слово для удаления");
-                System.out.println("clearWordClientList="+clearWordClientList);
+                logger.info("Added word to delete");
+                logger.info("clearWordClientList="+clearWordClientList);
             }
 
         }
@@ -146,17 +144,18 @@ public class Bot extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
     }
     private void downloadFile(Update update) {
-        System.out.println("Received file");
+        logger.info("Received file");
         String fileName = update.getMessage().getDocument().getFileName();
         if (update.getMessage().getDocument().getFileSize()<1000000){
             getDatabase().setWordsToDB(getDataFileFromMessage(update),update);
         }
         else{
+            logger.info("File size exceeded");
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
             sendMessage.setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup));
@@ -165,7 +164,7 @@ public class Bot extends TelegramLongPollingBot {
             try {
                 execute(sendMessage);
             } catch (TelegramApiException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
         try {
@@ -176,12 +175,12 @@ public class Bot extends TelegramLongPollingBot {
                     p.contains(fileName)))
             ).forEach(File::delete);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
     private List<String> getDataFileFromMessage(Update update) {
-        System.out.println("Download words");
+        logger.info("Download words");
         List<String> dataFile = new ArrayList<>();
 
         String doc_id = update.getMessage().getDocument().getFileId();
@@ -205,7 +204,7 @@ public class Bot extends TelegramLongPollingBot {
             dataFile = java.nio.file.Files.readAllLines(docFile.toPath());
         }
         catch (TelegramApiException | IOException | URISyntaxException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
         return dataFile;
@@ -215,6 +214,7 @@ public class Bot extends TelegramLongPollingBot {
         long chatId = update.getMessage().getChatId();
         Thread thread = new Thread(String.valueOf(chatId)) {
             public void run() {
+                logger.info("Started a new user thread");
                 setUserInfoCompletionDB(update);
                 String word;
 
@@ -317,7 +317,7 @@ public class Bot extends TelegramLongPollingBot {
 
 
                     } catch (InterruptedException | TelegramApiException e) {
-                        e.printStackTrace();
+                        logger.error(e.getMessage());
                         if(e instanceof InterruptedException){
                             break;
                         }
@@ -333,7 +333,7 @@ public class Bot extends TelegramLongPollingBot {
                             break;
                         }
                     } catch (URISyntaxException e) {
-                        e.printStackTrace();
+                        logger.error(e.getMessage());
                     }
 
                 }
@@ -361,6 +361,7 @@ public class Bot extends TelegramLongPollingBot {
         try{
             chatId = update.getMessage().getChatId();
         } catch (Exception e) {
+            logger.error(e.getMessage());
             chatId = update.getCallbackQuery().getMessage().getChatId();
         }
         List dictionaryList = getDictionary().getDictionaryFromDB(chatId);
@@ -435,8 +436,7 @@ public class Bot extends TelegramLongPollingBot {
                 execute(audio);
 
             } catch (TelegramApiException e) {
-                e.printStackTrace();
-
+                logger.error(e.getMessage());
             }
             count--;
         }
@@ -447,7 +447,8 @@ public class Bot extends TelegramLongPollingBot {
                             .toURI()).getParent() + "/").listFiles((f, p) -> p.endsWith(".ogg")))
             ).forEach(File::delete);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+
         }
 
 
@@ -505,54 +506,10 @@ public class Bot extends TelegramLongPollingBot {
             }
             botConnect();
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
-    /**
-     * Метод получает абсолютный путь файла, который находится в каталоге resources
-     *
-     * @param path относительный путь
-     * @return абсолютный путь файла
-     */
-    protected String getPathFromResources(String path) {
-
-        File file = null;
-        String resource = "/" + path;
-        URL res = getClass().getResource(resource);
-        if (res.getProtocol().equals("jar")) {
-
-            try {
-                InputStream input = getClass().getResourceAsStream(resource);
-                String fileName = FilenameUtils.getName(path);
-                //String extensionFile=FilenameUtils.getExtension(path);
-
-                //file = File.createTempFile(fileName,"."+extensionFile);
-                file = new File(Files.createTempDir(), fileName);
-
-                OutputStream out = new FileOutputStream(file);
-                int read;
-                byte[] bytes = new byte[1024];
-
-                while ((read = input.read(bytes)) != -1) {
-                    out.write(bytes, 0, read);
-                }
-                out.close();
-                file.deleteOnExit();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-
-        } else {
-            file = new File(res.getFile());
-        }
-
-        if (!file.exists()) {
-            throw new RuntimeException("Error: File " + file + " not found!");
-        }
-        return String.valueOf(file.toPath());
-
-    }
     private void sendDocUploadingAFile(Long chatId, java.io.File save) {
 
         SendDocument sendDocumentRequest = new SendDocument();
@@ -576,6 +533,7 @@ public class Bot extends TelegramLongPollingBot {
             languageCode  = update.getMessage().getFrom().getLanguageCode();
             fio = update.getMessage().getFrom().getFirstName()+" "+update.getMessage().getFrom().getLastName();
         } catch (Exception e) {
+            logger.error(e.getMessage());
             chatId = update.getCallbackQuery().getMessage().getChatId();
             username = update.getCallbackQuery().getFrom().getUserName();
             languageCode  = update.getCallbackQuery().getFrom().getLanguageCode();

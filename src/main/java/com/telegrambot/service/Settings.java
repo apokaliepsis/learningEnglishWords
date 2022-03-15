@@ -1,6 +1,9 @@
 package com.telegrambot.service;
 
+import org.apache.log4j.Logger;
+
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Properties;
 
 public class Settings {

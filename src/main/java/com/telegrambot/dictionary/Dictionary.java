@@ -4,6 +4,7 @@ package com.telegrambot.dictionary;
 import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
 import com.telegrambot.database.Database;
+import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.File;
@@ -15,8 +16,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ru.kamatech.qaaf.properties.Properties.getPathFromResources;
+
 public class Dictionary extends Bot {
+    private static final Logger logger = Logger.getLogger(Dictionary.class);
     public List clearDictionaryToDB(Update update) {
+
+        logger.info("Clearing the dictionary");
         List dictionary;
         getDatabase().setStateToDB(0, update);
         dictionary = new ArrayList<>();
@@ -25,6 +31,7 @@ public class Dictionary extends Bot {
         return dictionary;
     }
     public List<String> getDictionaryFromDB(long chatId) {
+        logger.info("Getting a list of words from the DB");
         getDatabase();
         List<Map<String, Object>> list = Database.getJdbi().getAllRowsFromResponse(Collections.singletonList(chatId),
                 "select word from words where chatid=?", false);
@@ -36,6 +43,7 @@ public class Dictionary extends Bot {
         return rows;
     }
     public List<String> setDictionary(TypeDictionary typeDictionary, Update update) {
+        logger.info("Loading words from the base dictionary");
         List<String> result = null;
         String dictonaryDefault;
 
@@ -61,7 +69,7 @@ public class Dictionary extends Bot {
         try (Stream<String> lines = java.nio.file.Files.lines(Paths.get(dictonaryDefault))) {
             result = lines.collect(Collectors.toList());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return result;
     }
@@ -84,19 +92,19 @@ public class Dictionary extends Bot {
         try {
             writer = new FileWriter("output.txt");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         for(Object str: dictionary) {
             try {
                 writer.write(str + System.lineSeparator());
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
         try {
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
     }
@@ -108,25 +116,25 @@ public class Dictionary extends Bot {
             pathSoundWordFile = new File(App.class.getProtectionDomain().getCodeSource().getLocation()
                     .toURI()).getParent() + "/dictionary"+update.getMessage().getChatId()+".txt";
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         FileWriter writer = null;
         try {
             writer = new FileWriter(pathSoundWordFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         for(String str: list) {
             try {
                 writer.write(str + System.lineSeparator());
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
         try {
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return pathSoundWordFile;
     }

@@ -2,6 +2,7 @@ package com.telegrambot.database;
 
 import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
+import com.telegrambot.service.Settings;
 import org.apache.log4j.Logger;
 import org.assertj.core.api.Assertions;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -9,15 +10,16 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kamatech.qaaf.database.JDBI;
 
+import java.io.PrintStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Database extends Bot {
-    private static final Logger logger = Logger.getLogger(Database.class);
     private static JDBI jdbi;
     private static final String HOST = "jdbc:h2:tcp://localhost/~/englishWordsH2";
+    private static final Logger logger = Logger.getLogger(Settings.class);
 
 
     public static JDBI getJdbi() {
@@ -51,6 +53,7 @@ public class Database extends Bot {
 
 
     public int getStateFromDB(long chatId) {
+        logger.info("Get state user from DB");
         return (int) getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
                 "select state from configuration where chatId=?", false).get("STATE");
     }
@@ -59,6 +62,7 @@ public class Database extends Bot {
 //                "select state from configuration where chatId=?", false).get("STATE");
 //    }
     public void setWordsToDB(List<String> dictionary, Update update) {
+        logger.info("Loading words into DB");
         long chatId = update.getMessage().getChatId();
         List<String> data = getDictionary().getDictionaryFromDB(chatId);
         int count = 0;
@@ -78,7 +82,7 @@ public class Database extends Bot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
     }
@@ -88,6 +92,7 @@ public class Database extends Bot {
         return dateFormat.format(date);
     }
     public void setStateToDB(int state, Update update) {
+        logger.info("Setting user state in DB");
         long chatId = update.getMessage().getChatId();
         String username = update.getMessage().getFrom().getUserName();
         if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
@@ -102,6 +107,7 @@ public class Database extends Bot {
     }
 
     public void setTimeSettingToDB(int minutes, Update update) {
+        logger.info("Setting interval time in DB");
         long chatId = update.getMessage().getChatId();
         String username = update.getMessage().getFrom().getUserName();
         if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
@@ -122,14 +128,17 @@ public class Database extends Bot {
         logger.info("Successfully");
     }
     public static void setDefaultClientStatus(){
+        logger.info("Setting status 0 for all users");
         getJdbi().createUpdate(Collections.singletonList(0), "UPDATE configuration SET state = ?",
                 false);
     }
     private String getNewsLetterDate(){
+        logger.info("Getting the time of the last mailing");
         return String.valueOf(getJdbi().getFirstRowFromResponse(Collections.emptyList(),
                 "select DATE_NEWSLETTER from SETTINGS",false).get("DATE_NEWSLETTER"));
     }
     public void sendMessageUserLongTimeNoVisit(){
+        logger.info("Send notification to users");
         List<Map<String, Object>> chatIdList;
         String dateNewsLetter = getNewsLetterDate();
         while (true){
@@ -151,7 +160,7 @@ public class Database extends Bot {
                     execute(sendMessage);
                     logger.info("Sent reminder");
                 } catch (TelegramApiException e) {
-                    e.printStackTrace();
+                    logger.error(e.getMessage());
                 }
             }
 
@@ -165,7 +174,7 @@ public class Database extends Bot {
             try {
                 TimeUnit.HOURS.sleep(24);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
         }
