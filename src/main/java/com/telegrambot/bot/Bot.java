@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Files;
 import com.telegrambot.service.Settings;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -31,6 +32,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static com.telegrambot.database.Database.getJdbi;
@@ -76,7 +78,9 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-
+        for (Thread t : Thread.getAllStackTraces().keySet()) {
+            System.out.println(t.getName());
+        }
         if(update.hasMessage() && update.getMessage().hasDocument()){
             downloadFile(update);
         }
@@ -340,6 +344,7 @@ public class Bot extends TelegramLongPollingBot {
             }
         };
         thread.start();
+
     }
 
     protected void stopThreadChatId(long chatId) {
@@ -355,102 +360,109 @@ public class Bot extends TelegramLongPollingBot {
     }
     protected void sendPackWords(Update update){
         logger.info("Send pack of words");
-        setUserInfoCompletionDB(update);
-        long chatId = 0;
-
+        long chatId;
         try{
             chatId = update.getMessage().getChatId();
         } catch (Exception e) {
             logger.error(e.getMessage());
             chatId = update.getCallbackQuery().getMessage().getChatId();
         }
-        List dictionaryList = getDictionary().getDictionaryFromDB(chatId);
-        String word;
+        long finalChatId = chatId;
+        Thread thread = new Thread("sendPackWordsThread"+ chatId){
+            public void run(){
+                setUserInfoCompletionDB(update);
 
-        SendAudio audio = new SendAudio();
-        audio.setChatId(String.valueOf(chatId));
-        audio.disableNotification();
-        SendMessage message = new SendMessage();
-        message.setChatId(String.valueOf(chatId));
-        if(dictionaryList.size()==0){
-            message.setText("Словарь пуст! Загрузите слова");
-            try {
-                execute(message);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-            return;
-        }
-        Random rand;
-        String line;
+                List dictionaryList = getDictionary().getDictionaryFromDB(finalChatId);
+                String word;
 
-        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-        List<InlineKeyboardButton> rowInline = new ArrayList<>();
-        List<InlineKeyboardButton> rowInline2 = new ArrayList<>();
+                SendAudio audio = new SendAudio();
+                audio.setChatId(String.valueOf(finalChatId));
+                audio.disableNotification();
+                SendMessage message = new SendMessage();
+                message.setChatId(String.valueOf(finalChatId));
+                if(dictionaryList.size()==0){
+                    message.setText("Словарь пуст! Загрузите слова");
+                    try {
+                        execute(message);
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
+                    return;
+                }
+                Random rand;
+                String line;
+
+                InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+                List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+                List<InlineKeyboardButton> rowInline = new ArrayList<>();
+                List<InlineKeyboardButton> rowInline2 = new ArrayList<>();
 
 
-        int count = 5;
-        if(dictionaryList.size()<count){
-            count = dictionaryList.size();
-        }
+                int count = 5;
+                if(dictionaryList.size()<count){
+                    count = dictionaryList.size();
+                }
 
-        while(count>0){
-            rowInline.clear();
-            rowsInline.clear();
-            try {
-                System.out.println("Next word: ");
+                while(count>0){
+                    rowInline.clear();
+                    rowsInline.clear();
+                    try {
+                        System.out.println("Next word: ");
 
-                rand = new Random();
-                line = (String) dictionaryList.get(rand.nextInt(dictionaryList.size()));
-                //word = line.substring(0, line.indexOf(' '));
-                word = getDictionary().getWordFromLine(line);
-                InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-                inlineKeyboardButton.setText("Удалить из словаря");
+                        rand = new Random();
+                        line = (String) dictionaryList.get(rand.nextInt(dictionaryList.size()));
+                        //word = line.substring(0, line.indexOf(' '));
+                        word = getDictionary().getWordFromLine(line);
+                        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+                        inlineKeyboardButton.setText("Удалить из словаря");
 
-                inlineKeyboardButton.setCallbackData(word.substring(0,Math.min(word.length(), 30)));
-                rowInline.add(inlineKeyboardButton);
+                        inlineKeyboardButton.setCallbackData(word.substring(0,Math.min(word.length(), 30)));
+                        rowInline.add(inlineKeyboardButton);
 
-                rowsInline.add(rowInline);
+                        rowsInline.add(rowInline);
 
-                String urlAudio = getAudio().getUrlAudio(word);
-                String pathAudioFile = getAudio().getSoundWordFile(urlAudio, word);
-                audio.setAudio(new InputFile(new File(pathAudioFile)));
+                        String urlAudio = getAudio().getUrlAudio(word);
+                        String pathAudioFile = getAudio().getSoundWordFile(urlAudio, word);
+                        audio.setAudio(new InputFile(new File(pathAudioFile)));
 
-                //message.setReplyMarkup(markupInline);
+                        //message.setReplyMarkup(markupInline);
 
-                if(count==1){
-                    InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
-                    inlineKeyboardButton2.setText("Ещё слова");
-                    inlineKeyboardButton2.setCallbackData("/sendpackwords");
-                    rowInline2.add(inlineKeyboardButton2);
-                    rowsInline.add(rowInline2);
+                        if(count==1){
+                            InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
+                            inlineKeyboardButton2.setText("Ещё слова");
+                            inlineKeyboardButton2.setCallbackData("/sendpackwords");
+                            rowInline2.add(inlineKeyboardButton2);
+                            rowsInline.add(rowInline2);
+
+                        }
+                        markupInline.setKeyboard(rowsInline);
+                        audio.setReplyMarkup(markupInline);
+
+                        //message.setText(line);
+                        audio.setCaption(line);
+                        System.out.println(word);
+                        execute(audio);
+
+                        TimeUnit.MILLISECONDS.sleep(500);
+                    } catch (TelegramApiException | InterruptedException e) {
+                        logger.error(e.getMessage());
+                    }
+                    count--;
+                }
+
+                try {
+                    Arrays.stream(Objects.requireNonNull(new File(
+                            new File(Audio.class.getProtectionDomain().getCodeSource().getLocation()
+                                    .toURI()).getParent() + "/").listFiles((f, p) -> p.endsWith(".ogg")))
+                    ).forEach(File::delete);
+                } catch (URISyntaxException e) {
+                    logger.error(e.getMessage());
 
                 }
-                markupInline.setKeyboard(rowsInline);
-                audio.setReplyMarkup(markupInline);
-
-                //message.setText(line);
-                audio.setCaption(line);
-                System.out.println(word);
-                execute(audio);
-
-            } catch (TelegramApiException e) {
-                logger.error(e.getMessage());
             }
-            count--;
-        }
-
-        try {
-            Arrays.stream(Objects.requireNonNull(new File(
-                    new File(Audio.class.getProtectionDomain().getCodeSource().getLocation()
-                            .toURI()).getParent() + "/").listFiles((f, p) -> p.endsWith(".ogg")))
-            ).forEach(File::delete);
-        } catch (URISyntaxException e) {
-            logger.error(e.getMessage());
-
-        }
-
+        };
+        thread.start();
+        //thread.interrupt();
 
     }
 
