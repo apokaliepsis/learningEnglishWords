@@ -35,7 +35,7 @@ public class Menu extends Bot {
         keyboardRow11.add("\uD83D\uDCE5 Скачать текущий словарь");
         keyboardRow12.add("\uD83D\uDDD1 Очистить словарь");
         keyboardRow12.add("⏱ Установить временной интервал");
-        keyboardRow13.add("Главное меню");
+        keyboardRow13.add("<Назад");
 
 
         keyboardRows.add(keyboardRow11);
@@ -76,7 +76,7 @@ public class Menu extends Bot {
         keyboardRow1.add("Топ 500 слов");
         keyboardRow1.add("Топ 1000 слов");
         keyboardRow2.add("\uD83D\uDCD2 Загрузить свой список слов");
-        keyboardRow3.add("⚙️ Настройка");
+        keyboardRow3.add("<<Назад");
 
 
         keyboardRows.add(keyboardRow1);
@@ -104,7 +104,7 @@ public class Menu extends Bot {
         keyboardRow2.add("20 минут");
         keyboardRow2.add("30 минут");
         keyboardRow2.add("1 минута");
-        keyboardRow3.add("⚙️ Настройка");
+        keyboardRow3.add("<<Назад");
 
         keyboardRows.add(keyboardRow1);
         keyboardRows.add(keyboardRow2);
@@ -186,6 +186,7 @@ public class Menu extends Bot {
                     }
                 }
                 break;
+            case "<<Назад":
             case "⚙️ Настройка":
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 sendMessage.setText("Выберите словарь и установите время появления слов \n"+"Количество слов в словаре: "+dictionary.size());
@@ -233,7 +234,7 @@ public class Menu extends Bot {
                     SendDocument sendDocument = new SendDocument();
                     sendDocument.setChatId(String.valueOf(chatId));
                     File file = new File(getDictionary().downloadCurrentDictionary(update));
-
+                    sendDocument.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                     sendDocument.setDocument(new InputFile(file));
                     try {
                         execute(sendDocument);
@@ -262,6 +263,7 @@ public class Menu extends Bot {
 
 
                 break;
+            case "<Назад":
             case "Главное меню":
                 sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
                 sendMessage.setText("Главное меню");
@@ -312,7 +314,7 @@ public class Menu extends Bot {
                 dictionary = getDictionary().clearDictionaryToDB(update);
 
                 sendMessage.setText("Словарь очищен");
-                sendMessage.setReplyMarkup(menu.getDictionaryMenu(App.replyKeyboardMarkup));
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
