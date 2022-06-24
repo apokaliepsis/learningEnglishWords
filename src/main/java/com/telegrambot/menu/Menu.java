@@ -126,6 +126,7 @@ public class Menu extends Bot {
                             "1) выбрать словарь или загрузить свой список - /setwords \n"+
                             "2) установить временной интервал - /settime \n"+
                             "3) нажать кнопку \"Старт\" - /run\n\n" +
+                            "Открыть главное меню - /menu\n"+
                             "Перейти в справку - /help");
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
