@@ -57,6 +57,9 @@ public class Dictionary extends Bot {
             case Top1000Words:
                 dictonaryDefault = getPathFromResources("1000words");
                 break;
+            case Top2000Words:
+                dictonaryDefault = getPathFromResources("2000words");
+                break;
             case CompilationWords:
                 result = Arrays.asList(update.getMessage().getText().split("\n"));
 

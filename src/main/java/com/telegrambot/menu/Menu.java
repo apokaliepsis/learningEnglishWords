@@ -75,6 +75,7 @@ public class Menu extends Bot {
         keyboardRow1.add("Топ 100 слов");
         keyboardRow1.add("Топ 500 слов");
         keyboardRow1.add("Топ 1000 слов");
+        keyboardRow1.add("Топ 2000 слов");
         keyboardRow2.add("\uD83D\uDCD2 Загрузить свой список слов");
         keyboardRow3.add("<<Назад");
 
@@ -103,6 +104,7 @@ public class Menu extends Bot {
         keyboardRow1.add("15 минут");
         keyboardRow2.add("20 минут");
         keyboardRow2.add("30 минут");
+        keyboardRow2.add("1 час");
         keyboardRow2.add("1 минута");
         keyboardRow3.add("<<Назад");
 
@@ -286,8 +288,11 @@ public class Menu extends Bot {
                 break;
             case "Топ 1000 слов":
                 System.out.println("Выбрано топ 1000 слов");
-                //dictionary = setDictionary(TypeDictionary.Top1000Words,null);
                 dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top1000Words);
+                break;
+            case "Топ 2000 слов":
+                System.out.println("Выбрано топ 2000 слов");
+                dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top2000Words);
                 break;
             case "\uD83D\uDCD2 Загрузить свой список слов":
                 //dictionary = new ArrayList<>();
@@ -385,6 +390,16 @@ public class Menu extends Bot {
                 break;
             case "30 минут":
                 getDatabase().setTimeSettingToDB(30, update);
+                sendMessage.setText("Время установлено");
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                try {
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "1 час":
+                getDatabase().setTimeSettingToDB(60, update);
                 sendMessage.setText("Время установлено");
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 try {
