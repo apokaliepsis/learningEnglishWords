@@ -1,10 +1,14 @@
 package com.telegrambot.dictionary;
 
 
+
 import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
 import com.telegrambot.database.Database;
 import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.File;
@@ -20,10 +24,10 @@ import static ru.kamatech.qaaf.properties.Properties.getPathFromResources;
 
 public class Dictionary extends Bot {
     private static final Logger logger = Logger.getLogger(Dictionary.class);
-    public List clearDictionaryToDB(Update update) {
+    public List<?> clearDictionaryToDB(Update update) {
 
         logger.info("Clearing the dictionary");
-        List dictionary;
+        List<?> dictionary;
         getDatabase().setStateToDB(0, update);
         dictionary = new ArrayList<>();
         getDatabase().getJdbi().createUpdate(Collections.singletonList(update.getMessage().getChatId()),
@@ -36,7 +40,7 @@ public class Dictionary extends Bot {
         List<Map<String, Object>> list = Database.getJdbi().getAllRowsFromResponse(Collections.singletonList(chatId),
                 "select word from words where chatid=?", false);
         List<String> rows = new ArrayList<>();
-        for (Map map : list) {
+        for (Map<?,?> map : list) {
             rows.add(String.valueOf(map.get("WORD")));
         }
         //System.out.println("DB="+rows);
@@ -49,16 +53,16 @@ public class Dictionary extends Bot {
 
         switch (typeDictionary) {
             case Top100Words:
-                dictonaryDefault = getPathFromResources("100words");
+                dictonaryDefault = getPathFromResources("100words.txt");
                 break;
             case Top500Words:
-                dictonaryDefault = getPathFromResources("500words");
+                dictonaryDefault = getPathFromResources("500words.txt");
                 break;
             case Top1000Words:
-                dictonaryDefault = getPathFromResources("1000words");
+                dictonaryDefault = getPathFromResources("1000words.txt");
                 break;
             case Top2000Words:
-                dictonaryDefault = getPathFromResources("2000words");
+                dictonaryDefault = getPathFromResources("2000words.txt");
                 break;
             case CompilationWords:
                 result = Arrays.asList(update.getMessage().getText().split("\n"));
@@ -140,5 +144,29 @@ public class Dictionary extends Bot {
             logger.error(e.getMessage());
         }
         return pathSoundWordFile;
+    }
+    public static String[] getExampleUseWord(String word){
+        logger.info("Search example use word...");
+        String html = null;
+        String exampleUseWord = null;
+        String exampleUseWordTranslate = null;
+        String [] dataWord = new String[2];
+        try {
+            html = Jsoup.connect("https://www.translate.ru/перевод/английский-русский/" + word).get().html();
+            Document doc = Jsoup.parse(html);
+            Element link = doc.select(".samSource").first();
+            exampleUseWord = link.text(); // "<b>example</b>"
+            System.out.println(exampleUseWord);
+            Element link2 = doc.select(".samTranslation").first();
+            exampleUseWordTranslate = link2.text();
+            System.out.println(exampleUseWordTranslate);
+            dataWord[0] = exampleUseWord;
+            dataWord[1] = exampleUseWordTranslate;
+        } catch (Exception e) {
+            dataWord = null;
+        }
+
+        logger.info("Example use word: "+dataWord);
+        return dataWord;
     }
 }

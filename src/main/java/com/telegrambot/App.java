@@ -2,18 +2,14 @@ package com.telegrambot;
 
 import com.telegrambot.bot.Bot;
 import com.telegrambot.database.Database;
-import org.apache.log4j.Logger;
 
-//import org.telegram.telegrambots.ApiContextInitializer;
 
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
-import java.util.concurrent.TimeUnit;
 
 public class App {
 
-    public static final boolean IS_TEST = false;
+    public static final boolean IS_TEST = true;
 
     public static ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
     static {

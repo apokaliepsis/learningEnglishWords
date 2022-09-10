@@ -1,16 +1,13 @@
 package com.telegrambot.bot;
 
+import com.google.common.collect.ImmutableMap;
 import com.telegrambot.App;
+import com.telegrambot.service.Settings;
 import com.telegrambot.audio.Audio;
 import com.telegrambot.database.Database;
-import com.telegrambot.dictionary.Dictionary;
 import com.telegrambot.dictionary.TypeDictionary;
 import com.telegrambot.menu.Menu;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.io.Files;
-import com.telegrambot.service.Settings;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.math.RandomUtils;
+import com.telegrambot.dictionary.Dictionary;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -29,10 +26,8 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.*;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static com.telegrambot.database.Database.getJdbi;
@@ -287,7 +282,10 @@ public class Bot extends TelegramLongPollingBot {
 
                         //message.setReplyMarkup(markupInline);
                         audio.setReplyMarkup(markupInline);
-
+                        String[] exampleUseWord = Dictionary.getExampleUseWord(word);
+                        if(exampleUseWord!=null){
+                            line = line+"\n\nExample:\n"+exampleUseWord[0]+"\n"+exampleUseWord[1];
+                        }
                         //message.setText(line);
                         audio.setCaption(line);
                         logger.info(word);
@@ -439,6 +437,10 @@ public class Bot extends TelegramLongPollingBot {
                         audio.setReplyMarkup(markupInline);
 
                         //message.setText(line);
+                        String[] exampleUseWord = Dictionary.getExampleUseWord(word);
+                        if(exampleUseWord!=null){
+                            line = line+"\n\nExample:\n"+exampleUseWord[0]+"\n"+exampleUseWord[1];
+                        }
                         audio.setCaption(line);
                         System.out.println(word);
                         execute(audio);

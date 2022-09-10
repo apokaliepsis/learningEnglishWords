@@ -1,8 +1,10 @@
 package com.telegrambot.menu;
 
 
+
 import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
+
 import com.telegrambot.dictionary.TypeDictionary;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,8 +17,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.net.URISyntaxException;
 import java.util.*;
 
