@@ -39,21 +39,7 @@ public class AppTest  {
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
 //        }
-
-
-        for (int i = 0; i < 1000; i++) {
-            try {
-                System.out.println("Выполняется цикл...");
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-
-
-
-
+        System.out.println();
     }
 
 
