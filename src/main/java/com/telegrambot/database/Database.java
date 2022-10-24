@@ -93,6 +93,7 @@ public class Database extends Bot {
     public void setStateToDB(int state, Update update) {
         logger.info("Setting user state in DB");
         long chatId = update.getMessage().getChatId();
+        //int count_word = ((Long) getJdbi().getFirstRowFromResponse(Collections.emptyList(), "select count(*) from words where chatid=873327794", false).get("COUNT(*)")).intValue();
         String username = update.getMessage().getFrom().getUserName();
         if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
                 "select* from configuration where chatId =?", false).size() == 0) {
@@ -140,7 +141,7 @@ public class Database extends Bot {
         logger.info("Send notification to users");
         List<Map<String, Object>> chatIdList;
         String dateNewsLetter = getNewsLetterDate();
-        while (true){
+        while(true){
             if(dateNewsLetter.isEmpty()|| dateNewsLetter.equals("null")){
                 chatIdList = getJdbi().getAllRowsFromResponse(Collections.emptyList(),
                         "SELECT CHATID FROM CONFIGURATION WHERE DATE<=now() - 3",false);
@@ -176,6 +177,26 @@ public class Database extends Bot {
                 logger.error(e.getMessage());
             }
         }
+        }
+        public static void updateWordsCount(){
+            new Thread(() -> {
+                List<Map<String, Object>> x = getJdbi().getAllRowsFromResponse(Collections.emptyList(),
+                        "select chatid from configuration",
+                        false);
+                List<Object> chatIdList = new ArrayList<>();
+                for(Map<String, Object> data : x){
+                    chatIdList.add(data.get("CHATID"));
+
+                }
+                System.out.println(chatIdList);
+                for(Object chatId: chatIdList){
+                    int count_word = ((Long) getJdbi().getFirstRowFromResponse(Collections.emptyList(), "select count(*) from words where chatid=" + chatId, false).get("COUNT(*)")).intValue();
+
+                    getJdbi().createUpdate(Arrays.asList(count_word, chatId), "UPDATE configuration SET words = ? where chatid = ?",
+                            false);
+                }
+            }).start();
+
         }
 
 

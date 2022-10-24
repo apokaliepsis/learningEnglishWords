@@ -1,9 +1,8 @@
 package com.telegrambot;
 
-import com.telegrambot.dictionary.Dictionary;
-
 import java.util.*;
 
+import static com.telegrambot.database.Database.getJdbi;
 
 
 /**
@@ -40,7 +39,18 @@ public class AppTest  {
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
 //        }
-        System.out.println(Arrays.toString(Dictionary.getExampleUseWord("dick")));
+
+
+        for (int i = 0; i < 1000; i++) {
+            try {
+                System.out.println("Выполняется цикл...");
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
 
 
 

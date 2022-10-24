@@ -22,6 +22,7 @@ public class App {
         Bot englishWordsBot = new Bot();
         Database.checkConnection();
         Database.setDefaultClientStatus();
+        Database.updateWordsCount();
         englishWordsBot.botConnect();
         englishWordsBot.sendStartReport();
 //        new Thread(() -> { Database database = new Database();
