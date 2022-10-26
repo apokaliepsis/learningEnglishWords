@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 
 public class App {
 
-    public static final boolean IS_TEST = true;
+    public static final boolean IS_TEST = false;
 
     public static ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
     static {
