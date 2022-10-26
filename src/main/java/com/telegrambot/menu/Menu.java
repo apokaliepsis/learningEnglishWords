@@ -59,13 +59,12 @@ public class Menu extends Bot {
         KeyboardRow keyboardRow3 = new KeyboardRow();
 
         keyboardRow1.add("▶ Старт");
-        keyboardRow2.add("◼ Стоп");
-        keyboardRow3.add("⚙️ Настройка");
+        keyboardRow1.add("◼ Стоп");
+        keyboardRow2.add("⚙️ Настройка");
 
 
         keyboardRows.add(keyboardRow1);
         keyboardRows.add(keyboardRow2);
-        keyboardRows.add(keyboardRow3);
         replyKeyboardMarkup.setKeyboard(keyboardRows);
         return replyKeyboardMarkup;
     }
