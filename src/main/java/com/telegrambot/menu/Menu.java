@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -20,10 +21,13 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.*;
 
+import static com.telegrambot.App.replyKeyboardMarkup;
+
 public class Menu extends Bot {
 
 
     public ReplyKeyboard getSetting(ReplyKeyboardMarkup replyKeyboardMarkup) {
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
         List<KeyboardRow> keyboardRows = new ArrayList<>();
         KeyboardRow keyboardRow11 = new KeyboardRow();
         KeyboardRow keyboardRow12 = new KeyboardRow();
@@ -36,6 +40,7 @@ public class Menu extends Bot {
         keyboardRow12.add("\uD83D\uDDD1 Очистить словарь");
         keyboardRow12.add("⏱ Установить временной интервал");
         keyboardRow13.add("<Назад");
+        keyboardRow13.add("\uD83E\uDD78 Скрыть меню");
 
 
         keyboardRows.add(keyboardRow11);
@@ -118,7 +123,8 @@ public class Menu extends Bot {
         replyKeyboardMarkup.setKeyboard(keyboardRows);
         return replyKeyboardMarkup;
     }
-    public List getGlobalMenu(Update update, List dictionary, Menu menu, SendMessage sendMessage) {
+    public List<?> getGlobalMenu(Update update, List<?> dictionary, Menu menu, SendMessage sendMessage) {
+
         long chatId = update.getMessage().getChatId();
         switch (update.getMessage().getText()) {
             case "/start":
@@ -137,7 +143,7 @@ public class Menu extends Bot {
                 break;
             case "/run":
             case "▶ Старт":
-                Map dataConfig = getDatabase().getJdbi().getFirstRowFromResponse(Collections.singletonList(update.getMessage().getChatId()),
+                Map<String, Object> dataConfig = getDatabase().getJdbi().getFirstRowFromResponse(Collections.singletonList(update.getMessage().getChatId()),
                         "select time from configuration where chatId=?", false);
 
                 if (dataConfig.size() == 0 || dataConfig.get("TIME") == null) {
@@ -165,7 +171,7 @@ public class Menu extends Bot {
                     }
                 } else {
                     getDatabase().setStateToDB(1, update);
-                    runIterationWords(update, dictionary);
+                    runIterationWords(update, (List<String>) dictionary);
                 }
                 break;
             case "/stop":
@@ -207,7 +213,6 @@ public class Menu extends Bot {
                         e.printStackTrace();
                     }
                 }
-
                 break;
             case "/setwords":
             case "\uD83D\uDCDA Выбрать словарь":
@@ -265,6 +270,19 @@ public class Menu extends Bot {
 
 
 
+                break;
+            case "\uD83E\uDD78 Скрыть меню":
+            case "/hidemenu":
+                System.out.println("Hide menu");
+                ReplyKeyboardRemove removeKeyboard = new ReplyKeyboardRemove();
+                removeKeyboard.setRemoveKeyboard(true);
+                sendMessage.setReplyMarkup(removeKeyboard);
+                sendMessage.setText("Clear menu");
+                try {
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             case "<Назад":
             case "Главное меню":
@@ -451,7 +469,7 @@ public class Menu extends Bot {
                         "/menu - переход в главное меню\n\n"+
                         "*Для связи по любым вопросам: @as_alekseev";
                 sendMessage.setText(textHelp);
-                sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
+                //sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {

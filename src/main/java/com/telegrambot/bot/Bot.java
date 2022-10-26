@@ -19,6 +19,8 @@ import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -30,6 +32,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
+import static com.telegrambot.App.replyKeyboardMarkup;
 import static com.telegrambot.database.Database.getJdbi;
 
 
@@ -83,35 +86,16 @@ public class Bot extends TelegramLongPollingBot {
             logger.debug("Receive new Update. updateID: " + update.getUpdateId());
             long chatId = update.getMessage().getChatId();
 
-            List dictionary = getDictionary().getDictionaryFromDB(chatId);
+            List<?> dictionary = getDictionary().getDictionaryFromDB(chatId);
 
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
-            sendMessage.setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup));
+            //sendMessage.setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup));
             sendMessage.disableNotification();
-
             dictionary = getMenu().getGlobalMenu(update, dictionary, getMenu(), sendMessage);
 
             if (update.getMessage().getText().contains("\n") && update.getMessage().getText().contains(" - ")) {
-                System.out.println("Определена загрузка слов");
-                logger.info("Start downloading words");
-                System.out.println("Размер словаря до=" + dictionary.size());
-                List<String> rows = getDictionary().setDictionary(TypeDictionary.CompilationWords, update);
-                getDatabase().setWordsToDB(rows, update);
-                dictionary = getDictionary().getDictionaryFromDB(chatId);
-
-                System.out.println("Размер словаря после=" + dictionary.size());
-
-                sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
-                sendMessage.setReplyMarkup(getMenu().getSetting(App.replyKeyboardMarkup));
-                sendMessage.setText("Слова загружены \n"+dictionary.size());
-                System.out.println("dictionary=" + dictionary.size());
-                try {
-                    execute(sendMessage);
-                } catch (TelegramApiException e) {
-                    logger.error(e.getMessage());
-                }
-                logger.info("Words loaded");
+                setListWordsToDictionaryUser(update, chatId, dictionary, sendMessage);
             }
 
         }
@@ -136,6 +120,29 @@ public class Bot extends TelegramLongPollingBot {
         }
 
     }
+
+    private void setListWordsToDictionaryUser(Update update, long chatId, List<?> dictionary, SendMessage sendMessage) {
+        System.out.println("Определена загрузка слов");
+        logger.info("Start downloading words");
+        System.out.println("Размер словаря до=" + dictionary.size());
+        List<String> rows = getDictionary().setDictionary(TypeDictionary.CompilationWords, update);
+        getDatabase().setWordsToDB(rows, update);
+        dictionary = getDictionary().getDictionaryFromDB(chatId);
+
+        System.out.println("Размер словаря после=" + dictionary.size());
+
+        sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
+        sendMessage.setReplyMarkup(getMenu().getSetting(replyKeyboardMarkup));
+        sendMessage.setText("Слова загружены \n"+ dictionary.size());
+        System.out.println("dictionary=" + dictionary.size());
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            logger.error(e.getMessage());
+        }
+        logger.info("Words loaded");
+    }
+
     public void sendStartReport() {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(BOT_ADMIN);
@@ -157,7 +164,7 @@ public class Bot extends TelegramLongPollingBot {
             logger.info("File size exceeded");
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
-            sendMessage.setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup));
+            sendMessage.setReplyMarkup(getMenu().getMainMenu(replyKeyboardMarkup));
             sendMessage.disableNotification();
             sendMessage.setText("Превышен размер файла. Попробуйте загрузить другой файл");
             try {
@@ -210,6 +217,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     protected void runIterationWords(Update update, List<String> dictionaryList) {
+
         long chatId = update.getMessage().getChatId();
         Thread thread = new Thread(String.valueOf(chatId)) {
             public void run() {
@@ -281,6 +289,7 @@ public class Bot extends TelegramLongPollingBot {
                         audio.setAudio(new InputFile(new File(pathAudioFile)));
 
                         //message.setReplyMarkup(markupInline);
+
                         audio.setReplyMarkup(markupInline);
                         String[] exampleUseWord = Dictionary.getExampleUseWord(word);
                         if(exampleUseWord!=null){

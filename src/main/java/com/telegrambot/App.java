@@ -9,20 +9,19 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 
 public class App {
 
-    public static final boolean IS_TEST = false;
+    public static final boolean IS_TEST = true;
 
     public static ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
     static {
         replyKeyboardMarkup.setResizeKeyboard(true);
         //replyKeyboardMarkup.setSelective(false);
-        replyKeyboardMarkup.setOneTimeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
     }
 
     public static void main(String[] args) {
         Bot englishWordsBot = new Bot();
         Database.checkConnection();
         Database.setDefaultClientStatus();
-        Database.updateWordsCount();
         englishWordsBot.botConnect();
         englishWordsBot.sendStartReport();
 //        new Thread(() -> { Database database = new Database();
@@ -30,6 +29,4 @@ public class App {
 //        }).start();
 
     }
-
-
 }
