@@ -11,10 +11,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -125,11 +124,19 @@ public class Dictionary extends Bot {
         } catch (URISyntaxException e) {
             logger.error(e.getMessage());
         }
-        FileWriter writer = null;
+//        FileWriter writer = null;
+//        try {
+//            writer = new FileWriter(pathSoundWordFile);
+//        } catch (IOException e) {
+//            logger.error(e.getMessage());
+//        }
+        Writer writer = null;
         try {
-            writer = new FileWriter(pathSoundWordFile);
-        } catch (IOException e) {
-            logger.error(e.getMessage());
+            assert pathSoundWordFile != null;
+            writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(pathSoundWordFile), StandardCharsets.UTF_8));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
         for(String str: list) {
             try {
