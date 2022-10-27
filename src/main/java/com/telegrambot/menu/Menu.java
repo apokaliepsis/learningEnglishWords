@@ -125,7 +125,7 @@ public class Menu extends Bot {
     public List<?> getGlobalMenu(Update update, List<?> dictionary, Menu menu, SendMessage sendMessage) {
 
         long chatId = update.getMessage().getChatId();
-        switch (update.getMessage().getText()) {
+        switch (update.getMessage().getText().replaceAll("@"+getBotUsername(),"")) {
             case "/start":
                 try {
                     sendMessage.setText("Добро пожаловать в бот по изучению английских слов!\n\n" +
