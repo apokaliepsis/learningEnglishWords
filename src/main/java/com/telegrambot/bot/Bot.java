@@ -313,7 +313,7 @@ public class Bot extends TelegramLongPollingBot {
                         d2 = Calendar.getInstance().getTime();
                         long currentTimeMinutes = TimeUnit.MILLISECONDS.toMinutes(d2.getTime() - d1.getTime());
                         logger.info("Work duration: "+currentTimeMinutes+" minutes");
-                        if(currentTimeMinutes>=maxTimeWaitMinutes){
+                        if(currentTimeMinutes>=maxTimeWaitMinutes && chatId>0){
                             logger.info("Run time exceeded. Stopping...");
                             message.setText("◼ Стоп");
                             execute(message);
