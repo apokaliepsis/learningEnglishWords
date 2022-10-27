@@ -157,32 +157,35 @@ public class Bot extends TelegramLongPollingBot {
     private void downloadFile(Update update) {
         logger.info("Received file");
         String fileName = update.getMessage().getDocument().getFileName();
-        if (update.getMessage().getDocument().getFileSize()<1000000){
-            getDatabase().setWordsToDB(getDataFileFromMessage(update),update);
-        }
-        else{
-            logger.info("File size exceeded");
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
-            sendMessage.setReplyMarkup(getMenu().getMainMenu(replyKeyboardMarkup));
-            sendMessage.disableNotification();
-            sendMessage.setText("Превышен размер файла. Попробуйте загрузить другой файл");
+        if(fileName.contains("dictionary")){
+            if (update.getMessage().getDocument().getFileSize()<1000000){
+                getDatabase().setWordsToDB(getDataFileFromMessage(update),update);
+            }
+            else{
+                logger.info("File size exceeded");
+                SendMessage sendMessage = new SendMessage();
+                sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
+                sendMessage.setReplyMarkup(getMenu().getMainMenu(replyKeyboardMarkup));
+                sendMessage.disableNotification();
+                sendMessage.setText("Превышен размер файла. Попробуйте загрузить другой файл");
+                try {
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    logger.error(e.getMessage());
+                }
+            }
             try {
-                execute(sendMessage);
-            } catch (TelegramApiException e) {
+                logger.info("Delete file \""+fileName+"\"");
+                Arrays.stream(Objects.requireNonNull(new File(
+                        new File(Bot.class.getProtectionDomain().getCodeSource().getLocation()
+                                .toURI()).getParent() + "/").listFiles((f, p) ->
+                        p.contains(fileName)))
+                ).forEach(File::delete);
+            } catch (URISyntaxException e) {
                 logger.error(e.getMessage());
             }
         }
-        try {
-            logger.info("Delete file \""+fileName+"\"");
-            Arrays.stream(Objects.requireNonNull(new File(
-                    new File(Bot.class.getProtectionDomain().getCodeSource().getLocation()
-                            .toURI()).getParent() + "/").listFiles((f, p) ->
-                    p.contains(fileName)))
-            ).forEach(File::delete);
-        } catch (URISyntaxException e) {
-            logger.error(e.getMessage());
-        }
+
     }
 
     private List<String> getDataFileFromMessage(Update update) {
