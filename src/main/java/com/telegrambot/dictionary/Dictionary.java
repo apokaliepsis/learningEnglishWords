@@ -64,8 +64,12 @@ public class Dictionary extends Bot {
                 dictonaryDefault = getPathFromResources("2000words.txt");
                 break;
             case CompilationWords:
-                result = Arrays.asList(update.getMessage().getText().split("\n"));
-
+                List<String> listTrim = Arrays.stream(
+                                update.getMessage().getText().split("\n"))
+                        .map(String::trim)
+                        .collect(Collectors.toList());
+                Set<String> uniqueWords = new HashSet<>(listTrim);
+                result = new ArrayList<>(uniqueWords);
                 return result;
 
             default:

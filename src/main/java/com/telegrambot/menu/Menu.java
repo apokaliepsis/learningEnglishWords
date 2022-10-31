@@ -4,6 +4,8 @@ import com.telegrambot.bot.Bot;
 import com.telegrambot.dictionary.TypeDictionary;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -54,7 +56,7 @@ public class Menu extends Bot {
         keyboardRow1.add("▶ Старт");
         keyboardRow1.add("◼ Стоп");
         keyboardRow2.add("⚙️ Настройка");
-        keyboardRow2.add("\uD83D\uDE4F Донаты");
+        keyboardRow2.add("Донаты");
 
 
         keyboardRows.add(keyboardRow1);
@@ -261,21 +263,32 @@ public class Menu extends Bot {
             case "\uD83E\uDD78 Скрыть меню":
             case "/hidemenu":
                 System.out.println("Hide menu");
+
                 ReplyKeyboardRemove removeKeyboard = new ReplyKeyboardRemove();
                 removeKeyboard.setRemoveKeyboard(true);
                 sendMessage.setReplyMarkup(removeKeyboard);
                 sendMessage.setText("Clear menu");
                 try {
-                    execute(sendMessage);
+                    deleteMessage(update.getMessage().getMessageId(),chatId);
+                    deleteMessage(execute(sendMessage).getMessageId(),chatId);
+                    //Integer messageId = update.getMessage().getMessageId();
+//                    EditMessageText editMessage = new EditMessageText();
+//                    editMessage.setChatId(String.valueOf(chatId));
+//                    editMessage.setMessageId(update.getMessage().getMessageId());
+//                    editMessage.setText("Clear menu");
+//                    execute(editMessage);
+
                 } catch (TelegramApiException e) {
                     throw new RuntimeException(e);
                 }
                 break;
             case "<Назад":
             case "Главное меню":
+
                 sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
                 sendMessage.setText("Главное меню");
                 try {
+                    deleteMessage(update.getMessage().getMessageId(),chatId);
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
@@ -371,6 +384,7 @@ public class Menu extends Bot {
                 sendMessage.setText("Главное меню");
                 sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
                 try {
+                    deleteMessage(update.getMessage().getMessageId(),chatId);
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
@@ -405,7 +419,7 @@ public class Menu extends Bot {
                     e.printStackTrace();
                 }
                 break;
-            case "\uD83D\uDE4F Донаты":
+            case "Донаты":
                 InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
                 List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
                 List<InlineKeyboardButton> rowInline = new ArrayList<>();
@@ -426,6 +440,14 @@ public class Menu extends Bot {
                 break;
         }
         return dictionary;
+    }
+    private void deleteMessage(int messageId, long chatId){
+        DeleteMessage deleteMessage = new DeleteMessage(String.valueOf(chatId), messageId);
+        try {
+            execute(deleteMessage);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
     }
     private void setTime(Update update, Menu menu, SendMessage sendMessage, int minutes) {
         getDatabase().setTimeSettingToDB(minutes, update);

@@ -15,6 +15,8 @@ import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -74,8 +76,17 @@ public class Bot extends TelegramLongPollingBot {
         return audio;
     }
 
+
     @Override
     public void onUpdateReceived(Update update) {
+//        GetUpdates getUpdates = new GetUpdates();
+//        try {
+//            updatesList = execute(getUpdates);
+//        } catch (TelegramApiException e) {
+//            throw new RuntimeException(e);
+//        }
+        //System.out.println("getUpdates="+updatesList);
+        System.out.println("UPDATE="+update);
         for (Thread t : Thread.getAllStackTraces().keySet()) {
             System.out.println(t.getName());
         }
@@ -85,7 +96,6 @@ public class Bot extends TelegramLongPollingBot {
         else if (update.hasMessage()) {
             logger.debug("Receive new Update. updateID: " + update.getUpdateId());
             long chatId = update.getMessage().getChatId();
-
             List<?> dictionary = getDictionary().getDictionaryFromDB(chatId);
 
             SendMessage sendMessage = new SendMessage();
@@ -110,6 +120,7 @@ public class Bot extends TelegramLongPollingBot {
                 clearWordClientList.add(ImmutableMap.of(chatId, data));
 
                 String word = update.getCallbackQuery().getData();
+                System.out.println("Слово для удаления="+word);
 
                 getJdbi().createUpdate(Arrays.asList(word, chatId),
                         "delete from words where word like concat('%',?,'%') and chatId=?", false);
@@ -283,7 +294,8 @@ public class Bot extends TelegramLongPollingBot {
                         word = getDictionary().getWordFromLine(line);
                         InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
                         inlineKeyboardButton.setText("Удалить из словаря");
-                        inlineKeyboardButton.setCallbackData(word.substring(0,Math.min(word.length(), 30)));
+                        //inlineKeyboardButton.setCallbackData(word.substring(0,Math.min(word.length(), 30)));
+                        inlineKeyboardButton.setCallbackData(line.substring(0,Math.min(line.length(), 30)));
                         rowInline.add(inlineKeyboardButton);
                         rowsInline.add(rowInline);
                         markupInline.setKeyboard(rowsInline);
@@ -316,7 +328,7 @@ public class Bot extends TelegramLongPollingBot {
                         d2 = Calendar.getInstance().getTime();
                         long currentTimeMinutes = TimeUnit.MILLISECONDS.toMinutes(d2.getTime() - d1.getTime());
                         logger.info("Work duration: "+currentTimeMinutes+" minutes");
-                        if(currentTimeMinutes>=maxTimeWaitMinutes && chatId>0){
+                        if(currentTimeMinutes>=maxTimeWaitMinutes && chatId>0){//ограничение на время работы потока для пользователя
                             logger.info("Run time exceeded. Stopping...");
                             message.setText("◼ Стоп");
                             execute(message);
@@ -382,7 +394,7 @@ public class Bot extends TelegramLongPollingBot {
             public void run(){
                 setUserInfoCompletionDB(update);
 
-                List dictionaryList = getDictionary().getDictionaryFromDB(finalChatId);
+                List<?> dictionaryList = getDictionary().getDictionaryFromDB(finalChatId);
                 String word;
 
                 SendAudio audio = new SendAudio();
@@ -426,7 +438,8 @@ public class Bot extends TelegramLongPollingBot {
                         InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
                         inlineKeyboardButton.setText("Удалить из словаря");
 
-                        inlineKeyboardButton.setCallbackData(word.substring(0,Math.min(word.length(), 30)));
+                        //inlineKeyboardButton.setCallbackData(word.substring(0,Math.min(word.length(), 30)));
+                        inlineKeyboardButton.setCallbackData(line.substring(0,Math.min(line.length(), 30)));
                         rowInline.add(inlineKeyboardButton);
 
                         rowsInline.add(rowInline);
