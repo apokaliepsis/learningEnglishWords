@@ -17,7 +17,6 @@ public class App {
         //replyKeyboardMarkup.setSelective(false);
         replyKeyboardMarkup.setOneTimeKeyboard(false);
     }
-
     public static void main(String[] args) {
         Bot englishWordsBot = new Bot();
         Database.checkConnection();

@@ -273,12 +273,6 @@ public class Menu extends Bot {
                 try {
                     deleteMessage(update.getMessage().getMessageId(),chatId);
                     deleteMessage(execute(sendMessage).getMessageId(),chatId);
-                    //Integer messageId = update.getMessage().getMessageId();
-//                    EditMessageText editMessage = new EditMessageText();
-//                    editMessage.setChatId(String.valueOf(chatId));
-//                    editMessage.setMessageId(update.getMessage().getMessageId());
-//                    editMessage.setText("Clear menu");
-//                    execute(editMessage);
 
                 } catch (TelegramApiException e) {
                     throw new RuntimeException(e);
@@ -286,7 +280,6 @@ public class Menu extends Bot {
                 break;
             case "<Назад":
             case "Главное меню":
-
                 sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
                 sendMessage.setText("Главное меню");
                 try {
@@ -400,15 +393,10 @@ public class Menu extends Bot {
                         "1) выбрать словарь или загрузить свой список - /setwords \n"+
                         "2) установить временной интервал - /settime \n"+
                         "3) нажать кнопку \"Старт\" - /run\n\n"+
-/*                        "/start - запуск запоминания слов\n" +
-                        "/setwords - загрузка словаря\n" +
-                        "/settime - установка времени\n" +
-                        "/stop - остановка запоминания слов\n" +*/
                         "/menu - переход в главное меню\n\n" +
                         "Поддержать проект: https://yoomoney.ru/to/4100117612054619\n\n"+
                         "*Для связи по любым вопросам: @as_alekseev";
                 sendMessage.setText(textHelp);
-                //sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -468,7 +456,6 @@ public class Menu extends Bot {
         }
     }
     private List<String> selectDictionary(Update update, List<String> dictionary, Menu menu, SendMessage sendMessage, TypeDictionary typeDictionary) {
-        //dictionary = setDictionary(TypeDictionary.Top500Words,null);
         dictionary.clear();
         getDictionary().clearDictionaryToDB(update);
         getDatabase().setWordsToDB(getDictionary().setDictionary(typeDictionary, update), update);

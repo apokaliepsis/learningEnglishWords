@@ -15,7 +15,6 @@ public class Audio {
         text = text.replaceAll(" ", "%20");
         return "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=" + text + "&tl=en&client=tw-ob";
     }
-
     public String getSoundWordFile(String urlPath, String word) {
         String s;
         Process p;

@@ -24,7 +24,6 @@ import static ru.kamatech.qaaf.properties.Properties.getPathFromResources;
 public class Dictionary extends Bot {
     private static final Logger logger = Logger.getLogger(Dictionary.class);
     public List<String> clearDictionaryToDB(Update update) {
-
         logger.info("Clearing the dictionary");
         List<String> dictionary;
         getDatabase().setStateToDB(0, update);
@@ -42,7 +41,6 @@ public class Dictionary extends Bot {
         for (Map<?,?> map : list) {
             rows.add(String.valueOf(map.get("WORD")));
         }
-        //System.out.println("DB="+rows);
         return rows;
     }
     public List<String> setDictionary(TypeDictionary typeDictionary, Update update) {
@@ -128,12 +126,6 @@ public class Dictionary extends Bot {
         } catch (URISyntaxException e) {
             logger.error(e.getMessage());
         }
-//        FileWriter writer = null;
-//        try {
-//            writer = new FileWriter(pathSoundWordFile);
-//        } catch (IOException e) {
-//            logger.error(e.getMessage());
-//        }
         Writer writer;
         try {
             assert pathSoundWordFile != null;

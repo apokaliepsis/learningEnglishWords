@@ -1,19 +1,12 @@
 package com.telegrambot.service;
-
-import org.apache.log4j.Logger;
-
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.Properties;
 
 public class Settings {
-
         public static Properties environment = new Properties();
-
         static {
             init();
         }
-
         private static void init(){
             String environmentPath = "security.properties";
             try{
@@ -24,7 +17,6 @@ public class Settings {
             }
 
         }
-
 
         private static void initFromFile(Properties props, String filepath) {
             try{
