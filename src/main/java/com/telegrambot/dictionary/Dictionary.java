@@ -4,7 +4,6 @@ package com.telegrambot.dictionary;
 
 import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
-import com.telegrambot.database.Database;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,24 +18,25 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.telegrambot.database.Database.getJdbi;
 import static ru.kamatech.qaaf.properties.Properties.getPathFromResources;
 
 public class Dictionary extends Bot {
     private static final Logger logger = Logger.getLogger(Dictionary.class);
-    public List<?> clearDictionaryToDB(Update update) {
+    public List<String> clearDictionaryToDB(Update update) {
 
         logger.info("Clearing the dictionary");
-        List<?> dictionary;
+        List<String> dictionary;
         getDatabase().setStateToDB(0, update);
         dictionary = new ArrayList<>();
-        getDatabase().getJdbi().createUpdate(Collections.singletonList(update.getMessage().getChatId()),
+        getJdbi().createUpdate(Collections.singletonList(update.getMessage().getChatId()),
                 "delete from words where chatId=?", false);
         return dictionary;
     }
     public List<String> getDictionaryFromDB(long chatId) {
         logger.info("Getting a list of words from the DB");
         getDatabase();
-        List<Map<String, Object>> list = Database.getJdbi().getAllRowsFromResponse(Collections.singletonList(chatId),
+        List<Map<String, Object>> list = getJdbi().getAllRowsFromResponse(Collections.singletonList(chatId),
                 "select word from words where chatid=?", false);
         List<String> rows = new ArrayList<>();
         for (Map<?,?> map : list) {
@@ -97,7 +97,7 @@ public class Dictionary extends Bot {
         return line;
     }
     public void getFileDictionaryFomDb(Update update){
-        List dictionary = getDictionaryFromDB(update.getMessage().getChatId());
+        List<?> dictionary = getDictionaryFromDB(update.getMessage().getChatId());
         FileWriter writer = null;
         try {
             writer = new FileWriter("output.txt");
@@ -134,7 +134,7 @@ public class Dictionary extends Bot {
 //        } catch (IOException e) {
 //            logger.error(e.getMessage());
 //        }
-        Writer writer = null;
+        Writer writer;
         try {
             assert pathSoundWordFile != null;
             writer = new BufferedWriter(new OutputStreamWriter(
@@ -158,9 +158,9 @@ public class Dictionary extends Bot {
     }
     public static String[] getExampleUseWord(String word){
         logger.info("Search example use word...");
-        String html = null;
-        String exampleUseWord = null;
-        String exampleUseWordTranslate = null;
+        String html;
+        String exampleUseWord;
+        String exampleUseWordTranslate;
         String [] dataWord = new String[2];
         try {
             html = Jsoup.connect("https://www.translate.ru/перевод/английский-русский/" + word).get().html();

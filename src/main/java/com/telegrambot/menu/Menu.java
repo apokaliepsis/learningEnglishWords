@@ -1,18 +1,16 @@
 package com.telegrambot.menu;
 import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
+import com.telegrambot.database.Database;
 import com.telegrambot.dictionary.TypeDictionary;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.io.File;
@@ -27,8 +25,8 @@ public class Menu extends Bot {
         KeyboardRow keyboardRow11 = new KeyboardRow();
         KeyboardRow keyboardRow12 = new KeyboardRow();
         KeyboardRow keyboardRow13 = new KeyboardRow();
-        KeyboardRow keyboardRow14 = new KeyboardRow();
-        KeyboardRow keyboardRow15 = new KeyboardRow();
+//        KeyboardRow keyboardRow14 = new KeyboardRow();
+//        KeyboardRow keyboardRow15 = new KeyboardRow();
 
         keyboardRow11.add("\uD83D\uDCDA Выбрать словарь");
         keyboardRow11.add("\uD83D\uDCE5 Скачать текущий словарь");
@@ -51,12 +49,13 @@ public class Menu extends Bot {
         List<KeyboardRow> keyboardRows = new ArrayList<>();
         KeyboardRow keyboardRow1 = new KeyboardRow();
         KeyboardRow keyboardRow2 = new KeyboardRow();
-        KeyboardRow keyboardRow3 = new KeyboardRow();
+        //KeyboardRow keyboardRow3 = new KeyboardRow();
 
         keyboardRow1.add("▶ Старт");
         keyboardRow1.add("◼ Стоп");
+        keyboardRow1.add("♻ Вручную");
         keyboardRow2.add("⚙️ Настройка");
-        keyboardRow2.add("Донаты");
+        //keyboardRow2.add("Донаты");
 
 
         keyboardRows.add(keyboardRow1);
@@ -95,9 +94,9 @@ public class Menu extends Bot {
         KeyboardRow keyboardRow1 = new KeyboardRow();
         KeyboardRow keyboardRow2 = new KeyboardRow();
         KeyboardRow keyboardRow3 = new KeyboardRow();
-        KeyboardRow keyboardRow4 = new KeyboardRow();
-        KeyboardRow keyboardRow5 = new KeyboardRow();
-        KeyboardRow keyboardRow6 = new KeyboardRow();
+//        KeyboardRow keyboardRow4 = new KeyboardRow();
+//        KeyboardRow keyboardRow5 = new KeyboardRow();
+//        KeyboardRow keyboardRow6 = new KeyboardRow();
 
         keyboardRow1.add("2 минуты");
         keyboardRow1.add("5 минут");
@@ -124,7 +123,7 @@ public class Menu extends Bot {
         replyKeyboardMarkup.setKeyboard(keyboardRows);
         return replyKeyboardMarkup;
     }
-    public List<?> getGlobalMenu(Update update, List<?> dictionary, Menu menu, SendMessage sendMessage) {
+    public List<String> getGlobalMenu(Update update, List<String> dictionary, Menu menu, SendMessage sendMessage) {
 
         long chatId = update.getMessage().getChatId();
         switch (update.getMessage().getText().replaceAll("@"+getBotUsername(),"")) {
@@ -143,8 +142,11 @@ public class Menu extends Bot {
                 }
                 break;
             case "/run":
+            case "/continue":
             case "▶ Старт":
-                Map<String, Object> dataConfig = getDatabase().getJdbi().getFirstRowFromResponse(Collections.singletonList(update.getMessage().getChatId()),
+                getDatabase();
+                Map<String, Object> dataConfig = Database.getJdbi().getFirstRowFromResponse(
+                        Collections.singletonList(update.getMessage().getChatId()),
                         "select time from configuration where chatId=?", false);
 
                 if (dataConfig.size() == 0 || dataConfig.get("TIME") == null) {
@@ -171,8 +173,7 @@ public class Menu extends Bot {
                         e.printStackTrace();
                     }
                 } else {
-                    getDatabase().setStateToDB(1, update);
-                    runIterationWords(update, (List<String>) dictionary);
+                    runIterationWords(update, dictionary);
                 }
                 break;
             case "/stop":
@@ -226,6 +227,7 @@ public class Menu extends Bot {
 
                 break;
             case "/sendpackwords":
+            case "♻ Вручную":
             case "Отправить пакет слов":
                 sendPackWords(update);
                 break;
@@ -381,14 +383,7 @@ public class Menu extends Bot {
                 setTime(update, menu, sendMessage, 1);
                 break;
             case "/menu":
-                sendMessage.setText("Главное меню");
-                sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
-                try {
-                    deleteMessage(update.getMessage().getMessageId(),chatId);
-                    execute(sendMessage);
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
+                goToMenu(update, menu, sendMessage, chatId);
                 break;
             case "/help":
                 String textHelp = "\uD83D\uDCDD Справка\n\n" +
@@ -409,7 +404,8 @@ public class Menu extends Bot {
                         "/setwords - загрузка словаря\n" +
                         "/settime - установка времени\n" +
                         "/stop - остановка запоминания слов\n" +*/
-                        "/menu - переход в главное меню\n\n"+
+                        "/menu - переход в главное меню\n\n" +
+                        "Поддержать проект: https://yoomoney.ru/to/4100117612054619\n\n"+
                         "*Для связи по любым вопросам: @as_alekseev";
                 sendMessage.setText(textHelp);
                 //sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
@@ -419,7 +415,7 @@ public class Menu extends Bot {
                     e.printStackTrace();
                 }
                 break;
-            case "Донаты":
+/*            case "Донаты":
                 InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
                 List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
                 List<InlineKeyboardButton> rowInline = new ArrayList<>();
@@ -437,10 +433,22 @@ public class Menu extends Bot {
                 } catch (TelegramApiException e) {
                     throw new RuntimeException(e);
                 }
-                break;
+                break;*/
         }
         return dictionary;
     }
+
+    public void goToMenu(Update update, Menu menu, SendMessage sendMessage, long chatId) {
+        sendMessage.setText("Главное меню");
+        sendMessage.setReplyMarkup(menu.getMainMenu(App.replyKeyboardMarkup));
+        try {
+            deleteMessage(update.getMessage().getMessageId(), chatId);
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void deleteMessage(int messageId, long chatId){
         DeleteMessage deleteMessage = new DeleteMessage(String.valueOf(chatId), messageId);
         try {
@@ -459,7 +467,7 @@ public class Menu extends Bot {
             e.printStackTrace();
         }
     }
-    private List selectDictionary(Update update, List dictionary, Menu menu, SendMessage sendMessage, TypeDictionary typeDictionary) {
+    private List<String> selectDictionary(Update update, List<String> dictionary, Menu menu, SendMessage sendMessage, TypeDictionary typeDictionary) {
         //dictionary = setDictionary(TypeDictionary.Top500Words,null);
         dictionary.clear();
         getDictionary().clearDictionaryToDB(update);

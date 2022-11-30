@@ -1,8 +1,5 @@
 package com.telegrambot;
 
-import java.util.*;
-
-import static com.telegrambot.database.Database.getJdbi;
 
 
 /**
@@ -39,7 +36,8 @@ public class AppTest  {
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
 //        }
-        System.out.println();
+        String str = "one two three one four two five six four two and other";
+
     }
 
 

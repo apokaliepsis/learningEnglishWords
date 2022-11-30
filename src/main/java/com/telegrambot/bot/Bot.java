@@ -15,14 +15,10 @@ import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updates.GetUpdates;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -48,7 +44,7 @@ public class Bot extends TelegramLongPollingBot {
     private Menu menu;
     private Dictionary dictionary;
     private Audio audio;
-    private static Queue<Map<Long, List>> tempWords = new ConcurrentLinkedQueue<>();
+    //private static Queue<Map<Long, List>> tempWords = new ConcurrentLinkedQueue<>();
 
     protected Database getDatabase() {
 
@@ -96,12 +92,12 @@ public class Bot extends TelegramLongPollingBot {
         else if (update.hasMessage()) {
             logger.debug("Receive new Update. updateID: " + update.getUpdateId());
             long chatId = update.getMessage().getChatId();
-            List<?> dictionary = getDictionary().getDictionaryFromDB(chatId);
+            List<String> dictionary = getDictionary().getDictionaryFromDB(chatId);
 
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
-            //sendMessage.setReplyMarkup(getMenu().getMainMenu(App.replyKeyboardMarkup));
             sendMessage.disableNotification();
+
             dictionary = getMenu().getGlobalMenu(update, dictionary, getMenu(), sendMessage);
 
             if (update.getMessage().getText().contains("\n") && update.getMessage().getText().contains(" - ")) {
@@ -131,6 +127,7 @@ public class Bot extends TelegramLongPollingBot {
         }
 
     }
+
 
     private void setListWordsToDictionaryUser(Update update, long chatId, List<?> dictionary, SendMessage sendMessage) {
         System.out.println("Определена загрузка слов");
@@ -231,7 +228,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     protected void runIterationWords(Update update, List<String> dictionaryList) {
-
+        getDatabase().setStateToDB(1, update);
         long chatId = update.getMessage().getChatId();
         Thread thread = new Thread(String.valueOf(chatId)) {
             public void run() {
@@ -241,7 +238,7 @@ public class Bot extends TelegramLongPollingBot {
 
                 SendAudio audio = new SendAudio();
                 audio.setChatId(String.valueOf(chatId));
-                        audio.disableNotification();
+                audio.disableNotification();
                 SendMessage message = new SendMessage();
                 message.setChatId(String.valueOf(chatId));
 
@@ -330,7 +327,9 @@ public class Bot extends TelegramLongPollingBot {
                         logger.info("Work duration: "+currentTimeMinutes+" minutes");
                         if(currentTimeMinutes>=maxTimeWaitMinutes && chatId>0){//ограничение на время работы потока для пользователя
                             logger.info("Run time exceeded. Stopping...");
-                            message.setText("◼ Стоп");
+
+                            message.setText("Продолжить перебор слов?\n" +
+                                    "/continue");
                             execute(message);
                             getDatabase().setStateToDB(0, update);
                             stopThreadChatId(chatId);
