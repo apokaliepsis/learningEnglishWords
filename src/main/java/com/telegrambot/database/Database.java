@@ -3,6 +3,7 @@ package com.telegrambot.database;
 import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
 import com.telegrambot.service.Settings;
+import com.telegrambot.util.UpdateWrapper;
 import org.apache.log4j.Logger;
 import org.assertj.core.api.Assertions;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -92,9 +93,10 @@ public class Database extends Bot {
     }
     public void setStateToDB(int state, Update update) {
         logger.info("Setting user state in DB");
-        long chatId = update.getMessage().getChatId();
+
+        long chatId = UpdateWrapper.getChatId(update);
         //int count_word = ((Long) getJdbi().getFirstRowFromResponse(Collections.emptyList(), "select count(*) from words where chatid=873327794", false).get("COUNT(*)")).intValue();
-        String username = update.getMessage().getFrom().getUserName();
+        String username = UpdateWrapper.getUserName(update);
         if (getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
                 "select* from configuration where chatId =?", false).size() == 0) {
             getJdbi().createUpdate(Arrays.asList(username, state, chatId),
@@ -196,8 +198,8 @@ public class Database extends Bot {
                             false);
                 }
             }).start();
-
         }
+
 
 
 }

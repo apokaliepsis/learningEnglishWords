@@ -3,6 +3,7 @@ import com.telegrambot.App;
 import com.telegrambot.bot.Bot;
 import com.telegrambot.database.Database;
 import com.telegrambot.dictionary.TypeDictionary;
+import com.telegrambot.util.UpdateWrapper;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
@@ -144,37 +145,7 @@ public class Menu extends Bot {
             case "/run":
             case "/continue":
             case "▶ Старт":
-                getDatabase();
-                Map<String, Object> dataConfig = Database.getJdbi().getFirstRowFromResponse(
-                        Collections.singletonList(update.getMessage().getChatId()),
-                        "select time from configuration where chatId=?", false);
-
-                if (dataConfig.size() == 0 || dataConfig.get("TIME") == null) {
-                    try {
-                        sendMessage.setText("Не выбрано время! Установите в настройках интервал появления слов");
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else if (threadClient.contains(update.getMessage().getChatId())) {
-                    try {
-                        sendMessage.setText("Процесс запоминания слов уже запущен!");
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else if (dictionary.size() == 0) {
-                    try {
-                        sendMessage.setText("Не выбран словарь! Зайдите в настройки и выберите словарь");
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    runIterationWords(update, dictionary);
-                }
+                startThreadIterationWords(update, dictionary, sendMessage);
                 break;
             case "/stop":
             case "◼ Стоп":
@@ -424,6 +395,41 @@ public class Menu extends Bot {
                 break;*/
         }
         return dictionary;
+    }
+
+    public void startThreadIterationWords(Update update, List<String> dictionary, SendMessage sendMessage) {
+        //getDatabase();
+        long chatId = UpdateWrapper.getChatId(update);
+        Map<String, Object> dataConfig = Database.getJdbi().getFirstRowFromResponse(
+                Collections.singletonList(chatId),
+                "select time from configuration where chatId=?", false);
+        if (dataConfig.size() == 0 || dataConfig.get("TIME") == null) {
+            try {
+                sendMessage.setText("Не выбрано время! Установите в настройках интервал появления слов");
+                execute(sendMessage);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (threadClient.contains(chatId)) {
+            try {
+                sendMessage.setText("Процесс запоминания слов уже запущен!");
+                execute(sendMessage);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (dictionary.size() == 0) {
+            try {
+                sendMessage.setText("Не выбран словарь! Зайдите в настройки и выберите словарь");
+                execute(sendMessage);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            runIterationWords(update, dictionary);
+        }
     }
 
     public void goToMenu(Update update, Menu menu, SendMessage sendMessage, long chatId) {

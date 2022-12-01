@@ -8,6 +8,7 @@ import com.telegrambot.database.Database;
 import com.telegrambot.dictionary.TypeDictionary;
 import com.telegrambot.menu.Menu;
 import com.telegrambot.dictionary.Dictionary;
+import com.telegrambot.util.UpdateWrapper;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -15,9 +16,7 @@ import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Document;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -25,6 +24,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.*;
+import java.io.File;
 import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -75,14 +75,6 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-//        GetUpdates getUpdates = new GetUpdates();
-//        try {
-//            updatesList = execute(getUpdates);
-//        } catch (TelegramApiException e) {
-//            throw new RuntimeException(e);
-//        }
-        //System.out.println("getUpdates="+updatesList);
-        System.out.println("UPDATE="+update);
         for (Thread t : Thread.getAllStackTraces().keySet()) {
             System.out.println(t.getName());
         }
@@ -94,9 +86,7 @@ public class Bot extends TelegramLongPollingBot {
             long chatId = update.getMessage().getChatId();
             List<String> dictionary = getDictionary().getDictionaryFromDB(chatId);
 
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
-            sendMessage.disableNotification();
+            SendMessage sendMessage = getMainMessage(update);
 
             dictionary = getMenu().getGlobalMenu(update, dictionary, getMenu(), sendMessage);
 
@@ -112,6 +102,17 @@ public class Bot extends TelegramLongPollingBot {
             if(data.equals("/sendpackwords")){
                 sendPackWords(update);
             }
+            else if(data.equals("/continue")){
+                logger.info("Continue button pressed...");
+                List<String> dictionary = getDictionary().getDictionaryFromDB(chatId);
+                try{
+                    getMenu().startThreadIterationWords(update,dictionary,getMainMessage(update));
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
             else{
                 clearWordClientList.add(ImmutableMap.of(chatId, data));
 
@@ -126,6 +127,13 @@ public class Bot extends TelegramLongPollingBot {
 
         }
 
+    }
+
+    private static SendMessage getMainMessage(Update update) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(String.valueOf(UpdateWrapper.getChatId(update)));
+        sendMessage.disableNotification();
+        return sendMessage;
     }
 
 
@@ -229,7 +237,7 @@ public class Bot extends TelegramLongPollingBot {
 
     protected void runIterationWords(Update update, List<String> dictionaryList) {
         getDatabase().setStateToDB(1, update);
-        long chatId = update.getMessage().getChatId();
+        long chatId = UpdateWrapper.getChatId(update);
         Thread thread = new Thread(String.valueOf(chatId)) {
             public void run() {
                 logger.info("Started a new user thread");
@@ -251,7 +259,7 @@ public class Bot extends TelegramLongPollingBot {
                 List<InlineKeyboardButton> rowInline = new ArrayList<>();
                 Date d1 = Calendar.getInstance().getTime();
                 Date d2;
-                long maxTimeWaitMinutes = 360;
+                long maxTimeWaitMinutes = 1;
                 while (getDatabase().getStateFromDB(chatId) == 1) {
 
                     rowInline.clear();
@@ -327,9 +335,17 @@ public class Bot extends TelegramLongPollingBot {
                         logger.info("Work duration: "+currentTimeMinutes+" minutes");
                         if(currentTimeMinutes>=maxTimeWaitMinutes && chatId>0){//ограничение на время работы потока для пользователя
                             logger.info("Run time exceeded. Stopping...");
-
-                            message.setText("Продолжить перебор слов?\n" +
-                                    "/continue");
+                            InlineKeyboardMarkup markupInlineContinue = new InlineKeyboardMarkup();
+                            List<List<InlineKeyboardButton>> rowsInlineContinue = new ArrayList<>();
+                            List<InlineKeyboardButton> rowInlineContinue = new ArrayList<>();
+                            InlineKeyboardButton continueButton = new InlineKeyboardButton();
+                            continueButton.setText("Продолжить");
+                            continueButton.setCallbackData("/continue");
+                            rowInlineContinue.add(continueButton);
+                            rowsInlineContinue.add(rowInlineContinue);
+                            markupInlineContinue.setKeyboard(rowsInlineContinue);
+                            message.setText("Продолжить перебор слов?");
+                            message.setReplyMarkup(markupInlineContinue);
                             execute(message);
                             getDatabase().setStateToDB(0, update);
                             stopThreadChatId(chatId);
@@ -419,7 +435,7 @@ public class Bot extends TelegramLongPollingBot {
                 List<InlineKeyboardButton> rowInline2 = new ArrayList<>();
 
 
-                int count = 5;
+                int count = 3;
                 if(dictionaryList.size()<count){
                     count = dictionaryList.size();
                 }
@@ -560,24 +576,11 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
     private void setUserInfoCompletionDB(Update update){
-        long chatId;
-        String username;
-        String languageCode;
-        String fio;
-        String dateTime;
-        try{
-            chatId = update.getMessage().getChatId();
-            username = update.getMessage().getFrom().getUserName();
-            languageCode  = update.getMessage().getFrom().getLanguageCode();
-            fio = update.getMessage().getFrom().getFirstName()+" "+update.getMessage().getFrom().getLastName();
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            chatId = update.getCallbackQuery().getMessage().getChatId();
-            username = update.getCallbackQuery().getFrom().getUserName();
-            languageCode  = update.getCallbackQuery().getFrom().getLanguageCode();
-            fio = update.getCallbackQuery().getFrom().getFirstName()+" "+update.getCallbackQuery().getFrom().getLastName();
-        }
-        dateTime  = Database.getDateTime();
+        long chatId = UpdateWrapper.getChatId(update);
+        String username = UpdateWrapper.getUserName(update);
+        String languageCode = UpdateWrapper.getLanguageCode(update);
+        String fio = UpdateWrapper.getFirstName(update)+" "+UpdateWrapper.getLastName(update);
+        String dateTime = Database.getDateTime();
         if(fio.contains("null")){
             fio = fio.replaceAll("null","").trim();
         }
@@ -585,5 +588,16 @@ public class Bot extends TelegramLongPollingBot {
         getJdbi().createUpdate(Arrays.asList(username, fio, languageCode, dateTime, count_word, chatId),
                 "UPDATE configuration SET username = ?, fio = ?, language_code = ?, date = ?, words = ? WHERE chatId = ?", false);
     }
-
+//    public static Object getUpdateMessage(Update update){
+//
+//        Object message;
+//        try {
+//            message = update.getMessage();
+//        }
+//        catch (Exception e){
+//            message = update.getCallbackQuery();
+//        }
+//
+//
+//    }
 }
