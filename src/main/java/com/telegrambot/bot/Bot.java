@@ -259,7 +259,7 @@ public class Bot extends TelegramLongPollingBot {
                 List<InlineKeyboardButton> rowInline = new ArrayList<>();
                 Date d1 = Calendar.getInstance().getTime();
                 Date d2;
-                long maxTimeWaitMinutes = 1;
+                long maxTimeWaitMinutes = 360;
                 while (getDatabase().getStateFromDB(chatId) == 1) {
 
                     rowInline.clear();
