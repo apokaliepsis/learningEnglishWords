@@ -61,7 +61,7 @@ public class Database extends Bot {
         logger.info("Get count words to DB");
         Object countWords;
         try{
-            countWords = getJdbi().getFirstRowFromResponse(Collections.singletonList(Integer.parseInt(String.valueOf(chatId))),
+            countWords = getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
                     "select count(*) from words where chatId=?", false).get("COUNT(*)");
         }
         catch (Exception e){
