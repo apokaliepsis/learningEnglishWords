@@ -412,7 +412,7 @@ public class Menu extends Bot {
         String countUsers = String.valueOf(Database.getCountUsers());
         String countActiveUsers = String.valueOf(Database.getCountActiveUsers());
 
-        if(countWords.isEmpty() || countWords.equals("null")){
+        if(countWords.isEmpty() || countWords.equals("null")||countWords.equals("0")){
             countWords = "0";
         }
         if(time.isEmpty() || time.equals("null") || time.equals("0")){
