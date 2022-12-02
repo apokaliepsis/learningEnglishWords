@@ -1,6 +1,8 @@
 package com.telegrambot;
 
 
+import com.telegrambot.database.Database;
+import com.telegrambot.menu.Menu;
 
 /**
  * Unit test for simple App.
@@ -36,7 +38,7 @@ public class AppTest  {
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
 //        }
-        String str = "one two three one four two five six four two and other";
+        System.out.println(Menu.getStatisticData(873327794));
 
     }
 

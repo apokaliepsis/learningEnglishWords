@@ -351,10 +351,7 @@ public class Bot extends TelegramLongPollingBot {
                             stopThreadChatId(chatId);
                             break;
                         }
-                        TimeUnit.MINUTES.sleep((int) getJdbi()
-                                .getFirstRowFromResponse(Collections.singletonList(chatId),
-                                        "select time from configuration where chatId=?",
-                                        false).get("TIME"));
+                        TimeUnit.MINUTES.sleep(Database.getUserTime(chatId));
 
 
                     } catch (InterruptedException | TelegramApiException e) {
@@ -383,6 +380,8 @@ public class Bot extends TelegramLongPollingBot {
         thread.start();
 
     }
+
+
 
     protected void stopThreadChatId(long chatId) {
         logger.info("Stop thread");

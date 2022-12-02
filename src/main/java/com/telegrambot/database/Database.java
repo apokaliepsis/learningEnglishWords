@@ -57,6 +57,21 @@ public class Database extends Bot {
         return (int) getJdbi().getFirstRowFromResponse(Collections.singletonList(chatId),
                 "select state from configuration where chatId=?", false).get("STATE");
     }
+    public static long getCountWords(long chatId) {
+        logger.info("Get count words to DB");
+        return (long) getJdbi().getFirstRowFromResponse(Collections.singletonList(Integer.parseInt(String.valueOf(chatId))),
+                "select count(*) from words where chatId=?", false).get("COUNT(*)");
+    }
+    public static long getCountUsers() {
+        logger.info("Get count users to DB");
+        return (long) getJdbi().getFirstRowFromResponse(Collections.emptyList(),
+                "select count(*) from configuration", false).get("COUNT(*)");
+    }
+    public static long getCountActiveUsers() {
+        logger.info("Get count active users to DB");
+        return (long) getJdbi().getFirstRowFromResponse(Collections.emptyList(),
+                "select count(*) from configuration where state=1", false).get("COUNT(*)");
+    }
 //    public int getIdFromDB(long chatId) {
 //        return (int) getJdbi().getAllRowsFromResponse(Collections.singletonList(chatId),
 //                "select state from configuration where chatId=?", false).get("STATE");
@@ -122,6 +137,12 @@ public class Database extends Bot {
                     "UPDATE configuration SET time = ? WHERE chatId = ?", false);
         }
 
+    }
+    public static int getUserTime(long chatId) {
+        return (int) getJdbi()
+                .getFirstRowFromResponse(Collections.singletonList(chatId),
+                        "select time from configuration where chatId=?",
+                        false).get("TIME");
     }
     public static void checkConnection(){
         logger.info("Checking connection to base...");

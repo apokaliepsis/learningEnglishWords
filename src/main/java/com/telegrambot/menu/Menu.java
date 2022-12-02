@@ -56,7 +56,7 @@ public class Menu extends Bot {
         keyboardRow1.add("◼ Стоп");
         keyboardRow1.add("♻ Вручную");
         keyboardRow2.add("⚙️ Настройка");
-        //keyboardRow2.add("Донаты");
+        keyboardRow2.add("\uD83D\uDCC8 Статистика");
 
 
         keyboardRows.add(keyboardRow1);
@@ -374,6 +374,15 @@ public class Menu extends Bot {
                     e.printStackTrace();
                 }
                 break;
+            case "\uD83D\uDCC8 Статистика":
+                sendMessage.setText(getStatisticData(chatId));
+                try {
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+                break;
+
 /*            case "Донаты":
                 InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
                 List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
@@ -395,6 +404,26 @@ public class Menu extends Bot {
                 break;*/
         }
         return dictionary;
+    }
+
+    public static String getStatisticData(long chatId) {
+        String countWords = String.valueOf(Database.getCountWords(chatId));
+        String time = String.valueOf(Database.getUserTime(chatId));
+        String countUsers = String.valueOf(Database.getCountUsers());
+        String countActiveUsers = String.valueOf(Database.getCountActiveUsers());
+
+        if(countWords.isEmpty() || countWords.equals("null")){
+            countWords = "0";
+        }
+        if(time.isEmpty() || time.equals("null")){
+            time = "Не установлено";
+        }
+        return "Количество слов в словаре: "+countWords+"\n"+
+                "Временной интервал: "+time+"\n"+
+                "________________________________\n"+
+                "Всего пользователей: "+ countUsers+"\n"+
+                "Сейчас онлайн: "+countActiveUsers;
+
     }
 
     public void startThreadIterationWords(Update update, List<String> dictionary, SendMessage sendMessage) {
