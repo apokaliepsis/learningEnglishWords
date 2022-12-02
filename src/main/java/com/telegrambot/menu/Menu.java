@@ -415,8 +415,8 @@ public class Menu extends Bot {
         if(countWords.isEmpty() || countWords.equals("null")){
             countWords = "0";
         }
-        if(time.isEmpty() || time.equals("null")){
-            time = "Не установлено";
+        if(time.isEmpty() || time.equals("null") || time.equals("0")){
+            time = "Не назначено";
         }
         return "\uD83D\uDCDA Количество слов в словаре: "+countWords+"\n"+
                 "⏱ Временной интервал (в минутах): "+time+"\n"+

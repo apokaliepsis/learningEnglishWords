@@ -59,8 +59,10 @@ public class Database extends Bot {
     }
     public static long getCountWords(long chatId) {
         logger.info("Get count words to DB");
-        return (long) getJdbi().getFirstRowFromResponse(Collections.singletonList(Integer.parseInt(String.valueOf(chatId))),
+        Object countWords = getJdbi().getFirstRowFromResponse(Collections.singletonList(Integer.parseInt(String.valueOf(chatId))),
                 "select count(*) from words where chatId=?", false).get("COUNT(*)");
+        logger.info(chatId+": countWords="+countWords);
+        return (long) countWords;
     }
     public static long getCountUsers() {
         logger.info("Get count users to DB");
@@ -139,10 +141,20 @@ public class Database extends Bot {
 
     }
     public static int getUserTime(long chatId) {
-        return (int) getJdbi()
-                .getFirstRowFromResponse(Collections.singletonList(chatId),
-                        "select time from configuration where chatId=?",
-                        false).get("TIME");
+        int time;
+        try{
+            time = (int) getJdbi()
+                    .getFirstRowFromResponse(Collections.singletonList(chatId),
+                            "select time from configuration where chatId=?",
+                            false).get("TIME");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            time = 0;
+        }
+
+        logger.info(chatId+": time="+time);
+        return time;
     }
     public static void checkConnection(){
         logger.info("Checking connection to base...");
