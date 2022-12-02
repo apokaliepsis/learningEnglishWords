@@ -418,9 +418,9 @@ public class Menu extends Bot {
         if(time.isEmpty() || time.equals("null")){
             time = "Не установлено";
         }
-        return "Количество слов в словаре: "+countWords+"\n"+
-                "Временной интервал: "+time+"\n"+
-                "________________________________\n"+
+        return "\uD83D\uDCDA Количество слов в словаре: "+countWords+"\n"+
+                "⏱ Временной интервал (в минутах): "+time+"\n"+
+                "___________________________________________\n"+
                 "Всего пользователей: "+ countUsers+"\n"+
                 "Сейчас онлайн: "+countActiveUsers;
 
