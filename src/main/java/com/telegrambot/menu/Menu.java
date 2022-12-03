@@ -126,7 +126,7 @@ public class Menu extends Bot {
     }
     public List<String> getGlobalMenu(Update update, List<String> dictionary, Menu menu, SendMessage sendMessage) {
 
-        long chatId = update.getMessage().getChatId();
+        long chatId = UpdateWrapper.getChatId(update);
         switch (update.getMessage().getText().replaceAll("@"+getBotUsername(),"")) {
             case "/start":
                 try {
@@ -157,7 +157,8 @@ public class Menu extends Bot {
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
-                } else {
+                }
+                else {
                     getDatabase().setStateToDB(0, update);
                     try {
                         sendMessage.setText("Остановлено");
@@ -169,6 +170,7 @@ public class Menu extends Bot {
                 break;
             case "<<Назад":
             case "⚙️ Настройка":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
                 sendMessage.setText("Выберите словарь и установите время появления слов \n"+"Количество слов в словаре: "+dictionary.size());
                 try {
@@ -188,6 +190,7 @@ public class Menu extends Bot {
                 break;
             case "/setwords":
             case "\uD83D\uDCDA Выбрать словарь":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
                 sendMessage.setReplyMarkup(menu.getDictionaryMenu(App.replyKeyboardMarkup));
                 sendMessage.setText("Выберите словарь");
                 try {
@@ -200,10 +203,12 @@ public class Menu extends Bot {
             case "/sendpackwords":
             case "♻ Вручную":
             case "Отправить пакет слов":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
                 sendPackWords(update);
                 break;
             case "/downloaddictionary":
             case "\uD83D\uDCE5 Скачать текущий словарь":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
                 if(getDictionary().getDictionaryFromDB(chatId).size()>0){
                     SendDocument sendDocument = new SendDocument();
                     sendDocument.setChatId(String.valueOf(chatId));
@@ -261,22 +266,27 @@ public class Menu extends Bot {
                 }
                 break;
             case "Топ 100 слов":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
                 System.out.println("Выбрано топ 500 слов");
                 dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top100Words);
                 break;
             case "Топ 500 слов":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
                 System.out.println("Выбрано топ 500 слов");
                 dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top500Words);
                 break;
             case "Топ 1000 слов":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
                 System.out.println("Выбрано топ 1000 слов");
                 dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top1000Words);
                 break;
             case "Топ 2000 слов":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
                 System.out.println("Выбрано топ 2000 слов");
                 dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top2000Words);
                 break;
             case "\uD83D\uDCD2 Загрузить свой список слов":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
                 sendMessage.setText("Отправьте список слов в формате:\n" +
                         "английское слово - русский перевод\n\n"+
                         "Либо загрузите и отправьте документ с необходимым списоком слов, используя указанный формат");
@@ -288,6 +298,7 @@ public class Menu extends Bot {
                 }
                 break;
             case "\uD83D\uDDD1 Очистить словарь":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
                 dictionary = getDictionary().clearDictionaryToDB(update);
                 sendMessage.setText("Словарь очищен");
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
@@ -299,6 +310,7 @@ public class Menu extends Bot {
                 break;
             case "/settime":
             case "⏱ Установить временной интервал":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
                 sendMessage.setText("Выберите интервал");
                 sendMessage.setReplyMarkup(menu.getTimeSetting(App.replyKeyboardMarkup));
                 try {
@@ -375,6 +387,7 @@ public class Menu extends Bot {
                 }
                 break;
             case "\uD83D\uDCC8 Статистика":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
                 sendMessage.setText(getStatisticData(chatId));
                 try {
                     execute(sendMessage);
@@ -477,6 +490,7 @@ public class Menu extends Bot {
         try {
             execute(deleteMessage);
         } catch (TelegramApiException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
