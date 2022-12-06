@@ -82,10 +82,17 @@ public class Database extends Bot {
         return (long) getJdbi().getFirstRowFromResponse(Collections.emptyList(),
                 "select count(*) from configuration where state=1", false).get("COUNT(*)");
     }
-//    public int getIdFromDB(long chatId) {
-//        return (int) getJdbi().getAllRowsFromResponse(Collections.singletonList(chatId),
-//                "select state from configuration where chatId=?", false).get("STATE");
-//    }
+    public static List<Object> getActiveUser() {
+        logger.info("Get active users");
+        List<Map<String, Object>> chatIdMap = getJdbi().getAllRowsFromResponse(Collections.emptyList(),
+                "select chatId from configuration where state=1", false);
+        List<Object> chatIdList = new ArrayList<>();
+        for(Map<String, Object> map:chatIdMap){
+            Object chatid = map.get("CHATID");
+            chatIdList.add(chatid);
+        }
+        return chatIdList;
+    }
     public void setWordsToDB(List<String> dictionary, Update update) {
         logger.info("Loading words into DB");
         long chatId = update.getMessage().getChatId();
@@ -241,6 +248,12 @@ public class Database extends Bot {
             }).start();
         }
 
+        public static void recoveryActiveSession(){
+        List<?> activeUserList = getActiveUser();
+        for(Object id: activeUserList){
 
+        }
+
+        }
 
 }

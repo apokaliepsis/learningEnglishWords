@@ -38,7 +38,7 @@ public class AppTest  {
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
 //        }
-        System.out.println(Menu.getStatisticData(873327794));
+        System.out.println(Database.getActiveUser());
 
     }
 

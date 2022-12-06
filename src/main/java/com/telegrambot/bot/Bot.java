@@ -434,7 +434,7 @@ public class Bot extends TelegramLongPollingBot {
                 List<InlineKeyboardButton> rowInline2 = new ArrayList<>();
 
 
-                int count = 3;
+                int count = 2;
                 if(dictionaryList.size()<count){
                     count = dictionaryList.size();
                 }
