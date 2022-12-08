@@ -248,12 +248,12 @@ public class Database extends Bot {
             }).start();
         }
 
-        public static void recoveryActiveSession(){
+/*        public static void recoveryActiveSession(){
         List<?> activeUserList = getActiveUser();
         for(Object id: activeUserList){
 
         }
 
-        }
+        }*/
 
 }

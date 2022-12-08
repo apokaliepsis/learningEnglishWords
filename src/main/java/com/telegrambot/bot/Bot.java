@@ -44,10 +44,8 @@ public class Bot extends TelegramLongPollingBot {
     private Menu menu;
     private Dictionary dictionary;
     private Audio audio;
-    //private static Queue<Map<Long, List>> tempWords = new ConcurrentLinkedQueue<>();
 
     protected Database getDatabase() {
-
         if (database == null) {
             database = new Database();
         }
@@ -72,7 +70,6 @@ public class Bot extends TelegramLongPollingBot {
         return audio;
     }
 
-
     @Override
     public void onUpdateReceived(Update update) {
         for (Thread t : Thread.getAllStackTraces().keySet()) {
@@ -93,7 +90,6 @@ public class Bot extends TelegramLongPollingBot {
             if (update.getMessage().getText().contains("\n") && update.getMessage().getText().contains(" - ")) {
                 setListWordsToDictionaryUser(update, chatId, dictionary, sendMessage);
             }
-
         }
         else if (update.hasCallbackQuery()) {
             logger.info("Button is pressed");
@@ -111,7 +107,6 @@ public class Bot extends TelegramLongPollingBot {
                 catch (Exception e){
                     e.printStackTrace();
                 }
-
             }
             else{
                 clearWordClientList.add(ImmutableMap.of(chatId, data));
@@ -135,7 +130,6 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage.disableNotification();
         return sendMessage;
     }
-
 
     private void setListWordsToDictionaryUser(Update update, long chatId, List<?> dictionary, SendMessage sendMessage) {
         System.out.println("Определена загрузка слов");
