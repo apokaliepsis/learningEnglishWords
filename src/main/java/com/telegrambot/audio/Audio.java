@@ -12,10 +12,13 @@ import java.nio.file.FileSystems;
 public class Audio {
     private static final Logger logger = Logger.getLogger(Audio.class);
     public String getUrlAudio(String text) {
+
+        logger.info("Get url-sound from google-translate for text: " + text);
         text = text.replaceAll(" ", "%20");
         return "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=" + text + "&tl=en&client=tw-ob";
     }
     public String getSoundWordFile(String urlPath, String word) {
+        logger.info("Get sound-file "+urlPath);
         String s;
         Process p;
         //String pathSoundWordFile = FileSystems.getDefault().getPath("target").normalize().toAbsolutePath().toString() + "/" + word.replaceAll(" ", "_") + ".ogg";

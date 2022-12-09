@@ -578,6 +578,8 @@ public class Bot extends TelegramLongPollingBot {
             fio = fio.replaceAll("null","").trim();
         }
         int count_word = ((Long) getJdbi().getFirstRowFromResponse(Collections.emptyList(), "select count(*) from words where chatid=" + chatId, false).get("COUNT(*)")).intValue();
+        logger.info("Set user info to DB: chatId="+chatId +", username="+username
+                +", languageCode="+languageCode+", fio="+fio);
         getJdbi().createUpdate(Arrays.asList(username, fio, languageCode, dateTime, count_word, chatId),
                 "UPDATE configuration SET username = ?, fio = ?, language_code = ?, date = ?, words = ? WHERE chatId = ?", false);
     }

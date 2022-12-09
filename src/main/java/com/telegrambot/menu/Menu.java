@@ -514,7 +514,8 @@ public class Menu extends Bot {
         sendMessage.setText("Словарь загружен");
         try {
             execute(sendMessage);
-        } catch (TelegramApiException e) {
+        }
+        catch (TelegramApiException e) {
             e.printStackTrace();
         }
         return dictionary;
