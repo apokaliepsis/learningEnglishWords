@@ -205,13 +205,13 @@ public class Bot extends TelegramLongPollingBot {
         String doc_id = update.getMessage().getDocument().getFileId();
         String doc_name = update.getMessage().getDocument().getFileName();
         String doc_mine = update.getMessage().getDocument().getMimeType();
-        int doc_size = update.getMessage().getDocument().getFileSize();
+        int doc_size = Math.toIntExact(update.getMessage().getDocument().getFileSize());
         String getID = String.valueOf(update.getMessage().getFrom().getId());
 
         Document document = new Document();
         document.setMimeType(doc_mine);
         document.setFileName(doc_name);
-        document.setFileSize(doc_size);
+        document.setFileSize((long) doc_size);
         document.setFileId(doc_id);
 
         GetFile getFile = new GetFile();

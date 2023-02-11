@@ -61,6 +61,9 @@ public class Dictionary extends Bot {
             case Top2000Words:
                 dictonaryDefault = getPathFromResources("2000words.txt");
                 break;
+            case EnglishForIT:
+                dictonaryDefault = getPathFromResources("EnglishForIT.txt");
+                break;
             case CompilationWords:
                 List<String> listTrim = Arrays.stream(
                                 update.getMessage().getText().split("\n"))

@@ -5,5 +5,6 @@ public enum TypeDictionary {
     Top500Words,
     Top1000Words,
     Top2000Words,
+    EnglishForIT,
     CompilationWords
 }

@@ -1,0 +1,174 @@
+class - класс
+variable - переменная
+example - пример
+folder - папка
+property - свойство
+versatile - многофункциональный, универсальный
+maintenance - поддержка
+explanation - объяснение
+experience - опыт, случай
+theme - тема
+separate - отдельный, разделять
+bundle - пакет
+feature - характеристика, особенность, функция
+response - ответ, реакция
+in particular - в частности
+chapter - глава
+simple - простой
+precise - точный, четкий
+current - текущий, действующий
+useless - бесполезный
+allow - разрешать, допускать
+fiddle - играть
+perform - выполнять
+explicitly - явно
+especially - особенно, главным образом
+previous - предыдущий
+thoroughly - тщательно, полно
+scheme - схема, план
+field - поле, область
+necessary - необходимый
+therefore - поэтому
+string - строка
+definition - определение
+implement - реализация, внедрение
+for simplicity - для простоты
+thus - следовательно, таким образом
+strictly speaking - строго говоря
+blatant - явный
+assignment - задание, присвоение
+defence - защита
+prohibit - запрещать, препятствовать
+invocation - просьба, вызов
+revert - возвращаться
+credentials - учетные данные
+appropriate - адаптировать, соответствовать
+fortunately - к счастью
+persistent - постоянный, стойкий
+constraint - ограничение
+comprehensive - всесторонний
+stuff - материал, наполнять
+layout - макет, разметка
+guest - гость
+rudimentary - элементарный
+suffice - удовлетворять, быть достаточным
+anyway - в любом случае
+introduce - представлять
+mention - упоминание
+although - хотя, если бы даже
+validation - проверка
+boilerplate - шаблон
+password - пароль
+correspond - переписывать, соответствовать
+conclude - завершать, заканчиваться
+closure - закрытие
+cumbersome - тяжелый, громоздкий
+briefly - в двух словах, кратко
+probably - возможно
+forbid - запрещать
+template - шаблон
+encapsulation - инкапсуляция
+inheritance - наследование
+polymorphism - полиморфизм
+reference - ссылка
+exception - исключение
+namespace - пространство имен
+performance - производительность, выполнение
+predefine - предопределять
+selection - выделение, выбор
+requirement - требование
+request - запрос
+sign up - зарегистрироваться
+overloading - перегрузка
+loop - цикл
+function - функция
+newbie - новичок
+bugbear - проблема
+button - кнопка
+network - сеть
+execute - выполнять, запускать
+benefit - польза, преимущество
+purpose - цель
+descendant - потомок
+denote - обозначать
+deny - отказывать
+permission - разрешение, полномочия
+assumption - предположение
+afterwards - впоследствии, позже
+preliminary - предварительный
+consecutive - подряд, последовательный
+breakdown - анализ, отказ, крах
+excerpt - выборка, извлекать
+elaborate - разрабатывать, конкретизировать
+column - столбец, колонка
+hinder - препятствовать
+concise - лаконичный
+prerequisite - предпосылка
+restriction - ограничение
+relieve - помогать, освобождать
+solution - решение
+embodiment - воплощение
+misleading - вводить в заблуждение
+clunky - неуклюжий
+settings - настройки
+utilize - использовать
+essentially - по сути
+bind - связывать
+reset - сброс
+single quotes - одинарные кавычки
+omit - опускать
+robust - устойчивый
+ensure - гарантировать, убеждаться
+setup - устанавливать
+mandatory - обязательный
+intervene - вмешиваться
+sake - польза
+batch - пакет, комплектовать
+acquire - приобретать
+switch - переключать
+bottleneck - узкое место
+obsolete - устаревший, редко используемый
+amount - количество
+enormous - огромный
+issue - проблема, выпуск
+bootstrap - загружать
+enhancement - улучшение, усиление
+free - свободный, бесплатный
+indispensable - обязательный
+ability - способность, возможность
+attachment - присоединение
+pros and cons - за и против
+vulnerability - уязвимость
+integer - целое число
+in alphabetical order - в алфавитном порядке
+timestamp - метка времени
+viz. - то есть
+assemble - собирать
+as already mentioned - как уже упоминалось
+truly - истинно
+tweaking - тонкая настройка
+sparingly - экономно
+exhaustive - исчерпывающий
+middleman - посредник
+wrapper - обертка, оболочка
+inclusive - включительно
+malicious - вредоносный
+pertain - принадлежать
+blurring - нечеткость, размытие
+guess - догадаться
+hitch - помеха
+sequentially - последовательно
+retrieving - извлечение, восстановление
+clause - условие
+fetch - выборка, извлекать
+ambiguity - неоднозначность
+from the ground up - c нуля
+comprehend - постигать
+significant - важный
+forgo - воздерживаться
+eradicate - уничтожать
+desirable - желательный
+the crucial part - ключевая роль
+delve into the details - копаться в деталях
+the goal is to create a database schema - цель - создать схему данных
+saving you lots of time and energy - значительная экономия ваших сил и времени

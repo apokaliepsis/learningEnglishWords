@@ -73,10 +73,11 @@ public class Menu extends Bot {
         //KeyboardRow keyboardRow4 = new KeyboardRow();
         //KeyboardRow keyboardRow5 = new KeyboardRow();
 
-        keyboardRow1.add("Топ 100 слов");
-        keyboardRow1.add("Топ 500 слов");
-        keyboardRow1.add("Топ 1000 слов");
-        keyboardRow1.add("Топ 2000 слов");
+        keyboardRow1.add("Топ 100");
+        keyboardRow1.add("Топ 500");
+        keyboardRow1.add("Топ 1000");
+        keyboardRow1.add("Топ 2000");
+        keyboardRow2.add("Английский для IT");
         keyboardRow2.add("\uD83D\uDCD2 Загрузить свой список слов");
         keyboardRow3.add("<<Назад");
 
@@ -284,6 +285,11 @@ public class Menu extends Bot {
                 deleteMessage(update.getMessage().getMessageId(),chatId);
                 System.out.println("Выбрано топ 2000 слов");
                 dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top2000Words);
+                break;
+            case "Английский для IT":
+                deleteMessage(update.getMessage().getMessageId(),chatId);
+                System.out.println("Выбрано Английский для IT");
+                dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.EnglishForIT);
                 break;
             case "\uD83D\uDCD2 Загрузить свой список слов":
                 deleteMessage(update.getMessage().getMessageId(),chatId);
