@@ -139,6 +139,14 @@ public class Database extends Bot {
                     "UPDATE configuration SET state = ?, date = ? WHERE chatId = ?", false);
         }
     }
+    public void setStateVoiceToDB(int state, Update update) {
+        logger.info("Set user state voice to DB");
+
+        long chatId = UpdateWrapper.getChatId(update);
+        getJdbi().createUpdate(Arrays.asList(state, chatId),
+                    "UPDATE configuration SET voice = ? WHERE chatId = ?", false);
+
+    }
 
     public void setTimeSettingToDB(int minutes, Update update) {
         logger.info("Setting interval time in DB");
@@ -170,6 +178,22 @@ public class Database extends Bot {
 
         logger.info(chatId+": time="+time);
         return time;
+    }
+    public static int getUserVoice(long chatId) {
+        int stateVoice;
+        try{
+            stateVoice = (int) getJdbi()
+                    .getFirstRowFromResponse(Collections.singletonList(chatId),
+                            "select voice from configuration where chatId=?",
+                            false).get("VOICE");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            stateVoice = 0;
+        }
+
+        logger.info(chatId+": voice="+stateVoice);
+        return stateVoice;
     }
     public static void checkConnection(){
         logger.info("Checking connection to base...");

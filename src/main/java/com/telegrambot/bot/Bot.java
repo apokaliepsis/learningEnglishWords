@@ -142,7 +142,7 @@ public class Bot extends TelegramLongPollingBot {
         System.out.println("Размер словаря после=" + dictionary.size());
 
         sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
-        sendMessage.setReplyMarkup(getMenu().getSetting(replyKeyboardMarkup));
+        sendMessage.setReplyMarkup(getMenu().getSetting(replyKeyboardMarkup,chatId));
         sendMessage.setText("Слова загружены \n"+ dictionary.size());
         System.out.println("dictionary=" + dictionary.size());
         try {
@@ -298,21 +298,26 @@ public class Bot extends TelegramLongPollingBot {
                         rowInline.add(inlineKeyboardButton);
                         rowsInline.add(rowInline);
                         markupInline.setKeyboard(rowsInline);
-                        String urlAudio = getAudio().getUrlAudio(word);
-                        String pathAudioFile = getAudio().getSoundWordFile(urlAudio, word);
-                        audio.setAudio(new InputFile(new File(pathAudioFile)));
-
-                        //message.setReplyMarkup(markupInline);
-
-                        audio.setReplyMarkup(markupInline);
+                        int stateVoice = Database.getUserVoice(chatId);
                         String[] exampleUseWord = Dictionary.getExampleUseWord(word);
                         if(exampleUseWord!=null){
                             line = line+"\n\nExample:\n"+exampleUseWord[0]+"\n"+exampleUseWord[1];
                         }
-                        //message.setText(line);
-                        audio.setCaption(line);
                         logger.info(word);
-                        execute(audio);
+                        if(stateVoice==1){
+                            String urlAudio = getAudio().getUrlAudio(word);
+                            String pathAudioFile = getAudio().getSoundWordFile(urlAudio, word);
+                            audio.setAudio(new InputFile(new File(pathAudioFile)));
+                            audio.setReplyMarkup(markupInline);
+                            audio.setCaption(line);
+                            execute(audio);
+                        }
+                        else {
+                            message.setReplyMarkup(markupInline);
+                            message.setText(line);
+                            execute(message);
+                        }
+
                         //execute(message);
 
                         if(dictionaryList.size()==0){
@@ -452,9 +457,6 @@ public class Bot extends TelegramLongPollingBot {
 
                         rowsInline.add(rowInline);
 
-                        String urlAudio = getAudio().getUrlAudio(word);
-                        String pathAudioFile = getAudio().getSoundWordFile(urlAudio, word);
-                        audio.setAudio(new InputFile(new File(pathAudioFile)));
 
                         //message.setReplyMarkup(markupInline);
 
@@ -467,16 +469,28 @@ public class Bot extends TelegramLongPollingBot {
 
                         }
                         markupInline.setKeyboard(rowsInline);
-                        audio.setReplyMarkup(markupInline);
+
 
                         //message.setText(line);
                         String[] exampleUseWord = Dictionary.getExampleUseWord(word);
                         if(exampleUseWord!=null){
                             line = line+"\n\nExample:\n"+exampleUseWord[0]+"\n"+exampleUseWord[1];
                         }
-                        audio.setCaption(line);
-                        System.out.println(word);
-                        execute(audio);
+                        int stateVoice = Database.getUserVoice(finalChatId);
+                        if(stateVoice==1){
+                            audio.setReplyMarkup(markupInline);
+                            String urlAudio = getAudio().getUrlAudio(word);
+                            String pathAudioFile = getAudio().getSoundWordFile(urlAudio, word);
+                            audio.setAudio(new InputFile(new File(pathAudioFile)));
+                            audio.setCaption(line);
+                            System.out.println(word);
+                            execute(audio);
+                        }
+                        else {
+                            message.setReplyMarkup(markupInline);
+                            message.setText(line);
+                            execute(message);
+                        }
 
                         TimeUnit.MILLISECONDS.sleep(500);
                     } catch (TelegramApiException | InterruptedException e) {

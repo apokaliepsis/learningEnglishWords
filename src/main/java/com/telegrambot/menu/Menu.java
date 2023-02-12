@@ -19,28 +19,34 @@ import java.net.URISyntaxException;
 import java.util.*;
 
 public class Menu extends Bot {
-
-    public ReplyKeyboard getSetting(ReplyKeyboardMarkup replyKeyboardMarkup) {
+    private final String onVoice = "\uD83D\uDD0A Включить добавление произношения";
+    private final String offVoice = "\uD83D\uDD07 Отключить добавление произношения";
+    public ReplyKeyboard getSetting(ReplyKeyboardMarkup replyKeyboardMarkup, long chatId) {
         replyKeyboardMarkup.setOneTimeKeyboard(false);
         List<KeyboardRow> keyboardRows = new ArrayList<>();
         KeyboardRow keyboardRow11 = new KeyboardRow();
         KeyboardRow keyboardRow12 = new KeyboardRow();
         KeyboardRow keyboardRow13 = new KeyboardRow();
-//        KeyboardRow keyboardRow14 = new KeyboardRow();
+        KeyboardRow keyboardRow14 = new KeyboardRow();
 //        KeyboardRow keyboardRow15 = new KeyboardRow();
 
         keyboardRow11.add("\uD83D\uDCDA Выбрать словарь");
         keyboardRow11.add("\uD83D\uDCE5 Скачать текущий словарь");
         keyboardRow12.add("\uD83D\uDDD1 Очистить словарь");
         keyboardRow12.add("⏱ Установить временной интервал");
-        keyboardRow13.add("<Назад");
-        keyboardRow13.add("\uD83E\uDD78 Скрыть меню");
+
+        if(Database.getUserVoice(chatId)==1){
+            keyboardRow13.add(offVoice);
+        }
+        else keyboardRow13.add(onVoice);
+        keyboardRow14.add("<Назад");
+        keyboardRow14.add("\uD83E\uDD78 Скрыть меню");
 
 
         keyboardRows.add(keyboardRow11);
         keyboardRows.add(keyboardRow12);
         keyboardRows.add(keyboardRow13);
-//        keyboardRows.add(keyboardRow14);
+        keyboardRows.add(keyboardRow14);
 //        keyboardRows.add(keyboardRow15);
         replyKeyboardMarkup.setKeyboard(keyboardRows);
         return replyKeyboardMarkup;
@@ -172,7 +178,7 @@ public class Menu extends Bot {
             case "<<Назад":
             case "⚙️ Настройка":
                 deleteMessage(update.getMessage().getMessageId(),chatId);
-                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup, chatId));
                 sendMessage.setText("Настройка");
                 try {
                     execute(sendMessage);
@@ -201,6 +207,28 @@ public class Menu extends Bot {
                 }
 
                 break;
+            case onVoice:
+                getDatabase().setStateVoiceToDB(1,update);
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup,chatId));
+                sendMessage.setText("Включено добавление произношения");
+                try {
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case offVoice:
+                getDatabase().setStateVoiceToDB(0,update);
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup,chatId));
+                sendMessage.setText("Отключено добавление произношения");
+                try {
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+
+                break;
             case "/sendpackwords":
             case "♻ Вручную":
             case "Отправить пакет слов":
@@ -214,7 +242,7 @@ public class Menu extends Bot {
                     SendDocument sendDocument = new SendDocument();
                     sendDocument.setChatId(String.valueOf(chatId));
                     File file = new File(getDictionary().downloadCurrentDictionary(update));
-                    sendDocument.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                    sendDocument.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup, chatId));
                     sendDocument.setDocument(new InputFile(file));
                     try {
                         execute(sendDocument);
@@ -307,7 +335,7 @@ public class Menu extends Bot {
                 deleteMessage(update.getMessage().getMessageId(),chatId);
                 dictionary = getDictionary().clearDictionaryToDB(update);
                 sendMessage.setText("Словарь очищен");
-                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup,chatId));
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -504,7 +532,7 @@ public class Menu extends Bot {
     private void setTime(Update update, Menu menu, SendMessage sendMessage, int minutes) {
         getDatabase().setTimeSettingToDB(minutes, update);
         sendMessage.setText("Время установлено");
-        sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+        sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup,UpdateWrapper.getChatId(update)));
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
@@ -516,7 +544,7 @@ public class Menu extends Bot {
         getDictionary().clearDictionaryToDB(update);
         getDatabase().setWordsToDB(getDictionary().setDictionary(typeDictionary, update), update);
         dictionary = getDictionary().getDictionaryFromDB(update.getMessage().getChatId());
-        sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup));
+        sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup,UpdateWrapper.getChatId(update)));
         sendMessage.setText("Словарь загружен");
         try {
             execute(sendMessage);
