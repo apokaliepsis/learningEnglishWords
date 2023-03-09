@@ -294,22 +294,22 @@ public class Menu extends Bot {
                     e.printStackTrace();
                 }
                 break;
-            case "Топ 100 слов":
+            case "Топ 100":
                 deleteMessage(update.getMessage().getMessageId(),chatId);
                 System.out.println("Выбрано топ 500 слов");
                 dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top100Words);
                 break;
-            case "Топ 500 слов":
+            case "Топ 500":
                 deleteMessage(update.getMessage().getMessageId(),chatId);
                 System.out.println("Выбрано топ 500 слов");
                 dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top500Words);
                 break;
-            case "Топ 1000 слов":
+            case "Топ 1000":
                 deleteMessage(update.getMessage().getMessageId(),chatId);
                 System.out.println("Выбрано топ 1000 слов");
                 dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top1000Words);
                 break;
-            case "Топ 2000 слов":
+            case "Топ 2000":
                 deleteMessage(update.getMessage().getMessageId(),chatId);
                 System.out.println("Выбрано топ 2000 слов");
                 dictionary = selectDictionary(update, dictionary, menu, sendMessage, TypeDictionary.Top2000Words);
