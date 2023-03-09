@@ -38,7 +38,7 @@ public class AppTest  {
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
 //        }
-        System.out.println(Database.getUserVoice(Long.parseLong("1620795911")));
+        //System.out.println(Database.getUserVoice(Long.parseLong("1620795911")));
 
     }
 
