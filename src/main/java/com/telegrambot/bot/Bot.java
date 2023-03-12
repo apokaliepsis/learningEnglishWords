@@ -299,9 +299,12 @@ public class Bot extends TelegramLongPollingBot {
                         rowsInline.add(rowInline);
                         markupInline.setKeyboard(rowsInline);
                         int stateVoice = Database.getUserVoice(chatId);
-                        String[] exampleUseWord = Dictionary.getExampleUseWord(word);
-                        if(exampleUseWord!=null){
-                            line = line+"\n\nExample:\n"+exampleUseWord[0]+"\n"+exampleUseWord[1];
+                        int stateExample = Database.getUserExample(chatId);
+                        if(stateExample ==1){
+                            String[] exampleUseWord = Dictionary.getExampleUseWord(word);
+                            if(exampleUseWord!=null){
+                                line = line+"\n\nExample:\n"+exampleUseWord[0]+"\n"+exampleUseWord[1];
+                            }
                         }
                         logger.info(word);
                         if(stateVoice==1){
@@ -470,11 +473,12 @@ public class Bot extends TelegramLongPollingBot {
                         }
                         markupInline.setKeyboard(rowsInline);
 
-
-                        //message.setText(line);
-                        String[] exampleUseWord = Dictionary.getExampleUseWord(word);
-                        if(exampleUseWord!=null){
-                            line = line+"\n\nExample:\n"+exampleUseWord[0]+"\n"+exampleUseWord[1];
+                        int stateExample = Database.getUserExample(finalChatId);
+                        if(stateExample ==1){
+                            String[] exampleUseWord = Dictionary.getExampleUseWord(word);
+                            if(exampleUseWord!=null){
+                                line = line+"\n\nExample:\n"+exampleUseWord[0]+"\n"+exampleUseWord[1];
+                            }
                         }
                         int stateVoice = Database.getUserVoice(finalChatId);
                         if(stateVoice==1){

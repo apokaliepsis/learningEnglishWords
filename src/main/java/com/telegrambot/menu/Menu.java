@@ -21,6 +21,8 @@ import java.util.*;
 public class Menu extends Bot {
     private final String onVoice = "\uD83D\uDD0A Включить добавление произношения";
     private final String offVoice = "\uD83D\uDD07 Отключить добавление произношения";
+    private final String onExample = "✅ Включить примеры";
+    private final String offExample = "✖ Отключить примеры";
     public ReplyKeyboard getSetting(ReplyKeyboardMarkup replyKeyboardMarkup, long chatId) {
         replyKeyboardMarkup.setOneTimeKeyboard(false);
         List<KeyboardRow> keyboardRows = new ArrayList<>();
@@ -28,7 +30,7 @@ public class Menu extends Bot {
         KeyboardRow keyboardRow12 = new KeyboardRow();
         KeyboardRow keyboardRow13 = new KeyboardRow();
         KeyboardRow keyboardRow14 = new KeyboardRow();
-//        KeyboardRow keyboardRow15 = new KeyboardRow();
+        //KeyboardRow keyboardRow15 = new KeyboardRow();
 
         keyboardRow11.add("\uD83D\uDCDA Выбрать словарь");
         keyboardRow11.add("\uD83D\uDCE5 Скачать текущий словарь");
@@ -39,6 +41,11 @@ public class Menu extends Bot {
             keyboardRow13.add(offVoice);
         }
         else keyboardRow13.add(onVoice);
+
+        if(Database.getUserExample(chatId)==1){
+            keyboardRow13.add(offExample);
+        }
+        else keyboardRow13.add(onExample);
         keyboardRow14.add("<Назад");
         keyboardRow14.add("\uD83E\uDD78 Скрыть меню");
 
@@ -47,7 +54,7 @@ public class Menu extends Bot {
         keyboardRows.add(keyboardRow12);
         keyboardRows.add(keyboardRow13);
         keyboardRows.add(keyboardRow14);
-//        keyboardRows.add(keyboardRow15);
+        //keyboardRows.add(keyboardRow15);
         replyKeyboardMarkup.setKeyboard(keyboardRows);
         return replyKeyboardMarkup;
     }
@@ -222,6 +229,28 @@ public class Menu extends Bot {
                 getDatabase().setStateVoiceToDB(0,update);
                 sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup,chatId));
                 sendMessage.setText("Отключено добавление произношения");
+                try {
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case onExample:
+                getDatabase().setStateExampleToDB(1,update);
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup,chatId));
+                sendMessage.setText("Включены примеры");
+                try {
+                    execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case offExample:
+                getDatabase().setStateExampleToDB(0,update);
+                sendMessage.setReplyMarkup(menu.getSetting(App.replyKeyboardMarkup,chatId));
+                sendMessage.setText("Отключены примеры");
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
