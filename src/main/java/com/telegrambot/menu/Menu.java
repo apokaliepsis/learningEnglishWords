@@ -19,10 +19,10 @@ import java.net.URISyntaxException;
 import java.util.*;
 
 public class Menu extends Bot {
-    private final String onVoice = "\uD83D\uDD0A Включить добавление произношения";
-    private final String offVoice = "\uD83D\uDD07 Отключить добавление произношения";
+    private final String onVoice = "\uD83D\uDD0A Включить произношения";
+    private final String offVoice = "\uD83D\uDD07 Отключить произношения";
     private final String onExample = "✅ Включить примеры";
-    private final String offExample = "✖ Отключить примеры";
+    private final String offExample = "❌ Отключить примеры";
     public ReplyKeyboard getSetting(ReplyKeyboardMarkup replyKeyboardMarkup, long chatId) {
         replyKeyboardMarkup.setOneTimeKeyboard(false);
         List<KeyboardRow> keyboardRows = new ArrayList<>();
